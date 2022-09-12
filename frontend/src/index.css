@@ -5,6 +5,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image: url('./images/gray-abstract-wireframe-technology-background.jpg');
+  background-size: 1450px, 640px;
 }
 
 code {
@@ -13,4 +15,58 @@ code {
 }
 .heading-div{
   text-align: center;
+}
+
+.register-div{
+  height:auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-image: url('./images/450520.jpg');
+  background-size: 600px,300px;
+  border-radius: 20px;
+  width: 500px;
+}
+
+.register-heading{
+  text-align: center;
+  color: white;
+  margin: 10px;
+
+}
+
+.email-div{
+  text-align: center;
+}
+
+.email-field{
+  height: 38px;
+  width: 300px;
+  padding: 5px 10px;
+  margin: 10px 0px;
+  border-radius: 20px;
+}
+
+.password-div{
+  text-align: center;
+}
+
+.password-field{
+  height: 38px;
+  width: 300px;
+  padding: 5px 10px;
+  margin: 10px 0px;
+  border-radius: 20px;
+}
+
+.registerbutton{
+  text-align: center;
+  height: 40px;
+  width: 80px;
+  border-radius: 20px;
+}
+.registerbutton-div{
+  text-align: center;
+  margin: 10px;
 }
