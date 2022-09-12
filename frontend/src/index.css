@@ -16,6 +16,75 @@ code {
 .heading-div{
   text-align: center;
 }
+.heading-div{
+  text-align: center;
+  
+}
+.main-div{
+  text-align: center;
+}
+.login-div{
+  height:auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-image: url('./images/450520.jpg');
+  background-size: 600px,300px;
+  border-radius: 20px;
+  width: 500px;
+}
+.login-heading{
+  text-align: center;
+  color: white;
+  margin: 10px;
+
+}
+.email-field{
+  height: 40px;
+  width: 300px;
+  padding: 5px 10px;
+  margin: 10px 0px;
+  border-radius: 20px;
+}
+.password-field{
+  height: 40px;
+  width: 300px;
+  padding: 5px 10px;
+  margin: 10px 0px;
+  border-radius: 20px;
+}
+.email-div{
+  text-align: center;
+}
+.password-div{
+  text-align: center;
+}
+.loginbutton{
+  text-align: center;
+  height: 40px;
+  width: 70px;
+  border-radius: 20px;
+}
+.loginbutton-div{
+  text-align: center;
+}
+.signup-div{
+  text-align: center;
+  margin: 10px;
+}
+.signup-link{
+  color: white;
+  text-decoration: none !important
+}
+.guest-div{
+  text-align: center;
+  margin: 10px;
+}
+.guest-link{
+  color: white;
+  text-decoration: none !important;
+}
 
 .register-div{
   height:auto;
@@ -36,34 +105,10 @@ code {
 
 }
 
-.email-div{
-  text-align: center;
-}
-
-.email-field{
-  height: 38px;
-  width: 300px;
-  padding: 5px 10px;
-  margin: 10px 0px;
-  border-radius: 20px;
-}
-
-.password-div{
-  text-align: center;
-}
-
-.password-field{
-  height: 38px;
-  width: 300px;
-  padding: 5px 10px;
-  margin: 10px 0px;
-  border-radius: 20px;
-}
-
 .registerbutton{
   text-align: center;
   height: 40px;
-  width: 80px;
+  width: 90px;
   border-radius: 20px;
 }
 .registerbutton-div{
