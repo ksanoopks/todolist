@@ -2,7 +2,6 @@ import React from "react";
 import '../index.css';
 
 const Register = () => {
-    
     return(
         <div className=" container main-div">
             <div className="heading-div">
@@ -13,20 +12,22 @@ const Register = () => {
                         <h2>Register</h2>
                     </div>
                     <div className="email-div">
-                        <input name ="name" type ="text" placeholder="Name" className="email-field" />
+                        <input name ="text" type ="text" placeholder="Name" className="email-field"/>
                     </div>
                     <div className="email-div">
-                        <input name ="email" type ="text" placeholder="Email" className="email-field" />
+                        <input name ="email" type ="text" placeholder="Email" className="email-field"/>
                     </div>
                     <div className="email-div">
-                        <input name ="password" type ="password" placeholder="Password" className="email-field" />
+                        <input name ="email" type ="text" placeholder="Password" className="email-field"/>
                     </div>
                     <div className="password-div">
-                        <input name= "confirmPassword" type ="password" placeholder="Confirm Password" className="password-field" />
+                        <input name= "password" type ="password" placeholder="Confirm Password" className="password-field"/>
                     </div>
                     <div className="registerbutton-div">
                         <button className="registerbutton" >Register</button>
-                    </div>    
+                    </div>
+                    
+                    
                 </div>
         </div>
     )
