@@ -1,6 +1,7 @@
 import React from "react";
 import '../index.css'
 import HomeIcon from '@mui/icons-material/Home';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const Guest = () =>{
     return(
@@ -10,11 +11,18 @@ const Guest = () =>{
             </div>
             <div className="row">
                 <div className="col-2 sidebar">
-                    <div className="sidebar-content">
-                        <div className="home-div"><HomeIcon/>
-                        <a className="home-link" href="/guest">Home</a>
+                    <div className="sidebar-list">
+                        <h6><a className="sidebar-list-text" href="/">Home</a></h6><br></br>
+                        <h6><a className="sidebar-list-text" href="/">Personal</a></h6><br></br>
+                        <h6><a className="sidebar-list-text" href="/">Work</a></h6><br></br>
+                    </div>
+                    <div className="sidebar-bottom-content">
+                        <div className="home-div">
+                        <HomeIcon/>
+                        <a className="home-link" href="/">Home</a>
                         </div>
                         <div className="logout-div">
+                        <LogoutIcon/>
                         <a className="logout-link" href="/">Logout</a>
                         </div>
                     </div>
