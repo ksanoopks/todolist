@@ -28,5 +28,5 @@ def register():
             "error":"user already exists"
         })
     return jsonify({
-        "Logged in"
+        "message":"Logged in"
     })
