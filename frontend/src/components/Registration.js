@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import '../index.css';
+import axios from 'axios'
 
 const Register = () => {
     const [values, setValues] = useState(
@@ -73,7 +74,11 @@ const Register = () => {
             confirmPassword
         })
         
-        
+        axios({
+            method: 'post',
+            url: 'http://127.0.0.1:5000/register',
+            data: values
+        })
      }
 
 
