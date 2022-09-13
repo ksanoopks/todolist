@@ -26,12 +26,16 @@ const Register = () => {
      const handleSubmit=() =>{
         let name, email, password,confirmPassword;
         const emailFormat = /\S+@\S+\.\S+/;
+        let nameFormat = /^[A-Za-z]+/
         if (values.name ===""){
             name = "Enter your Name"
         }
+        if(values.name && !nameFormat.test(values.name)){
+           name= "Invalid Name"
+        }
 
         if (values.name && values.name.length<3){
-            name ="Name must be more than 3 characters "
+            name ="Name contains 3 or more characters "
         }
 
         if (values.email === ""){
@@ -42,12 +46,25 @@ const Register = () => {
             email = 'Invalid email'
         }
 
-        if(values.password === ''){
-            password = "Enter your Email"
+        if(values.password === ""){
+            password = "Enter your password"
         }
 
-        
+        if(values.password && values.password.length<6){
+            password = "Required minimum 6 character "
+        }
 
+        if(values.confirmPassword === ""){
+            confirmPassword = "Re-enter your password"
+        }
+
+        if(values.confirmPassword && values.password.confirmPassword<6){
+            confirmPassword = "Required minimum 6 character "
+        }
+
+        if(values.password !== values.confirmPassword){
+            confirmPassword = "password does not match "
+        }
 
         setErrors({
             name,
@@ -85,11 +102,13 @@ const Register = () => {
                         <div>{errors.email? <label style={{color :'red'}}>{errors.email}</label>:null}</div>
                     </div>
                     <div className="email-div">
-                        <input name ="password" type ="password" placeholder="Password" className="email-field"/>
+                        <input name ="password" type ="password" placeholder="Password" className="email-field" value={values.password} onChange={(e)=> handleChange(e)}/>
+                        <div>{errors.password? <label style={{color :'red'}}>{errors.password}</label>:null}</div>
                     </div>
                     <div className="password-div">
-                        <input name= "confirmPassword" type ="password" placeholder="Confirm Password" className="password-field"/>
-                    </div>
+                        <input name= "confirmPassword" type ="password" placeholder="Confirm Password" className="password-field" value={values.confirmPassword} onChange={(e)=> handleChange(e)}/>
+                        <div>{errors.confirmPassword? <label style={{color :'red'}}>{errors.confirmPassword}</label>:null}</div>
+                        </div>
                     <div className="registerbutton-div">
                         <button className="registerbutton" onClick={()=> handleSubmit()}>Register</button>
                     </div>
