@@ -1,5 +1,6 @@
 import React from "react";
 import '../index.css'
+import HomeIcon from '@mui/icons-material/Home';
 
 const Guest = () =>{
     return(
@@ -10,7 +11,7 @@ const Guest = () =>{
             <div className="row">
                 <div className="col-2 sidebar">
                     <div className="sidebar-content">
-                        <div className="home-div">
+                        <div className="home-div"><HomeIcon/>
                         <a className="home-link" href="/guest">Home</a>
                         </div>
                         <div className="logout-div">
