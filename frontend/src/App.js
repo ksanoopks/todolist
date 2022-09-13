@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import Register from './components/Registration';
 import Login from './components/Login';
+import Guest from './components/Guest';
 
 
 const App= () => {
@@ -15,6 +16,7 @@ const App= () => {
     <Routes>
     <Route path="/" element={<Login/> }/>
       <Route path="/register" element={<Register/> }/>
+      <Route path="/guest" element={<Guest/> }/>
     </Routes>
   </BrowserRouter>
   );
