@@ -13,7 +13,15 @@ const Register = () => {
 
         })
     )
-     const [errors, setErrors] = useState({})
+     const [errors, setErrors] = useState(
+        Object.assign({
+            name: "",
+            email: "",
+            password: "" ,
+            confirmPassword :""
+
+        })
+     )
      const handleChange = (e) =>{
         const {name, value} =e.target
         setValues({
@@ -21,11 +29,14 @@ const Register = () => {
             [name]: value,
 
         })
-        console.log(value)
+        // console.log(value)
      }
 
      const handleSubmit=() =>{
-        let name, email, password,confirmPassword;
+        let name='';
+        let email ='';
+        let password= '';
+        let confirmPassword='';
         const emailFormat = /\S+@\S+\.\S+/;
         let nameFormat = /^[A-Za-z]+/
         if (values.name ===""){
@@ -66,6 +77,8 @@ const Register = () => {
         if(values.password !== values.confirmPassword){
             confirmPassword = "password does not match "
         }
+        
+    
 
         setErrors({
             name,
@@ -73,16 +86,19 @@ const Register = () => {
             password,
             confirmPassword
         })
-        
-        axios({
-            method: 'post',
-            url: 'http://127.0.0.1:5000/register',
-            data: values
-        })
+        if( name ===''  && email==='' && password==='' && confirmPassword===''){ 
+            axios({
+                method: 'post',
+                url: 'http://127.0.0.1:5000/register',
+                data: values
+            }).then((resp) => {
+                alert
+                (resp.data.message)
+                window.location.href='/'
+            })
+            
+         }
      }
-
-
-
     return(
         <div className=" container main-div">
             <div className="heading-div">
