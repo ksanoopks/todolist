@@ -17,3 +17,4 @@ class Users(Base):
     password = Column(String)
 
 Base.metadata.create_all(engine)
+
