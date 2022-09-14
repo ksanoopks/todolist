@@ -116,10 +116,11 @@ code {
   margin: 10px;
 }
 .sidebar{
-  background-color: lightgray;  height: 1000px; 
+  background-color: lightgray;  height: auto; 
 }
-.sidebar-content{
-  margin: 70px;
+.sidebar-bottom-content{
+  margin: 55px;
+  margin-top: 250px;
 }
 .home-link{
   text-decoration: none;
@@ -128,6 +129,7 @@ code {
     sans-serif !important;
     color: rgb(19, 19, 19);
     font-weight: 500;
+    margin-left: 5px;
 }
 .logout-link{
   text-decoration: none;
@@ -136,13 +138,17 @@ code {
     sans-serif !important;
     color: rgb(19, 19, 19);
     font-weight: 500;
+    margin-left: 5px;
+
 }
 .home-div{
   text-align: left;
+  display: flex;
 }
 .logout-div{
   margin-top: 20px;
   text-align: left;
+  display: flex;
 }
 
 .table-div{
@@ -161,4 +167,16 @@ code {
   text-align: center;
   border: solid rgb(75, 74, 74) 1px;
   height: 30px;
+}
+.sidebar-list{
+  margin-top: 50px;
+}
+.sidebar-list-text{
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif !important;
+  font-weight:bold;;
+  text-decoration: none;
+  color: rgb(19, 19, 19);
+
 }
