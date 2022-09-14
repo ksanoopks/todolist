@@ -40,6 +40,19 @@ def register():
         db.session.add(user)
         db.session.commit()
         return jsonify({"message":"Registration done Successfully"})
+
+@app.route('/login',methods=['POST'])
+
+def login():
+    email = request.json['email']
+    password = request.json['password']
+
+    user_exists = Users.query.filter_by(email = email , password = password).first()
+    
+    if(user_exists):
+        return jsonify({"message":"Loggin successful"})
+    else:
+        return jsonify({"error":"Invalid login"})
         
     
 
