@@ -1,5 +1,7 @@
 import React , {useState} from "react";
 import '../index.css'
+import axios from 'axios'
+
 
 const Login = () => {
     const [values, setValues] = useState(
@@ -36,7 +38,28 @@ const Login = () => {
             email,
             password,
           });
-      
+          if( email==='' && password===''){ 
+            axios({
+                method: 'post',
+                url: 'http://127.0.0.1:5000/login',
+                data: values
+            }).then((resp) => {
+               
+                if(resp.data.message){
+                    window.location.href='/guest'
+                    console.log("login done")
+                }
+                else if(resp.data.error){
+                    alert
+                    (resp.data.error)
+                    window.location.href='/'
+                    console.log("login error")
+                }
+
+                
+            })
+            
+         }
     }
     return(
         <div className="main-div">
