@@ -4,6 +4,7 @@ from email.policy import default
 from flask import Flask,request,jsonify,flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+from werkzeug.security import generate_password_hash, check_password_hash
 
 
 app = Flask("Todolist")
@@ -17,7 +18,7 @@ class Users(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String)
     email = db.Column(db.String)
-    password = db.Column(db.String)
+    password = db.Column(db.Integer)
 
 @app.route('/register',methods=['POST'])
 
@@ -27,7 +28,7 @@ def register():
     password = request.json['password']
     
 
-    user  = Users(name = name, email = email, password= password)
+    user  = Users(name = name, email = email, password= generate_password_hash(password,method='sha256'))
     
 
     user_exists = Users.query.filter_by(email = email).first()
