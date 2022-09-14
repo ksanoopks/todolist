@@ -4,6 +4,8 @@ from email.policy import default
 from flask import Flask,request,jsonify,flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+import re
+
 
 
 app = Flask("Todolist")
@@ -31,11 +33,25 @@ def register():
     
 
     user_exists = Users.query.filter_by(email = email).first()
+    emailFormat = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+    nameFormat = re.compile(r'^(Mr\.|Mrs\.|Ms\.) ([a-z]+)( [a-z]+)( [a-z]+)$', 
+              re.IGNORECASE)
+        
 
 
     if(user_exists):
         return jsonify({"message":"User is already exists"})
-    else:
+    elif len(name)>3 or name == "" :
+        pass
+    
+        
+    
+    
+
+        
+        
+    else :
+
         
         db.session.add(user)
         db.session.commit()
