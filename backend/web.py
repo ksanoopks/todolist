@@ -4,6 +4,7 @@ from email.policy import default
 from flask import Flask,request,jsonify,flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
+import re
 
 
 app = Flask("Todolist")
@@ -28,15 +29,32 @@ def register():
     
 
     user  = Users(name = name, email = email, password= password)
-    
+    nameformate = re.compile(r'^(Mr\.|Mrs\.|Ms\.) ([a-z]+)( [a-z]+)( [a-z]+)$', 
+              re.IGNORECASE)
+    # emailvalidation= r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+
+    # name1= nameformate.test(name)
+
 
     user_exists = Users.query.filter_by(email = email).first()
+    emailformat= r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+    if re.fullmatch(emailformat,email):
+        email = email
+    else:
+        email = False
+
 
 
     if(user_exists):
         return jsonify({"message":"User is already exists"})
-    else:
-        
+    elif(len(name)<3 or name == ''):
+        return jsonify({"message":"invalid name"})
+    elif (email== False):
+        return jsonify({"message":"invalid Email"})
+
+    elif(len(password)<6 or password== ''):
+        return jsonify({"message":"invalid password"})
+    else:  
         db.session.add(user)
         db.session.commit()
         return jsonify({"message":"Registration done Successfully"})
