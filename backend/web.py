@@ -20,6 +20,7 @@ class Users(db.Model):
     password = db.Column(db.String)
 
 @app.route('/register',methods=['POST'])
+
 def register():
     name = request.json['name']
     email = request.json['email']
@@ -29,21 +30,19 @@ def register():
     user  = Users(name = name, email = email, password= password)
     
 
-    user_exists = Users.query.filter_by(email = email).first() 
+    user_exists = Users.query.filter_by(email = email).first()
 
 
     if(user_exists):
-        return "user is already exists"
+        return jsonify({"message":"User is already exists"})
     else:
         
         db.session.add(user)
         db.session.commit()
-        return "done"
+        return jsonify({"message":"Registration done Successfully"})
+        
     
 
-    # x = cursor.execute("SELECT * FROM users WHERE email = ?", (email))
-    # if int(len(x)) > 0:
-    #             flash("That username is already taken, please choose another")
     
 
 
