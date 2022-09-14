@@ -5,6 +5,7 @@ from flask import Flask,request,jsonify,flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import re
+from werkzeug.security import generate_password_hash,check_password_hash
 
 
 app = Flask("Todolist")
@@ -65,9 +66,12 @@ def login():
     email = request.json['email']
     password = request.json['password']
 
-    user_exists = Users.query.filter_by(email = email , password = password).first()
+    user = Users.query.filter_by(email = email).first()
+    if check_password_hash(user.password,password):
     
-    if(user_exists):
         return jsonify({"message":"Loggin successful"})
     else:
         return jsonify({"error":"Invalid login"})
+    
+
+
