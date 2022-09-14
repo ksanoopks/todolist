@@ -16,4 +16,3 @@ class Users(db.Model):
     name = db.Column(db.String)
     email = db.Column(db.String)
     password = db.Column(db.String)
-
