@@ -87,7 +87,7 @@ def login():
 @app.route('/addtodolist', methods = ['POST', 'GET'])
 @cross_origin()
 def addtodolist():
-    user = Users.query.get(17)
+    user = Users.query.get(1)
     # for user in users:
     #     userid = user.id
     if(request.method == 'POST'):
@@ -116,7 +116,14 @@ def addtodolist():
         return jsonify(todolists_)
 
 
-            
+@app.route('/guest',methods=['GET'])  
+def guest():
+    todolist= AddTodolist.query.filter_by(privacy="public")
+    lis =[]
+    for list in todolist:
+        lis.append(dict(name=list.name, user_id = list.id))
+    return jsonify(lis)
+     
     
 
     
