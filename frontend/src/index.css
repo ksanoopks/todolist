@@ -180,3 +180,108 @@ code {
   color: rgb(19, 19, 19);
 
 }
+.sidebarcontent-div{
+  text-align: left;
+  margin-top: 20px;
+  display: flex;
+}
+.sidebar-div{
+  font-size: 20px;
+  border-right: solid;
+  background-color: rgb(121, 121, 121);
+  height:100vh;
+}
+.sidebarcontent-div h3{
+  margin-top: 10px;
+}
+.addicon-btn{
+  margin: 5px;
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none; 
+ 
+}
+.addbutton-todolist{
+  text-align: center;
+  height: 40px;
+  width: 70px;
+  border-radius: 20px;
+}
+.todolist-heading{
+  text-align: center;
+}
+.addtodo-field{
+  height: 40px;
+  width: 300px;
+  padding: 5px 10px;
+  margin: 10px 0px;
+  border-radius: 20px;
+}
+.addtodo-div{
+  text-align: center;
+}
+.todobtn-div{
+  text-align: center;
+  margin: 10px;
+}
+.modal-main{
+  font-size: 150%;
+}
+.todo-lists{
+  display: flex;
+    align-items: center;
+    text-decoration: none !important;
+    color: black;
+}
+.additem-div{
+  display: flex;
+  margin: 20px;
+}
+.user-content-div h2{
+  text-align: left;
+  margin: 20px;
+}
+.content-div{
+  text-align: center;
+  border-top: solid;
+}
+.additem-btn-div{
+  margin: 10px;
+}
+.additem-div ul{
+  margin-top: 20px;
+
+}
+.additem-btn{
+  border: none; 
+}
+.additem-field{
+  height: 40px;
+  width: 300px;
+  padding: 5px 10px;
+  margin: 10px 0px;
+  border-radius: 20px;
+}
+.modal-content-div{
+  text-align: center;
+
+}
+.modal-main h3{
+  text-align: center;
+}
+.radio-btn-div{
+  text-align: center;
+  margin: 10px;
+}
+.radiobtn-field{
+  margin: 10px !important;
+}
+.privacy-label{
+  margin: 10px;
+}
+.errormessage-div{
+  text-align: center;
+}
+.modal-main{
+  font-size: 100%;
+}

@@ -8,6 +8,9 @@ import {
 import Register from './components/Registration';
 import Login from './components/Login';
 import Guest from './components/Guest';
+import Users from './components/Users'
+import AddTodoList from './components/AddTodoList';
+import AddTodoItem from './components/AddTodoItem';
 
 
 const App= () => {
@@ -17,6 +20,11 @@ const App= () => {
     <Route path="/" element={<Login/> }/>
     <Route path="/register" element={<Register/> }/>
     <Route path="/guest" element={<Guest/> }/>
+    <Route path='/users' element ={<Users/>}/>
+    <Route path="/addtodolist" element={<AddTodoList/>}/>
+    <Route path="/addtodoitem" element={<AddTodoItem/>}/>
+
+
     </Routes>
   </BrowserRouter>
   );
