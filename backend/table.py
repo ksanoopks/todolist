@@ -14,7 +14,7 @@ class Users(Base):
     id = Column(Integer, primary_key = True)
     name = Column(String)
     email = Column(String)
-    password = Column(Integer)
+    password = Column(String)
     todolists = relationship("AddTodolist", back_populates = "user")
 class AddTodolist(Base):
     __tablename__ = "todolists"
@@ -23,6 +23,17 @@ class AddTodolist(Base):
     user_id = Column(Integer, ForeignKey("users.id"), nullable = False)
     privacy = Column(String)
     user = relationship("Users", back_populates = "todolists")
+    task = relationship("Task", back_populates = "todo")
 
+class Task(Base):
+    __tablename__ = "tasks"
+    id = Column(Integer, primary_key = True)
+    name = Column(String)
+    date = Column(Date)
+    user_id = Column(Integer, ForeignKey("users.id"),nullable=False)
+    todolist_id = Column(Integer, ForeignKey("todolists.id"), nullable=False)
+    todo = relationship("todolists", back_populates = "tasks")
+
+Base.metadata.drop_all(engine)
 Base.metadata.create_all(engine)
 
