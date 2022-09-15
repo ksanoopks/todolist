@@ -5,6 +5,7 @@ from flask import Flask,request,jsonify,flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import re
+from werkzeug.security import generate_password_hash
 
 
 app = Flask("Todolist")
@@ -28,7 +29,7 @@ def register():
     password = request.json['password']
     
 
-    user  = Users(name = name, email = email, password= password)
+    user  = Users(name = name, email = email, password= generate_password_hash(password))
     nameformate = re.compile(r'^(Mr\.|Mrs\.|Ms\.) ([a-z]+)( [a-z]+)( [a-z]+)$', 
               re.IGNORECASE)
     # emailvalidation= r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
