@@ -1,4 +1,4 @@
-from sqlalchemy import Integer
+from sqlalchemy import Integer,Boolean
 from sqlalchemy.orm import declarative_base, relationship
 from sqlalchemy import Column, ForeignKey
 from sqlalchemy import String, Date
@@ -15,6 +15,14 @@ class Users(Base):
     name = Column(String)
     email = Column(String)
     password = Column(String)
+    todolists = relationship("AddTodolist", back_populates = "user")
+class AddTodolist(Base):
+    __tablename__ = "todolists"
+    id = Column(Integer, primary_key =True)
+    name = Column(String)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable = False)
+    privacy = Column(String)
+    user = relationship("Users", back_populates = "todolists")
 
 Base.metadata.create_all(engine)
 
