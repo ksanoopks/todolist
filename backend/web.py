@@ -19,7 +19,7 @@ class Users(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String)
     email = db.Column(db.String)
-    password = db.Column(db.String)
+    password = db.Column(db.Integer)
 
 @app.route('/register',methods=['POST'])
 
@@ -29,7 +29,7 @@ def register():
     password = request.json['password']
     
 
-    user  = Users(name = name, email = email, password= password)
+    user  = Users(name = name, email = email, password= generate_password_hash(password))
     nameformate = re.compile(r'^(Mr\.|Mrs\.|Ms\.) ([a-z]+)( [a-z]+)( [a-z]+)$', 
               re.IGNORECASE)
     # emailvalidation= r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
