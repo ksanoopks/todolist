@@ -4,7 +4,6 @@ from email.policy import default
 from flask import Flask,request,jsonify,flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS,cross_origin
-from flask_cors import CORS
 import re
 from werkzeug.security import generate_password_hash,check_password_hash
 
@@ -31,7 +30,6 @@ class AddTodolist(db.Model):
     privacy = db.Column(db.String)
     user = db.relationship("Users", back_populates = "todolists")
 
-    password = db.Column(db.Integer)
 
 @app.route('/register',methods=['POST'])
 
@@ -55,9 +53,6 @@ def register():
         email = email
     else:
         email = False
-
-
-
     if(user_exists):
         return jsonify({"message":"User is already exists"})
     elif(len(name)<3 or name == ''):
@@ -71,6 +66,22 @@ def register():
         db.session.add(user)
         db.session.commit()
         return jsonify({"message":"Registration done Successfully"})
+
+
+@app.route('/login',methods=['POST'])
+
+def login():
+    email = request.json['email']
+    password = request.json['password']
+
+    user = Users.query.filter_by(email = email).first()
+    if check_password_hash(user.password,password):
+    
+        return jsonify({"message":"Loggin successful"})
+    else:
+        return jsonify({"error":"Invalid login"})
+
+
         
     
 @app.route('/addtodolist', methods = ['POST', 'GET'])
@@ -95,6 +106,7 @@ def addtodolist():
             db.session.commit()
 
             return jsonify({"message": "Todo List Added"})
+    
     if (request.method == 'GET'):
         # todos = AddTodolist.query.all()
         todolists = user.todolists
@@ -103,19 +115,9 @@ def addtodolist():
             todolists_.append(dict(name = todolist.name, user_id = todolist.user_id ))
         return jsonify(todolists_)
 
-@app.route('/login',methods=['POST'])
 
-def login():
-    email = request.json['email']
-    password = request.json['password']
-
-    user = Users.query.filter_by(email = email).first()
-    if check_password_hash(user.password,password):
-    
-        return jsonify({"message":"Loggin successful"})
-    else:
-        return jsonify({"error":"Invalid login"})
-    
+            
     
 
+    
 
