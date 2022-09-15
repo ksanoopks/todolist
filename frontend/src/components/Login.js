@@ -46,7 +46,7 @@ const Login = () => {
             }).then((resp) => {
                
                 if(resp.data.message){
-                    window.location.href='/guest'
+                    window.location.href='/users'
                     console.log("login done")
                 }
                 else if(resp.data.error){
