@@ -132,6 +132,7 @@ def addtodolist():
 @cross_origin()
 def addtodoitem():
     user = Users.query.get(1)
+    # user = Users.query.get(1)
     todolists = AddTodolist.query.get(1)
     if(request.method == 'POST'):
         name = request.json['name']
@@ -144,6 +145,13 @@ def addtodoitem():
             db.session.add(task_one)
             db.session.commit()
             return jsonify({"message":"Task added"})
+    
+    if(request.method == 'GET'):
+        tasks = todolists.tasks
+        task_ = []
+        for task in tasks:
+            task_.append(dict(name = task.name, date = task.date, status = task.status))
+        return jsonify(task_)
 
 
 
