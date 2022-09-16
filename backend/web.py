@@ -38,6 +38,7 @@ class Task(db.Model):
     date = db.Column(db.Date)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"),nullable=False)
     todolist_id = db.Column(db.Integer, db.ForeignKey("todolists.id"), nullable=False)
+    status = db.Column(db.String)
     todolist = db.relationship("AddTodolist", back_populates = "tasks")
 
 
