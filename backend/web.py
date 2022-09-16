@@ -29,6 +29,17 @@ class AddTodolist(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable = False)
     privacy = db.Column(db.String)
     user = db.relationship("Users", back_populates = "todolists")
+    task = db.relationship("Task", back_populates = "todo")
+
+class Task(db.Model):
+    __tablename__ = "tasks"
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String)
+    date = db.Column(db.Date)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"),nullable=False)
+    todolist_id = db.Column(db.Integer, db.ForeignKey("todolists.id"), nullable=False)
+    todo = db.relationship("AddTodolist", back_populates = "task")
+
 
 
 @app.route('/register',methods=['POST'])
@@ -87,7 +98,7 @@ def login():
 @app.route('/addtodolist', methods = ['POST', 'GET'])
 @cross_origin()
 def addtodolist():
-    user = Users.query.get(17)
+    user = Users.query.get(1)
     # for user in users:
     #     userid = user.id
     if(request.method == 'POST'):
@@ -114,6 +125,27 @@ def addtodolist():
         for todolist in todolists:
             todolists_.append(dict(name = todolist.name, user_id = todolist.user_id ))
         return jsonify(todolists_)
+
+
+@app.route('/addtodoitems', methods = ['POST','GET'])
+@cross_origin()
+def addtodoitem():
+    user = Users.query.get(1)
+    todolists = AddTodolist.query.get(1)
+    if(request.method == 'POST'):
+        name = request.json['name']
+        date = request.json['date']
+        task_one = Task(name = name, date = date, user_id = user.id, todolist_id = todolists.id)
+        task_exist = Task.query.filter_by(name = name).first()
+        if(task_exist):
+            return jsonify({"message":"Task already exists"})
+        else:
+            db.session.add(task_one)
+            db.session.commit()
+            return jsonify({"message":"Task added"})
+
+
+
 
 
             

@@ -23,7 +23,7 @@ class AddTodolist(Base):
     user_id = Column(Integer, ForeignKey("users.id"), nullable = False)
     privacy = Column(String)
     user = relationship("Users", back_populates = "todolists")
-    task = relationship("Task", back_populates = "todo")
+    tasks = relationship("Task", back_populates = "todolist")
 
 class Task(Base):
     __tablename__ = "tasks"
@@ -32,7 +32,7 @@ class Task(Base):
     date = Column(Date)
     user_id = Column(Integer, ForeignKey("users.id"),nullable=False)
     todolist_id = Column(Integer, ForeignKey("todolists.id"), nullable=False)
-    todo = relationship("todolists", back_populates = "tasks")
+    todolist = relationship("AddTodolist", back_populates = "tasks")
 
 Base.metadata.drop_all(engine)
 Base.metadata.create_all(engine)
