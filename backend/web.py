@@ -29,7 +29,7 @@ class AddTodolist(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable = False)
     privacy = db.Column(db.String)
     user = db.relationship("Users", back_populates = "todolists")
-    task = db.relationship("Task", back_populates = "todo")
+    tasks = db.relationship("Task", back_populates = "todolist")
 
 class Task(db.Model):
     __tablename__ = "tasks"
@@ -38,7 +38,7 @@ class Task(db.Model):
     date = db.Column(db.Date)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"),nullable=False)
     todolist_id = db.Column(db.Integer, db.ForeignKey("todolists.id"), nullable=False)
-    todo = db.relationship("AddTodolist", back_populates = "task")
+    todolist = db.relationship("AddTodolist", back_populates = "tasks")
 
 
 
