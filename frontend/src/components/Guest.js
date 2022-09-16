@@ -47,20 +47,24 @@ const Guest = () =>{
                 </div>
                 <div className="col content-bar">
                     <div className="container table-div">
-                    {data.map((item, index) => {
+                    <table className="table">
+                                <tr>
+                            <th>Todo List</th>
+                            </tr>
+                        {data.map((item, index) => {
                         return(
                             // <h1>{item.name}</h1>
-                            <table key ={index} className="table">
-                        <tr>
-                            <th>Todo List</th>
-                        </tr>
-                        <tr>
+                          
+                        <tr key ={index}>
+                        
                             <td>{item.name}</td>
                         </tr>
+                        
 
-                    </table>
+                   
                         )
                     })}
+                     </table>
                     </div>
                 </div>
                 
