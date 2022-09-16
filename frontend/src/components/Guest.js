@@ -1,9 +1,27 @@
-import React from "react";
+import React ,{useState, useEffect} from "react";
 import '../index.css'
 import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
+import axios from "axios";
 
 const Guest = () =>{
+
+    const [data, setData] = useState([])
+    useEffect(() => {
+        axios({
+            method: 'get',
+            url: 'http://127.0.0.1:5000/guest'
+        }).then(resp => {
+            setData(resp.data)
+            console.log("data",resp.data[0].name)
+            
+        })
+      }, [])
+   
+    const[modalIsOpen, setModalIsOpen] = useState(false)
+    const closeModal = () => (
+        setModalIsOpen(false)
+    )
     return(
         <div className="main-div">
             <div className="heading-guest">
@@ -12,7 +30,7 @@ const Guest = () =>{
             <div className="row">
                 <div className="col-2 sidebar">
                     <div className="sidebar-list">
-                        <h6><a className="sidebar-list-text" href="/">Home</a></h6><br></br>
+                        <h6><a className="sidebar-list-text" href="/">User</a></h6><br></br>
                         <h6><a className="sidebar-list-text" href="/">Personal</a></h6><br></br>
                         <h6><a className="sidebar-list-text" href="/">Work</a></h6><br></br>
                     </div>
@@ -29,28 +47,20 @@ const Guest = () =>{
                 </div>
                 <div className="col content-bar">
                     <div className="container table-div">
-                    <table className="table">
+                    {data.map((item, index) => {
+                        return(
+                            // <h1>{item.name}</h1>
+                            <table key ={index} className="table">
                         <tr>
-                            <th>Username</th>
-                            <th>Date</th>
                             <th>Todo List</th>
                         </tr>
                         <tr>
-                            <td>viswajith</td>
-                            <td>15/09/2022</td>
-                            <td>Complete chapter 23</td>
+                            <td>{item.name}</td>
                         </tr>
-                        <tr>
-                            <td>Anoop</td>
-                            <td>16/09/2022</td>
-                            <td>Buy apple</td>
-                        </tr>
-                        <tr>
-                            <td>Mathew</td>
-                            <td>16/09/2022</td>
-                            <td>Practise english</td>
-                        </tr>
+
                     </table>
+                        )
+                    })}
                     </div>
                 </div>
                 
