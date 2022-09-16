@@ -32,6 +32,7 @@ class Task(Base):
     date = Column(Date)
     user_id = Column(Integer, ForeignKey("users.id"),nullable=False)
     todolist_id = Column(Integer, ForeignKey("todolists.id"), nullable=False)
+    status = Column(String)
     todolist = relationship("AddTodolist", back_populates = "tasks")
 
 Base.metadata.drop_all(engine)
