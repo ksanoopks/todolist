@@ -93,9 +93,7 @@ const User = () => {
                 resp.data
             )
         })
-    }
-
-    )
+    },[])
     
    
     const[modalIsOpen, setModalIsOpen] = useState(false)
