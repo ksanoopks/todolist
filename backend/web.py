@@ -169,8 +169,14 @@ def deletetodolist():
         id= request.json['id']
         # print(id)
         todo = AddTodolist.query.get(id)
+        tasks = Task.query.filter_by(todolist_id=id).all()
+        # print(task)
         # print(todo)
-        # print(todo.name)
+        for task in tasks:
+            db.session.delete(task)
+            db.session.commit()
+
+        
         db.session.delete(todo)
         db.session.commit()
         return jsonify({"status": True})
