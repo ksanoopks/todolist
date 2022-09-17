@@ -5,6 +5,7 @@ import Modal from 'react-modal';
 import AddTodoList from "./AddTodoList";
 import axios from "axios";
 import AddTodoItem from "./AddTodoItem";
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 
 
@@ -24,26 +25,68 @@ const customStyles = {
       fontSize: '70%',
     },
   };
+const Content = (props) => {
+    const[modalIsOpen, setModalIsOpen] = useState(false)
+    const closeModal = () => (
+        setModalIsOpen(false)
+    )
+    if(props.val == 'todolist'){
+        return(
+            <div>
+                <div className="additem-div">
+                    <h3><ul>Add A Task</ul></h3>
+                    <div className="additem-btn-div">
+                    <button onClick ={ () => setModalIsOpen(true)} className="additem-btn"><AddIcon sx={{ fontSize: 40 }}/></button>
+                </div>
+                <Modal
+                isOpen={modalIsOpen}
+                onRequestClose = {closeModal}
+                style={customStyles}>
+                 <AddTodoItem/>
+                </Modal>
+                </div>
+            </div>
+        )
+    }
+}
+
+
 
 const User = () => {
-   
+
+   const deletelist = () => {
+    axios({
+        method: 'get',
+        url: 'http://127.0.0.1:5000/addtodolist'
+    }).then(resp => {
+        setData(
+            resp.data
+        )
+    })
+   }
     const [data, setData] = useState([])
     useEffect(() => {
-        axios({
-            method: 'get',
-            url: 'http://127.0.0.1:5000/addtodolist'
-        }).then(resp => {
-            console.log("data",resp.data)
-            setData(
-                resp.data
-            )
-        })
+      deletelist()
+
       }, [])
+    const deleteClick = (id)=>{
+        axios ({
+            method: 'post',
+                url: 'http://127.0.0.1:5000/deletetodo',
+                data: {id}
+        }).then(resp => {
+            if(resp.data.status == true){
+                deletelist()
+            }
+            console.log("resp", resp.data)
+        })
+    }
    
     const[modalIsOpen, setModalIsOpen] = useState(false)
     const closeModal = () => (
         setModalIsOpen(false)
     )
+    const [ content, setContent] = useState('')
     return(
 <div className="container-fluid main-div">
     <div className="heading-div">
@@ -69,13 +112,21 @@ const User = () => {
                 <ul>
                     {data.map((item, key) => {
                         return(
-                                <li key = {key}  >{item.name}</li>
+                            <div>
+                                <a className="todolist-name" key = {key} onClick = { () => setContent('todolist')} >{item.name} </a>
+                                <button className="delete-btn"onClick={()=>(deleteClick(item.id))}><DeleteForeverIcon/></button>
+                                {/* <button onClick={() => deleteClick(data.id)}>Delete</button> */}
+                                {/* <button key = {key} onClick={()=>(deleteClick(item.id))}>Delete </button> */}
+                                </div>
+                            
+                                
                         )
                     })}
                     </ul>
                 </div> 
         </div>
         <div className="col content-div">
+            <Content val = {content}/>
 
         </div>
     </div>
