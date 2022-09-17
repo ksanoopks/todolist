@@ -121,6 +121,11 @@ const User = () => {
             <Content val = {content}/>
             <div className="user-task-table-div">
                 <table className="user-task-table">
+                <tr className="user-task-table-1st-row">
+                        <th>index</th>
+                        <th>task</th>
+                        <th>date</th>
+                    </tr>
                     {response.map((task,key)=>{
                     return(<tr className="user-task-table-content">
                             <td>{key}</td>
