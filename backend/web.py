@@ -123,6 +123,21 @@ def guest():
     for list in todolist:
         lis.append(dict(name=list.name, user_id = list.id))
     return jsonify(lis)
+
+
+@app.route('/deletetodo',methods=['POST'])
+def deletetodo():
+    if request.method == 'POST':
+        id= request.json['id']
+        print(id)
+        todo = AddTodolist.query.get(id)
+        print(todo)
+        print(todo.name)
+        db.session.delete(todo)
+        db.session.commit()
+        return jsonify({"status": True})
+     
+    
      
     
 
