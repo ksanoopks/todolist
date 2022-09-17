@@ -5,7 +5,7 @@ import Modal from 'react-modal';
 import AddTodoList from "./AddTodoList";
 import axios from "axios";
 import AddTodoItem from "./AddTodoItem";
-
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 
 
@@ -44,6 +44,7 @@ const User = () => {
     const closeModal = () => (
         setModalIsOpen(false)
     )
+    const [ content, setContent] = useState('')
     return(
 <div className="container-fluid main-div">
     <div className="heading-div">
@@ -69,7 +70,11 @@ const User = () => {
                 <ul>
                     {data.map((item, key) => {
                         return(
-                                <li key = {key}  >{item.name}</li>
+                            <div className="todolist-name-div">
+                                <li className="todolist-name" key = {key}>{item.name}</li>
+                               
+                            </div>
+                                
                         )
                     })}
                     </ul>

@@ -285,3 +285,26 @@ code {
 .modal-main{
   font-size: 100%;
 }
+.additem-modalbtn{
+  border: none;
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  margin: 10px;
+}
+
+.todolist-name {
+  text-decoration: none !important;
+  color: black;
+}
+.delete-btn{
+  margin: 5px;
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none; 
+}
+.delete-btn-div{
+  margin: 10px;
+}
+.todolist-name-div{
+  display: flex;
+}
