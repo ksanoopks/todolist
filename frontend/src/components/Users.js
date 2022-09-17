@@ -24,7 +24,30 @@ const customStyles = {
       fontSize: '70%',
     },
   };
-
+const Content = (props) => {
+    const[modalIsOpen, setModalIsOpen] = useState(false)
+    const closeModal = () => (
+        setModalIsOpen(false)
+    )
+    if(props.val == 'todolist'){
+        return(
+            <div>
+                <div className="additem-div">
+                    <h3><ul>Add A Task</ul></h3>
+                    <div className="additem-btn-div">
+                    <button onClick ={ () => setModalIsOpen(true)} className="additem-btn"><AddIcon sx={{ fontSize: 40 }}/></button>
+                </div>
+                <Modal
+                isOpen={modalIsOpen}
+                onRequestClose = {closeModal}
+                style={customStyles}>
+                 <AddTodoItem/>
+                </Modal>
+                </div>
+            </div>
+        )
+    }
+}
 const User = () => {
    
     const [data, setData] = useState([])
@@ -39,11 +62,27 @@ const User = () => {
             )
         })
       }, [])
+
+    const [response, setResponse] = useState([])
+    useEffect(() => {
+        axios({
+            method: 'get',
+            url: 'http://127.0.0.1:5000/addtodoitems'
+        }).then(resp => {
+            console.log("response",resp.data)
+            setResponse(
+                resp.data
+            )
+        })
+    }
+
+    )
    
     const[modalIsOpen, setModalIsOpen] = useState(false)
     const closeModal = () => (
         setModalIsOpen(false)
     )
+    const [ content, setContent] = useState('')
     return(
 <div className="container-fluid main-div">
     <div className="heading-div">
@@ -69,13 +108,36 @@ const User = () => {
                 <ul>
                     {data.map((item, key) => {
                         return(
-                                <li key = {key}  >{item.name}</li>
+                            <div>
+                                <a className="todolist-name" key = {key} onClick = { () => setContent('todolist')} >{item.name} </a>
+                            </div>
+                                
                         )
                     })}
                     </ul>
                 </div> 
         </div>
         <div className="col content-div">
+            <Content val = {content}/>
+            <div className="user-task-table-div">
+                <table className="user-task-table">
+                    <tr className="user-task-table-1st-row">
+                        <th>index</th>
+                        <th>task</th>
+                        <th>date</th>
+                    </tr>
+                    
+                    {response.map((task,key)=>{
+                    return(<tr className="user-task-table-content">
+                            <td>{key}</td>
+                            <td>{task.name}</td>
+                            <td>{task.date}</td>
+                            <td>{task.status}</td>
+                        </tr>)})
+                    } 
+                               
+                </table>
+            </div>
 
         </div>
     </div>

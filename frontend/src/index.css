@@ -285,3 +285,18 @@ code {
 .modal-main{
   font-size: 100%;
 }
+.user-task-table{
+  width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 40px;
+}
+.user-task-table-1st-row {
+  background-color: rgb(180, 184, 184);
+  border-radius: 10px;
+  height: 30px;
+}
+.user-task-table-content{
+  background-color: rgb(200, 204, 204);
+
+}
