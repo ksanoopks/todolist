@@ -125,14 +125,30 @@ def addtodolist():
         return jsonify(todolists_)
 
 
-            
 @app.route('/guest',methods=['GET'])  
 def guest():
-    todolist= AddTodolist.query.filter_by(privacy ="private").all()
-    todo =[]
-    for i in todolist:
-        todo.append(dict(name=i.name, privacy = i.privacy))
-    return f"ss{todo}"
+    todolist= AddTodolist.query.filter_by(privacy="public")
+    lis =[]
+    for list in todolist:
+        lis.append(dict(name=list.name, user_id = list.id))
+    return jsonify(lis)
+
+
+@app.route('/deletetodo',methods=['POST'])
+def deletetodo():
+    if request.method == 'POST':
+        id= request.json['id']
+        print(id)
+        todo = AddTodolist.query.get(id)
+        print(todo)
+        print(todo.name)
+        db.session.delete(todo)
+        db.session.commit()
+        return jsonify({"status": True})
+     
+    
+     
+    
 
 
 @app.route("/login", methods=["POST"])
