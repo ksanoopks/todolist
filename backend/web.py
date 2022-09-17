@@ -1,11 +1,15 @@
 from crypt import methods
-from datetime import datetime
+from datetime import datetime,timedelta
 from email.policy import default
 from flask import Flask,request,jsonify,flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS,cross_origin
 import re
 from werkzeug.security import generate_password_hash,check_password_hash
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required,unset_jwt_cookies
+from flask_jwt_extended import JWTManager
 
 
 app = Flask("Todolist")
@@ -14,12 +18,17 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///Todolist'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this!
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=30)
+jwt = JWTManager(app)
+
 class Users(db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String)
     email = db.Column(db.String)
-    password = db.Column(db.String)
+    password = db.Column(db.Integer)
     todolists = db.relationship("AddTodolist", back_populates = "user")
 
 class AddTodolist(db.Model):
@@ -68,18 +77,17 @@ def register():
         return jsonify({"message":"Registration done Successfully"})
 
 
-@app.route('/login',methods=['POST'])
+# @app.route('/login',methods=['POST'])
+# def login():
+#     email = request.json['email']
+#     password = request.json['password']
 
-def login():
-    email = request.json['email']
-    password = request.json['password']
-
-    user = Users.query.filter_by(email = email).first()
-    if check_password_hash(user.password,password):
+#     user = Users.query.filter_by(email = email).first()
+#     if check_password_hash(user.password,password):
     
-        return jsonify({"message":"Loggin successful"})
-    else:
-        return jsonify({"error":"Invalid login"})
+#         return jsonify({"message":"Loggin successful"})
+#     else:
+#         return jsonify({"error":"Invalid login"})
 
 
         
@@ -87,7 +95,7 @@ def login():
 @app.route('/addtodolist', methods = ['POST', 'GET'])
 @cross_origin()
 def addtodolist():
-    user = Users.query.get(17)
+    user = Users.query.get(1)
     # for user in users:
     #     userid = user.id
     if(request.method == 'POST'):
@@ -109,6 +117,7 @@ def addtodolist():
     
     if (request.method == 'GET'):
         # todos = AddTodolist.query.all()
+        
         todolists = user.todolists
         todolists_ = []
         for todolist in todolists:
@@ -117,7 +126,46 @@ def addtodolist():
 
 
             
-    
+@app.route('/guest',methods=['GET'])  
+def guest():
+    todolist= AddTodolist.query.filter_by(privacy ="private").all()
+    todo =[]
+    for i in todolist:
+        todo.append(dict(name=i.name, privacy = i.privacy))
+    return f"ss{todo}"
 
-    
 
+@app.route("/login", methods=["POST"])
+def login():
+    email = request.json['email']
+    password = request.json['password']
+    user = Users.query.filter_by(email = email).first()
+    if check_password_hash(user.password, password):
+        accessToken = create_access_token(identity=email)
+        return jsonify({"message": "LoggedIn Successfully",
+                     "status": True,
+                     "accessToken":accessToken}) 
+    return jsonify({"error":"Email or Password is incorrect"})
+       
+
+@app.route("/user", methods=["GET"])
+@jwt_required()
+def user():
+    # Access the identity of the current user with get_jwt_identity
+    current_user = get_jwt_identity()
+    user = Users.query.get(current_user)
+    return jsonify(logged_in_as=user.name)
+
+@app.route("/logout", methods=["POST"])
+def logout():
+    response = jsonify({"msg": "logout successful"})
+    unset_jwt_cookies(response)
+    return response
+
+@app.route("/protected", methods=["GET"])
+@jwt_required()
+def protected():
+    # Access the identity of the current user with get_jwt_identity
+    current_user = get_jwt_identity()
+    user = Users.query.get(current_user)
+    return jsonify(logged_in_as=user.name)
