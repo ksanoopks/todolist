@@ -5,6 +5,7 @@ import Modal from 'react-modal';
 import AddTodoList from "./AddTodoList";
 import axios from "axios";
 import AddTodoItem from "./AddTodoItem";
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 
 
@@ -48,20 +49,38 @@ const Content = (props) => {
         )
     }
 }
+
+
+
 const User = () => {
-   
+
+   const deletelist = () => {
+    axios({
+        method: 'get',
+        url: 'http://127.0.0.1:5000/addtodolist'
+    }).then(resp => {
+        setData(
+            resp.data
+        )
+    })
+   }
     const [data, setData] = useState([])
     useEffect(() => {
-        axios({
-            method: 'get',
-            url: 'http://127.0.0.1:5000/addtodolist'
-        }).then(resp => {
-            console.log("data",resp.data)
-            setData(
-                resp.data
-            )
-        })
+      deletelist()
+
       }, [])
+    const deleteClick = (id)=>{
+        axios ({
+            method: 'post',
+                url: 'http://127.0.0.1:5000/deletetodo',
+                data: {id}
+        }).then(resp => {
+            if(resp.data.status == true){
+                deletelist()
+            }
+            console.log("resp", resp.data)
+        })
+    }
 
     const [response, setResponse] = useState([])
     useEffect(() => {
@@ -77,6 +96,7 @@ const User = () => {
     }
 
     )
+    
    
     const[modalIsOpen, setModalIsOpen] = useState(false)
     const closeModal = () => (
@@ -110,7 +130,11 @@ const User = () => {
                         return(
                             <div>
                                 <a className="todolist-name" key = {key} onClick = { () => setContent('todolist')} >{item.name} </a>
-                            </div>
+                                <button className="delete-btn"onClick={()=>(deleteClick(item.id))}><DeleteForeverIcon/></button>
+                                {/* <button onClick={() => deleteClick(data.id)}>Delete</button> */}
+                                {/* <button key = {key} onClick={()=>(deleteClick(item.id))}>Delete </button> */}
+                                </div>
+                            
                                 
                         )
                     })}
