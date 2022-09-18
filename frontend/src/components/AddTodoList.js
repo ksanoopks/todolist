@@ -94,4 +94,4 @@ const AddTodoList = () => {
   )
 }
 
-export default AddTodoList
+export default AddTodoList;
