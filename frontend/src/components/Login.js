@@ -50,7 +50,7 @@ const Login = () => {
                 }
                
                 if(resp.data.message){
-                    swal({text:resp.data.message ,showCancelButton: true}).then(function(){window.location="http://localhost:3000/users";});
+                    swal({text:resp.data.message ,icon:"success"}).then(function(){window.location="http://localhost:3000/users";});
                     // swal(resp.data.message)
                     // window.location.href='/users'
                     // console.log("login done")

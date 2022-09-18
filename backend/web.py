@@ -102,7 +102,7 @@ def register():
     else:
         email = False
     if(user_exists):
-        return jsonify({"message":"User is already exists"})
+        return jsonify({"message":"User is already exists"}),409
     elif(len(name)<3 or name == ''):
         return jsonify({"message":"invalid name"})
     elif (email== False):
