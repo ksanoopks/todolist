@@ -191,14 +191,14 @@ def addtodolist(current_user):
         name = request.json['name']
         privacy = request.json['privacy']
         todolist = AddTodolist(name = name, user_id = current_user.id, privacy = privacy)
-        print (todolist)
+        # print (todolist)
         todo_list = AddTodolist.query.filter_by(name = name).first()
         if(todo_list):
-            return jsonify({"message": "Todo List already exists"})
+            return jsonify({"error": "Todo List already exists"}),409
         else:
             db.session.add(todolist)
             db.session.commit()
-            return jsonify({"message": "Todo List Added"})
+            return jsonify({"message": "Todo List Added"}),200
     
     if (request.method == 'GET'):        
         todolists = current_user.todolists
