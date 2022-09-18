@@ -172,7 +172,7 @@ def login():
     user = Users.query.filter_by(email = email).first()
     if(not user):
         return jsonify({"message":"Email doesn't exist",
-                         "status": False},401)
+                         "status": False})
     if check_password_hash(user.password, password):
         accessToken = jwt.encode({
             "user_id": user.id,
@@ -180,8 +180,8 @@ def login():
         }, app.config["JWT_SECRET_KEY"], algorithm="HS256")
         return jsonify({"message": "LoggedIn Successfully",
                         "status": True,
-                        "accessToken": accessToken}),200
-    return jsonify({"error":"Password is incorrect"}),401
+                        "accessToken": accessToken})
+    return jsonify({"error":"Password is incorrect"})
    
 
 @app.route('/todolist', methods = ['POST', 'GET'])
@@ -199,7 +199,7 @@ def addtodolist(current_user):
         else:
             db.session.add(todolist)
             db.session.commit()
-            return jsonify({"message": "Todo List Added"},200)
+            return jsonify({"message": "Todo List Added"})
     
     if (request.method == 'GET'):        
         todolists = current_user.todolists
