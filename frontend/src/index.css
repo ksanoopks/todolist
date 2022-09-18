@@ -285,7 +285,6 @@ code {
 .modal-main{
   font-size: 100%;
 }
-<<<<<<< HEAD
 .additem-modalbtn{
   border: none;
   background-color: Transparent;
@@ -297,21 +296,17 @@ code {
   text-decoration: none !important;
   color: black;
 }
-=======
 
->>>>>>> develop
 .delete-btn{
   margin: 5px;
   background-color: Transparent;
   background-repeat:no-repeat;
   border: none; 
-<<<<<<< HEAD
 }
-.delete-btn-div{
+.delete-btn-disudo nano /etc/gdm3/custom.conf
+v{
   margin: 10px;
 }
 .todolist-name-div{
   display: flex;
-=======
->>>>>>> develop
 }
