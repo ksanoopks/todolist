@@ -104,21 +104,21 @@ const User = () => {
         })
     }
 
-    // const [response, setResponse] = useState([])
-    // useEffect(() => {
-    //     axios({
-    //         method: 'get',
-    //         url: 'http://127.0.0.1:5000/addtodoitems',
-    //         headers: {
-    //             Authorization: "Bearer " + localStorage.getItem("accessToken")
-    //           }
-    //     }).then(resp => {
-    //         console.log("response",resp.data)
-    //         setResponse(g
-    //             resp.data
-    //         )
-    //     })
-    // },[])
+    const [response, setResponse] = useState([])
+    useEffect(() => {
+        axios({
+            method: 'get',
+            url: 'http://127.0.0.1:5000/addtodoitems',
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("accessToken")
+              }
+        }).then(resp => {
+            console.log("response",resp.data)
+            setResponse(
+                resp.data
+            )
+        })
+    },[])
     
    
     const[modalIsOpen, setModalIsOpen] = useState(false)
