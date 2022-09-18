@@ -1,6 +1,7 @@
 import React , {useState} from "react";
 import '../index.css'
 import axios from 'axios'
+import swal from 'sweetalert';
 
 
 const Login = () => {
@@ -19,7 +20,7 @@ const Login = () => {
         })
     }
     const handleSubmit = () => {
-        console.log("hh")
+        // console.log("hh")
         let email = ''
         let password = ''
         const emailFormat = /\S+@\S+\.\S+/
@@ -45,18 +46,25 @@ const Login = () => {
                 data: values
             }).then((resp) => {
                
-                if(resp.data.message){
-                    window.location.href='/users'
-                    console.log("login done")
+                if(resp.status==200){
+                    swal({text:resp.data.message ,showCancelButton: true}).then(function(){window.location="http://localhost:3000/users";});
+                    // swal(resp.data.message)
+                    // window.location.href='/users'
+                    // console.log("login done")
+                    
                 }
-                else if(resp.data.error){
-                    alert
-                    (resp.data.error)
-                    window.location.href='/'
-                    console.log("login error")
+                                
+            }).catch((e)=> {
+                if(e.response.status===401){
+                    swal({text:"Invalid Username or password",icon:"error"}).then(function(){window.location="http://localhost:3000";});
+
+                }
+                else if (e.response.status ===500){
+                    swal({text:"User not found!",icon:"error"}).then(function(){window.location="http://localhost:3000";});
+
                 }
 
-                
+
             })
             
          }
@@ -109,4 +117,5 @@ const Login = () => {
         </div>
     )
 }
+
 export default Login;   
