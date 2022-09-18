@@ -89,9 +89,9 @@ def login():
     user = Users.query.filter_by(email = email).first()
     if check_password_hash(user.password,password):
     
-        return jsonify({"message":"Loggin successful"})
+        return jsonify({"message":"Loggin Successful"}),200
     else:
-        return jsonify({"error":"Invalid login"})
+        return jsonify({"error":"Invalid login"}),401
 
 
         
