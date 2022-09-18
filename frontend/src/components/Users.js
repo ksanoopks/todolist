@@ -80,6 +80,20 @@ const User = () => {
             console.log("resp", resp.data)
         })
     }
+
+    const [response, setResponse] = useState([])
+    useEffect(() => {
+        axios({
+            method: 'get',
+            url: 'http://127.0.0.1:5000/addtodoitems'
+        }).then(resp => {
+            console.log("response",resp.data)
+            setResponse(
+                resp.data
+            )
+        })
+    },[])
+    
    
     const[modalIsOpen, setModalIsOpen] = useState(false)
     const closeModal = () => (
@@ -126,6 +140,24 @@ const User = () => {
         </div>
         <div className="col content-div">
             <Content val = {content}/>
+            <div className="user-task-table-div">
+                <table className="user-task-table">
+                <tr className="user-task-table-1st-row">
+                        <th>index</th>
+                        <th>task</th>
+                        <th>date</th>
+                    </tr>
+                    {response.map((task,key)=>{
+                    return(<tr className="user-task-table-content">
+                            <td>{key}</td>
+                            <td>{task.name}</td>
+                            <td>{task.date}</td>
+                            <td>{task.status}</td>
+                        </tr>)})
+                    } 
+                               
+                </table>
+            </div>
 
         </div>
     </div>

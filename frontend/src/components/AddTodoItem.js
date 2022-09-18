@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import axios from "axios";
 import '../index.css';
 
 const AddTodoItem = () => {
@@ -15,6 +16,7 @@ const AddTodoItem = () => {
             ...values,
             [name]:value,
         })
+
     }
 
     const handleSubmit = () => {
@@ -34,6 +36,17 @@ const AddTodoItem = () => {
             name,
             date,
         })
+        if(name == "" && date == ""){
+            axios({
+                method: 'post',
+                url: 'http://127.0.0.1:5000/addtodoitems',
+                data: values
+            }).then((resp) => {
+                console.log(resp.data)
+                alert(resp.data.message)
+                window.location.href= '/users'
+            })
+        }
     }
     
     return(

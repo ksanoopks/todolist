@@ -39,6 +39,18 @@ class AddTodolist(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable = False)
     privacy = db.Column(db.String)
     user = db.relationship("Users", back_populates = "todolists")
+    tasks = db.relationship("Task", back_populates = "todolist")
+
+class Task(db.Model):
+    __tablename__ = "tasks"
+    id = db.Column(db.Integer, primary_key = True)
+    name = db.Column(db.String)
+    date = db.Column(db.Date)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"),nullable=False)
+    todolist_id = db.Column(db.Integer, db.ForeignKey("todolists.id"), nullable=False)
+    status = db.Column(db.String)
+    todolist = db.relationship("AddTodolist", back_populates = "tasks")
+
 
 def auth_middleware():
     def token_required(f):
@@ -105,24 +117,53 @@ def register():
         return jsonify({"message":"Registration done Successfully"})
 
 
+@app.route('/addtodoitems', methods = ['POST','GET'])
+@cross_origin()
+def addtodoitem():
+    user = Users.query.get(1)
+    # user = Users.query.get(1)
+    todolists = AddTodolist.query.get(1)
+    if(request.method == 'POST'):
+        name = request.json['name']
+        date = request.json['date']
+        task_one = Task(name = name, date = date, user_id = user.id, todolist_id = todolists.id)
+        task_exist = Task.query.filter_by(name = name).first()
+        if(task_exist):
+            return jsonify({"message":"Task already exists"})
+        else:
+            db.session.add(task_one)
+            db.session.commit()
+            return jsonify({"message":"Task added"})
+    
+    if(request.method == 'GET'):
+        tasks = todolists.tasks
+        task_ = []
+        for task in tasks:
+            task_.append(dict(name = task.name, date = task.date, status = task.status))
+        return jsonify(task_)
+
+
 @app.route('/guest',methods=['GET'])  
 def guest():
     todolist= AddTodolist.query.filter_by(privacy="public")
-    lis =[]
+    todolists =[]
     for list in todolist:
-        lis.append(dict(name=list.name, user_id = list.id))
-    return jsonify(lis)
+        todolists.append(dict(name=list.name, user_id = list.id))
+    return jsonify(todolists)
 
 
 @app.route('/deletetodo',methods=['POST'])
 @auth_middleware()
-def deletetodo():
+def deletetodolist():
     if request.method == 'POST':
         id= request.json['id']
-        print(id)
         todo = AddTodolist.query.get(id)
-        print(todo)
-        print(todo.name)
+        tasks = Task.query.filter_by(todolist_id=id).all()
+        for task in tasks:
+            db.session.delete(task)
+            db.session.commit()
+
+        
         db.session.delete(todo)
         db.session.commit()
         return jsonify({"status": True})
