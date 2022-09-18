@@ -49,7 +49,7 @@ const Login = () => {
                     localStorage.setItem("accessToken", resp.data.accessToken)
                 }
                
-                if(resp.status==200){
+                if(resp.data.message){
                     swal({text:resp.data.message ,showCancelButton: true}).then(function(){window.location="http://localhost:3000/users";});
                     // swal(resp.data.message)
                     // window.location.href='/users'
@@ -59,14 +59,10 @@ const Login = () => {
                                 
             }).catch((e)=> {
                 if(e.response.status===401){
-                    swal({text:"Invalid password",icon:"error"}).then(function(){window.location="http://localhost:3000";});
+                    swal({text:"Invalid Email or Password",icon:"error"}).then(function(){window.location="http://localhost:3000";});
 
                 }
-                else if (e.response.status ===500){
-                    swal({text:"User not found!",icon:"error"}).then(function(){window.location="http://localhost:3000";});
-
-                }
-
+                
 
             })
             
