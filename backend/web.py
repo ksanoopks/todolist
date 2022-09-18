@@ -1,11 +1,16 @@
-from crypt import methods
-from datetime import datetime
+from datetime import datetime,timedelta
 from email.policy import default
 from flask import Flask,request,jsonify,flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS,cross_origin
 import re
+from functools import wraps
 from werkzeug.security import generate_password_hash,check_password_hash
+import jwt
+# from flask_jwt_extended import create_access_token
+# from flask_jwt_extended import get_jwt_identity
+# from flask_jwt_extended import jwt_required,unset_jwt_cookies
+# from flask_jwt_extended import JWTManager
 
 
 app = Flask("Todolist")
@@ -14,12 +19,17 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///Todolist'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this!
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
+app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=30)
+# jwt = JWTManager(app)
+
 class Users(db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String)
     email = db.Column(db.String)
-    password = db.Column(db.String)
+    password = db.Column(db.Integer)
     todolists = db.relationship("AddTodolist", back_populates = "user")
 
 class AddTodolist(db.Model):
@@ -42,23 +52,49 @@ class Task(db.Model):
     todolist = db.relationship("AddTodolist", back_populates = "tasks")
 
 
+def auth_middleware():
+    def token_required(f):
+        @wraps(f)
+        def decorated(*args, **kwargs):
+            token = ""
+            if "Authorization" in request.headers:
+                token = request.headers["Authorization"].split(" ")[1]
+                # print(request.headers)
+            if not token:
+                return {
+                    "message": "Authentication Token is missing!", 
+                    "data": None,
+                    "error": "Unauthorized"
+                }, 401
+            try:
+                data=jwt.decode(token, app.config["JWT_SECRET_KEY"], algorithms=["HS256"])
+                # print(data)
+                current_user=Users.query.get(data["user_id"])
+                if current_user is None:
+                    return {
+                    "message": "Invalid Authentication token!",
+                    "data": None,
+                    "error": "Unauthorized"
+                }, 401
+            
+            except Exception as e:
+                return {
+                    "message": "Something went wrong",
+                    "data": None,
+                    "error": str(e)
+                }, 500
+
+            return f(current_user, *args, **kwargs)
+
+        return decorated
+    return token_required
 
 @app.route('/register',methods=['POST'])
-
 def register():
     name = request.json['name']
     email = request.json['email']
     password = request.json['password']
-    
-
     user  = Users(name = name, email = email, password= generate_password_hash(password))
-    nameformate = re.compile(r'^(Mr\.|Mrs\.|Ms\.) ([a-z]+)( [a-z]+)( [a-z]+)$', 
-              re.IGNORECASE)
-    # emailvalidation= r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
-
-    # name1= nameformate.test(name)
-
-
     user_exists = Users.query.filter_by(email = email).first()
     emailformat= r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
     if re.fullmatch(emailformat,email):
@@ -80,64 +116,14 @@ def register():
         return jsonify({"message":"Registration done Successfully"}),200
 
 
-@app.route('/login',methods=['POST'])
-
-def login():
-    email = request.json['email']
-    password = request.json['password']
-
-    user = Users.query.filter_by(email = email).first()
-    if check_password_hash(user.password,password):
-    
-        return jsonify({"message":"Loggin Successful"}),200
-    else:
-        return jsonify({"error":"Invalid login"}),401
-
-
-        
-    
-@app.route('/addtodolist', methods = ['POST', 'GET'])
-@cross_origin()
-def addtodolist():
-    user = Users.query.get(1)
-    # for user in users:
-    #     userid = user.id
-    if(request.method == 'POST'):
-        # users = Users.query.all()
-        # for user in users:
-        #     userid = user.id
-        name = request.json['name']
-        privacy = request.json['privacy']
-        # user_id = userid
-        todolist = AddTodolist(name = name, user_id = user.id, privacy = privacy)
-        todo_list = AddTodolist.query.filter_by(name = name).first()
-        if(todo_list):
-            return jsonify({"message": "Todo List already exists"})
-        else:
-            db.session.add(todolist)
-            db.session.commit()
-
-            return jsonify({"message": "Todo List Added"})
-    
-    if (request.method == 'GET'):
-        # todos = AddTodolist.query.all()
-        todolists = user.todolists
-        todolists_ = []
-        for todolist in todolists:
-            todolists_.append(dict(name = todolist.name, user_id = todolist.user_id ,id= todolist.id))
-        return jsonify(todolists_)
-
-
 @app.route('/addtodoitems', methods = ['POST','GET'])
-@cross_origin()
-def addtodoitem():
-    user = Users.query.get(1)
-    # user = Users.query.get(1)
-    todolists = AddTodolist.query.get(1)
+@auth_middleware()
+def addtodoitem(current_user):
+    todolists = AddTodolist.query.get(id)
     if(request.method == 'POST'):
         name = request.json['name']
         date = request.json['date']
-        task_one = Task(name = name, date = date, user_id = user.id, todolist_id = todolists.id)
+        task_one = Task(name = name, date = date, user_id = current_user.id, todolist_id = todolists.id)
         task_exist = Task.query.filter_by(name = name).first()
         if(task_exist):
             return jsonify({"message":"Task already exists"})
@@ -164,26 +150,62 @@ def guest():
 
 
 @app.route('/deletetodo',methods=['POST'])
-def deletetodolist():
+@auth_middleware()
+def deletetodolist(current_user):
     if request.method == 'POST':
         id= request.json['id']
-        # print(id)
         todo = AddTodolist.query.get(id)
+        print("idfffffffff",id)
         tasks = Task.query.filter_by(todolist_id=id).all()
-        # print(task)
-        # print(todo)
         for task in tasks:
             db.session.delete(task)
             db.session.commit()
-
-        
         db.session.delete(todo)
         db.session.commit()
         return jsonify({"status": True})
-     
-    
-     
-    
 
+@app.route("/login", methods=["POST"])
+def login():
+    email = request.json['email']
+    password = request.json['password']
+    print(password)
+    user = Users.query.filter_by(email = email).first()
+    if(not user):
+        return jsonify({"message":"Email doesn't exist",
+                         "status": False},401)
+    if check_password_hash(user.password, password):
+        accessToken = jwt.encode({
+            "user_id": user.id,
+            "email": user.email
+        }, app.config["JWT_SECRET_KEY"], algorithm="HS256")
+        return jsonify({"message": "LoggedIn Successfully"}),200
+    return jsonify({"error":"Password is incorrect"}),401
+   
+
+@app.route('/todolist', methods = ['POST', 'GET'])
+@auth_middleware()
+def addtodolist(current_user):
+    print(current_user)
+    if(request.method == 'POST'):
+        name = request.json['name']
+        privacy = request.json['privacy']
+        todolist = AddTodolist(name = name, user_id = current_user.id, privacy = privacy)
+        print (todolist)
+        todo_list = AddTodolist.query.filter_by(name = name).first()
+        if(todo_list):
+            return jsonify({"message": "Todo List already exists"})
+        else:
+            db.session.add(todolist)
+            db.session.commit()
+            return jsonify({"message": "Todo List Added"},200)
     
+    if (request.method == 'GET'):        
+        todolists = current_user.todolists
+        todolists_ = []
+        for todolist in todolists:
+            todolists_.append(dict(name = todolist.name, user_id = todolist.user_id ))
+        return jsonify(todolists_)
+
+
+
 

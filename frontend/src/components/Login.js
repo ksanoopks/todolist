@@ -20,7 +20,6 @@ const Login = () => {
         })
     }
     const handleSubmit = () => {
-        // console.log("hh")
         let email = ''
         let password = ''
         const emailFormat = /\S+@\S+\.\S+/
@@ -45,6 +44,10 @@ const Login = () => {
                 url: 'http://127.0.0.1:5000/login',
                 data: values
             }).then((resp) => {
+                console.log(resp)
+                if(resp.data.accessToken){
+                    localStorage.setItem("accessToken", resp.data.accessToken)
+                }
                
                 if(resp.status==200){
                     swal({text:resp.data.message ,showCancelButton: true}).then(function(){window.location="http://localhost:3000/users";});
@@ -56,7 +59,7 @@ const Login = () => {
                                 
             }).catch((e)=> {
                 if(e.response.status===401){
-                    swal({text:"Invalid Username or password",icon:"error"}).then(function(){window.location="http://localhost:3000";});
+                    swal({text:"Invalid password",icon:"error"}).then(function(){window.location="http://localhost:3000";});
 
                 }
                 else if (e.response.status ===500){

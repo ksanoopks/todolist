@@ -285,6 +285,18 @@ code {
 .modal-main{
   font-size: 100%;
 }
+.additem-modalbtn{
+  border: none;
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  margin: 10px;
+}
+
+.todolist-name {
+  text-decoration: none !important;
+  color: black;
+}
+
 .user-task-table{
   width: 900px;
   margin-left: auto;
@@ -304,4 +316,11 @@ code {
   background-color: Transparent;
   background-repeat:no-repeat;
   border: none; 
+}
+.delete-btn-disudo nano /etc/gdm3/custom.conf
+v{
+  margin: 10px;
+}
+.todolist-name-div{
+  display: flex;
 }
