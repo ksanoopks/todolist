@@ -73,11 +73,11 @@ def register():
         return jsonify({"message":"invalid Email"})
 
     elif(len(password)<6 or password== ''):
-        return jsonify({"message":"invalid password"})
+        return jsonify({"message":"invalid password"}),
     else:  
         db.session.add(user)
         db.session.commit()
-        return jsonify({"message":"Registration done Successfully"})
+        return jsonify({"message":"Registration done Successfully"}),200
 
 
 @app.route('/login',methods=['POST'])
