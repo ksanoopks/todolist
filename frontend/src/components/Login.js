@@ -1,6 +1,7 @@
 import React , {useState} from "react";
 import '../index.css'
 import axios from 'axios'
+import swal from 'sweetalert';
 
 
 const Login = () => {
@@ -48,17 +49,21 @@ const Login = () => {
                     localStorage.setItem("accessToken", resp.data.accessToken)
                 }
                
-                if(resp.data.status == true){
-                    window.location.href='/users'
-                    console.log("login done")
+                if(resp.data.message){
+                    swal({text:resp.data.message ,showCancelButton: true}).then(function(){window.location="http://localhost:3000/users";});
+                    // swal(resp.data.message)
+                    // window.location.href='/users'
+                    // console.log("login done")
+                    
                 }
-                else if(resp.data.error){
-                    alert (resp.data.error)
-                    window.location.href='/'
-                    console.log("login error")
-                }
+                                
+            }).catch((e)=> {
+                if(e.response.status===401){
+                    swal({text:"Invalid Email or Password",icon:"error"}).then(function(){window.location="http://localhost:3000";});
 
+                }
                 
+
             })
             
          }
@@ -111,4 +116,5 @@ const Login = () => {
         </div>
     )
 }
+
 export default Login;   

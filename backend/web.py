@@ -109,11 +109,11 @@ def register():
         return jsonify({"message":"invalid Email"})
 
     elif(len(password)<6 or password== ''):
-        return jsonify({"message":"invalid password"})
+        return jsonify({"message":"invalid password"}),
     else:  
         db.session.add(user)
         db.session.commit()
-        return jsonify({"message":"Registration done Successfully"})
+        return jsonify({"message":"Registration done Successfully"}),200
 
 
 @app.route('/addtodoitems', methods = ['POST','GET'])
@@ -155,7 +155,7 @@ def deletetodolist(current_user):
     if request.method == 'POST':
         id= request.json['id']
         todo = AddTodolist.query.get(id)
-        print("idfffffffff",id)
+        # print("idfffffffff",id)
         tasks = Task.query.filter_by(todolist_id=id).all()
         for task in tasks:
             db.session.delete(task)
@@ -171,8 +171,7 @@ def login():
     print(password)
     user = Users.query.filter_by(email = email).first()
     if(not user):
-        return jsonify({"message":"Email doesn't exist",
-                         "status": False})
+        return jsonify({"error":"Email doesn't exist"}),401
     if check_password_hash(user.password, password):
         accessToken = jwt.encode({
             "user_id": user.id,
@@ -187,7 +186,7 @@ def login():
 @app.route('/todolist', methods = ['POST', 'GET'])
 @auth_middleware()
 def addtodolist(current_user):
-    print(current_user)
+    # print(current_user)
     if(request.method == 'POST'):
         name = request.json['name']
         privacy = request.json['privacy']

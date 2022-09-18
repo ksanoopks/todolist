@@ -87,7 +87,7 @@ const User = () => {
         })
     }
 
-    const [response, setResponse] = useState([])
+    // const [response, setResponse] = useState([])
     // useEffect(() => {
     //     axios({
     //         method: 'get',
@@ -97,11 +97,11 @@ const User = () => {
     //           }
     //     }).then(resp => {
     //         console.log("response",resp.data)
-    //         setResponse(
+    //         setResponse(g
     //             resp.data
     //         )
     //     })
-    // },[])   
+    // },[])
     
    
     const[modalIsOpen, setModalIsOpen] = useState(false)
