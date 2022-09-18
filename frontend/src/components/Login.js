@@ -19,7 +19,6 @@ const Login = () => {
         })
     }
     const handleSubmit = () => {
-        console.log("hh")
         let email = ''
         let password = ''
         const emailFormat = /\S+@\S+\.\S+/
@@ -44,14 +43,17 @@ const Login = () => {
                 url: 'http://127.0.0.1:5000/login',
                 data: values
             }).then((resp) => {
+                console.log(resp)
+                if(resp.data.accessToken){
+                    localStorage.setItem("accessToken", resp.data.accessToken)
+                }
                
-                if(resp.data.message){
+                if(resp.data.status == true){
                     window.location.href='/users'
                     console.log("login done")
                 }
                 else if(resp.data.error){
-                    alert
-                    (resp.data.error)
+                    alert (resp.data.error)
                     window.location.href='/'
                     console.log("login error")
                 }

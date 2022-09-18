@@ -59,8 +59,7 @@ def auth_middleware():
             token = ""
             if "Authorization" in request.headers:
                 token = request.headers["Authorization"].split(" ")[1]
-                print(request.headers)
-                print (token)
+                # print(request.headers)
             if not token:
                 return {
                     "message": "Authentication Token is missing!", 
@@ -69,7 +68,7 @@ def auth_middleware():
                 }, 401
             try:
                 data=jwt.decode(token, app.config["JWT_SECRET_KEY"], algorithms=["HS256"])
-                print(data)
+                # print(data)
                 current_user=Users.query.get(data["user_id"])
                 if current_user is None:
                     return {
@@ -118,15 +117,13 @@ def register():
 
 
 @app.route('/addtodoitems', methods = ['POST','GET'])
-@cross_origin()
-def addtodoitem():
-    user = Users.query.get(1)
-    # user = Users.query.get(1)
-    todolists = AddTodolist.query.get(1)
+@auth_middleware()
+def addtodoitem(current_user):
+    todolists = AddTodolist.query.get(id)
     if(request.method == 'POST'):
         name = request.json['name']
         date = request.json['date']
-        task_one = Task(name = name, date = date, user_id = user.id, todolist_id = todolists.id)
+        task_one = Task(name = name, date = date, user_id = current_user.id, todolist_id = todolists.id)
         task_exist = Task.query.filter_by(name = name).first()
         if(task_exist):
             return jsonify({"message":"Task already exists"})
@@ -154,16 +151,15 @@ def guest():
 
 @app.route('/deletetodo',methods=['POST'])
 @auth_middleware()
-def deletetodolist():
+def deletetodolist(current_user):
     if request.method == 'POST':
         id= request.json['id']
         todo = AddTodolist.query.get(id)
+        print("idfffffffff",id)
         tasks = Task.query.filter_by(todolist_id=id).all()
         for task in tasks:
             db.session.delete(task)
             db.session.commit()
-
-        
         db.session.delete(todo)
         db.session.commit()
         return jsonify({"status": True})
@@ -176,7 +172,7 @@ def login():
     user = Users.query.filter_by(email = email).first()
     if(not user):
         return jsonify({"message":"Email doesn't exist",
-                         "status": False})
+                         "status": False},401)
     if check_password_hash(user.password, password):
         accessToken = jwt.encode({
             "user_id": user.id,
@@ -184,11 +180,11 @@ def login():
         }, app.config["JWT_SECRET_KEY"], algorithm="HS256")
         return jsonify({"message": "LoggedIn Successfully",
                         "status": True,
-                        "accessToken": accessToken})
-    return jsonify({"error":"Password is incorrect"})
+                        "accessToken": accessToken}),200
+    return jsonify({"error":"Password is incorrect"}),401
    
 
-@app.route('/addtodolist', methods = ['POST', 'GET'])
+@app.route('/todolist', methods = ['POST', 'GET'])
 @auth_middleware()
 def addtodolist(current_user):
     print(current_user)
@@ -203,11 +199,10 @@ def addtodolist(current_user):
         else:
             db.session.add(todolist)
             db.session.commit()
-
-            return jsonify({"message": "Todo List Added"})
+            return jsonify({"message": "Todo List Added"},200)
     
     if (request.method == 'GET'):        
-        todolists = current_user    .todolists
+        todolists = current_user.todolists
         todolists_ = []
         for todolist in todolists:
             todolists_.append(dict(name = todolist.name, user_id = todolist.user_id ))

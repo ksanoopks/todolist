@@ -40,7 +40,10 @@ const AddTodoItem = () => {
             axios({
                 method: 'post',
                 url: 'http://127.0.0.1:5000/addtodoitems',
-                data: values
+                data: values,
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("accessToken")
+                  }
             }).then((resp) => {
                 console.log(resp.data)
                 alert(resp.data.message)

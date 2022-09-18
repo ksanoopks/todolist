@@ -14,12 +14,11 @@ const AddTodoList = () => {
         const{name, value} = e.target
         setValues({
             ...values,
-            [name]:value
+            [name]:value         
         })
     }
 
     const handleSubmit = () => {
-        console.log("dddd", values)
         let name = '';
         let privacy = '';
         const nameFormat = /^[A-Za-z]+/
@@ -41,8 +40,11 @@ const AddTodoList = () => {
         if(errors.name == "" && errors.privacy == ""){
             axios({
                 method: 'post',
-                url: 'http://127.0.0.1:5000/addtodolist',
-                data: values
+                url: 'http://127.0.0.1:5000/todolist',
+                data: values,
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("accessToken")
+                  }
             }).then((resp) => {
                 console.log(resp.data)
                 alert(resp.data.message)

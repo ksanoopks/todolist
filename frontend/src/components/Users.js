@@ -56,7 +56,10 @@ const User = () => {
    const deletelist = () => {
     axios({
         method: 'get',
-        url: 'http://127.0.0.1:5000/addtodolist'
+        url: 'http://127.0.0.1:5000/todolist',
+        headers: {
+            Authorization: "Bearer " + localStorage.getItem("accessToken")
+          }
     }).then(resp => {
         setData(
             resp.data
@@ -72,7 +75,10 @@ const User = () => {
         axios ({
             method: 'post',
                 url: 'http://127.0.0.1:5000/deletetodo',
-                data: {id}
+                data: {id},
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("accessToken")
+                  }
         }).then(resp => {
             if(resp.data.status == true){
                 deletelist()
@@ -85,7 +91,10 @@ const User = () => {
     useEffect(() => {
         axios({
             method: 'get',
-            url: 'http://127.0.0.1:5000/addtodoitems'
+            url: 'http://127.0.0.1:5000/addtodoitems',
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("accessToken")
+              }
         }).then(resp => {
             console.log("response",resp.data)
             setResponse(
