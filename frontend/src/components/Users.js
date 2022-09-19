@@ -4,6 +4,7 @@ import AddIcon from '@mui/icons-material/Add';
 import Modal from 'react-modal';
 import AddTodoList from "./AddTodoList";
 import axios from "axios";
+
 import AddTodoItem from "./AddTodoItem";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
@@ -163,6 +164,7 @@ const User = () => {
                     })}
                     </ul>
                 </div> 
+               <button className="logout-button" onClick={ () => localStorage.clear()}><a className="logout-link" href ="/" >Logout</a></button> 
         </div>
         <div className="col content-div">
             <Content val = {content}/>

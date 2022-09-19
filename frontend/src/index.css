@@ -116,7 +116,8 @@ code {
   margin: 10px;
 }
 .sidebar{
-  background-color: lightgray;  height: auto; 
+  background-color: lightgray;  height: auto;
+  height: 100vh; 
 }
 .sidebar-bottom-content{
   margin: 55px;
@@ -324,4 +325,12 @@ v{
 }
 .todolist-name-div{
   display: flex;
+}
+.logout-link a{
+  text-decoration: none !important;
+}
+.logout-button{
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none; 
 }
