@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import axios from "axios";
-import '../index.css'
-import swal from "sweetalert"
+import swal from "sweetalert";
+import '../index.css';
 
 const AddTodoList = () => {
     const [values, setValues] = useState(
@@ -10,7 +10,10 @@ const AddTodoList = () => {
             privacy: '',
         })
     )
-    const [errors,setErrors] = useState({})
+    const [errors,setErrors] = useState({
+        name: '',
+        privacy:''
+    })
     const handleChange = (e) => {
         const{name, value} = e.target
         setValues({
@@ -20,6 +23,7 @@ const AddTodoList = () => {
     }
 
     const handleSubmit = () => {
+        console.log("values", values)
         let name = '';
         let privacy = '';
         const nameFormat = /^[A-Za-z]+/
@@ -52,7 +56,8 @@ const AddTodoList = () => {
                     swal({text:resp.data.message ,icon:"success"}).then(function(){window.location="http://localhost:3000/users";});
                 }
                 // window.location.href= '/users'
-            }).catch((e) => {
+            })
+            .catch((e) => {
                 if (e.response.status == 409){
                     swal({text:"Todo list already exist",icon:"error"}).then(function(){window.location="http://localhost:3000/users";});
                 }
@@ -101,4 +106,4 @@ const AddTodoList = () => {
   )
 }
 
-export default AddTodoList
+export default AddTodoList;
