@@ -180,7 +180,7 @@ def login():
         return jsonify({"message": "LoggedIn Successfully",
                         "status": True,
                         "accessToken": accessToken})
-    return jsonify({"error":"Password is incorrect"})
+    return jsonify({"error":"Password is incorrect"}),401
    
 
 @app.route('/todolist', methods = ['POST', 'GET'])
