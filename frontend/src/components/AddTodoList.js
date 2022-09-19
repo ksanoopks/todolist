@@ -47,8 +47,15 @@ const AddTodoList = () => {
                   }
             }).then((resp) => {
                 console.log(resp.data)
-                alert(resp.data.message)
-                window.location.href= '/users'
+                if(resp.data.message){
+                    swal({text:resp.data.message ,icon:"success"}).then(function(){window.location="http://localhost:3000/users";});
+                }
+                // window.location.href= '/users'
+            }).catch((e) => {
+                if (e.response.status == 409){
+                    swal({text:"Todo list already exist",icon:"error"}).then(function(){window.location="http://localhost:3000/users";});
+
+                }
             })
         }
     }

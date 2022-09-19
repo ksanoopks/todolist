@@ -24,34 +24,51 @@ const customStyles = {
       fontSize: '70%',
     },
   };
-const Content = (props) => {
-    const[modalIsOpen, setModalIsOpen] = useState(false)
-    const closeModal = () => (
-        setModalIsOpen(false)
-    )
-    if(props.val == 'todolist'){
-        return(
-            <div>
-                <div className="additem-div">
-                    <h3><ul>Add A Task</ul></h3>
-                    <div className="additem-btn-div">
-                    <button onClick ={ () => setModalIsOpen(true)} className="additem-btn"><AddIcon sx={{ fontSize: 40 }}/></button>
-                </div>
-                <Modal
-                isOpen={modalIsOpen}
-                onRequestClose = {closeModal}
-                style={customStyles}>
-                 <AddTodoItem/>
-                </Modal>
-                </div>
-            </div>
-        )
-    }
-}
 
 
 
 const User = () => {
+    const Content = (props) => {
+   
+        if(props.val == 'todolist'){
+            return(
+                <div>
+                    <div className="additem-div">
+                        <h3><ul>Add A Task</ul></h3>
+                        <div className="additem-btn-div">
+                        <button onClick ={ () => setModalIsOpen(true)} className="additem-btn"><AddIcon sx={{ fontSize: 40 }}/></button>
+                    </div>
+                    <Modal
+                    isOpen={modalIsOpen}
+                    onRequestClose = {closeModal}
+                    style={customStyles}>
+                     <AddTodoItem/>
+                    </Modal>
+                    </div>
+                    <div className="user-task-table-div">
+                    <table className="user-task-table">
+                    <tr className="user-task-table-1st-row">
+                            <th>index</th>
+                            <th>task</th>
+                            <th>date</th>
+                        </tr>
+                        {response.map((task,key)=>{
+                        return(<tr className="user-task-table-content">
+                                <td>{key}</td>
+                                <td>{task.name}</td>
+                                <td>{task.date}</td>
+                                <td>{task.status}</td>
+                            </tr>)})
+                        } 
+                                   
+                    </table>
+                </div>
+    
+                </div>
+            )
+        }
+    }
+    
 
    const deletelist = () => {
     axios({
@@ -149,24 +166,6 @@ const User = () => {
         </div>
         <div className="col content-div">
             <Content val = {content}/>
-            <div className="user-task-table-div">
-                <table className="user-task-table">
-                <tr className="user-task-table-1st-row">
-                        <th>index</th>
-                        <th>task</th>
-                        <th>date</th>
-                    </tr>
-                    {response.map((task,key)=>{
-                    return(<tr className="user-task-table-content">
-                            <td>{key}</td>
-                            <td>{task.name}</td>
-                            <td>{task.date}</td>
-                            <td>{task.status}</td>
-                        </tr>)})
-                    } 
-                               
-                </table>
-            </div>
 
         </div>
     </div>
