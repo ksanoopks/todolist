@@ -7,10 +7,6 @@ import re
 from functools import wraps
 from werkzeug.security import generate_password_hash,check_password_hash
 import jwt
-# from flask_jwt_extended import create_access_token
-# from flask_jwt_extended import get_jwt_identity
-# from flask_jwt_extended import jwt_required,unset_jwt_cookies
-# from flask_jwt_extended import JWTManager
 
 
 app = Flask("Todolist")
@@ -19,10 +15,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///Todolist'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this!
+app.config["JWT_SECRET_KEY"] = "todolist"
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=30)
-# jwt = JWTManager(app)
+
 
 class Users(db.Model):
     __tablename__ = "users"
@@ -59,7 +55,6 @@ def auth_middleware():
             token = ""
             if "Authorization" in request.headers:
                 token = request.headers["Authorization"].split(" ")[1]
-                # print(request.headers)
             if not token:
                 return {
                     "message": "Authentication Token is missing!", 
@@ -82,7 +77,7 @@ def auth_middleware():
                     "message": "Something went wrong",
                     "data": None,
                     "error": str(e)
-                }, 500
+                },
 
             return f(current_user, *args, **kwargs)
 
@@ -193,7 +188,7 @@ def addtodolist(current_user):
         todolist = AddTodolist(name = name, user_id = current_user.id, privacy = privacy)
         # print (todolist)
         todo_list = AddTodolist.query.filter_by(name = name).first()
-        if(todo_list):
+        if(todo_list and current_user.id == todo_list.id):
             return jsonify({"error": "Todo List already exists"}),409
         else:
             db.session.add(todolist)
