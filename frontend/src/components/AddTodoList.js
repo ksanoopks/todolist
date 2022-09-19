@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import axios from "axios";
 import '../index.css'
+import swal from "sweetalert"
 
 const AddTodoList = () => {
     const [values, setValues] = useState(
@@ -37,7 +38,7 @@ const AddTodoList = () => {
             name,
             privacy,
         })
-        if(errors.name == "" && errors.privacy == ""){
+        if(name == "" && privacy == ""){
             axios({
                 method: 'post',
                 url: 'http://127.0.0.1:5000/todolist',
@@ -54,7 +55,6 @@ const AddTodoList = () => {
             }).catch((e) => {
                 if (e.response.status == 409){
                     swal({text:"Todo list already exist",icon:"error"}).then(function(){window.location="http://localhost:3000/users";});
-
                 }
             })
         }
