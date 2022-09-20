@@ -188,7 +188,7 @@ def addtodolist(current_user):
         todolist = Todolist(name = name, user_id = current_user.id, privacy = privacy)
         # print (todolist)
         todo_list = Todolist.query.filter_by(name = name).first()
-        if(todo_list and current_user.id == todo_list.id):
+        if(todo_list and current_user.id == todo_list.user_id):
             return jsonify({"error": "Todo List already exists"}),409
         else:
             db.session.add(todolist)
@@ -199,7 +199,7 @@ def addtodolist(current_user):
         todolists = current_user.todolists
         todolists_ = []
         for todolist in todolists:
-            todolists_.append(dict(name = todolist.name, user_id = todolist.user_id ))
+            todolists_.append(dict(name = todolist.name, user_id = todolist.user_id ,id =todolist.id))
         return jsonify(todolists_)
 
 
