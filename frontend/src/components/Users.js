@@ -162,6 +162,8 @@ const User = () => {
                     })}
                     </ul>
                 </div> 
+        <button className="logout-button" onClick={ () => localStorage.clear()}><a className="logout-link" href ="/" >Logout</a></button>
+
         </div>
         <div className="col content-div">
             <Content val = {content}/>
