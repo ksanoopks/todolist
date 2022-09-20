@@ -478,4 +478,6 @@ v{
 .userpage-div{
   display: flex;
 }
-
+.dropdown-div{
+  font-size: medium !important;
+}

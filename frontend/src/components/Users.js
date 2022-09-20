@@ -11,6 +11,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AddTodoItem from "./AddTodoItem";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { red } from "@mui/material/colors";
 
 
 
@@ -150,7 +151,7 @@ const User = () => {
 
                     <div class="dropdown">
                         <button class="dropbtn"><ArrowDropDownIcon sx={{ fontSize: 30 }}/></button>
-                        <div class="dropdown-content">
+                        <div class="dropdown-content dropdown-div">
                             <a href="#"><PersonIcon/> <span>User</span></a>
                             <button className="logout-btn" onClick={ () => localStorage.clear()}>
                             <a href="/"><LogoutIcon/> <span>Logout</span></a></button>

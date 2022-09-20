@@ -206,12 +206,7 @@ def addtodolist(current_user):
         todolists = current_user.todolists
         todolists_ = []
         for todolist in todolists:
-<<<<<<< HEAD
             todolists_.append(dict(name = todolist.name, user_id = todolist.user_id, privacy = todolist.privacy,id = todolist.id))
-
-=======
-            todolists_.append(dict(name = todolist.name, user_id = todolist.user_id ,id =todolist.id))
->>>>>>> develop
         return jsonify(todolists_)
 
 

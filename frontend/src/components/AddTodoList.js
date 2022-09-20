@@ -49,9 +49,9 @@ const AddTodoList = () => {
             }).then((resp) => {
                 console.log(resp.data)
                 if(resp.data.message){
-                    swal({text:resp.data.message ,icon:"success", closeModel:false})
+                    swal({text:resp.data.message ,icon:"success", closeModel:false}).then(function(){window.location="http://localhost:3000/users";});
                 }
-                // window.location.href= '/users'
+                
             }).catch((e) => {
                 if (e.response.status == 409){
                     swal({text:"Todo list already exist",icon:"error",closeModel:false})
