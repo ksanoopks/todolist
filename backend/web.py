@@ -119,7 +119,7 @@ def register():
 @app.route('/addtodoitems', methods = ['POST','GET'])
 @auth_middleware()
 def addtodoitem(current_user):
-    todolists = Todolist.query.get(id)
+    todolists = Todolist.query.get(current_user)
     if(request.method == 'POST'):
         name = request.json['name']
         date = request.json['date']
@@ -195,7 +195,7 @@ def addtodolist(current_user):
         todolist = Todolist(name = name, user_id = current_user.id, privacy = privacy)
         # print (todolist)
         todo_list = Todolist.query.filter_by(name = name).first()
-        if(todo_list and current_user.id == todo_list.id):
+        if(todo_list and current_user.id == todo_list.user_id):
             return jsonify({"error": "Todo List already exists"}),409
         else:
             db.session.add(todolist)
