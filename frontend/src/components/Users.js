@@ -4,7 +4,6 @@ import AddIcon from '@mui/icons-material/Add';
 import Modal from 'react-modal';
 import AddTodoList from "./AddTodoList";
 import axios from "axios";
-
 import AddTodoItem from "./AddTodoItem";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
@@ -155,7 +154,6 @@ const User = () => {
                             <div>
                                 <a className="todolist-name" key = {key} onClick = { () => setContent('todolist')} >{item.name} </a>
                                 <button className="delete-btn"onClick={()=>(deleteClick(item.id))}><DeleteForeverIcon/></button>
-                                {/* <button onClick={() => deleteClick(data.id)}>Delete</button> */}
                                 {/* <button key = {key} onClick={()=>(deleteClick(item.id))}>Delete </button> */}
                                 </div>
                             
@@ -164,7 +162,6 @@ const User = () => {
                     })}
                     </ul>
                 </div> 
-               <button className="logout-button" onClick={ () => localStorage.clear()}><a className="logout-link" href ="/" >Logout</a></button> 
         </div>
         <div className="col content-div">
             <Content val = {content}/>

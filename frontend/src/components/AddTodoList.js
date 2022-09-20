@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import axios from "axios";
-import swal from "sweetalert";
 import '../index.css';
+import swal from 'sweetalert';
 
 const AddTodoList = () => {
     const [values, setValues] = useState(
@@ -10,10 +10,7 @@ const AddTodoList = () => {
             privacy: '',
         })
     )
-    const [errors,setErrors] = useState({
-        name: '',
-        privacy:''
-    })
+    const [errors,setErrors] = useState({})
     const handleChange = (e) => {
         const{name, value} = e.target
         setValues({
@@ -23,7 +20,6 @@ const AddTodoList = () => {
     }
 
     const handleSubmit = () => {
-        console.log("values", values)
         let name = '';
         let privacy = '';
         const nameFormat = /^[A-Za-z]+/
@@ -42,10 +38,7 @@ const AddTodoList = () => {
             name,
             privacy,
         })
-        console.log("errors",errors)
-
         if(name == "" && privacy == ""){
-            console.log("ahahahah")
             axios({
                 method: 'post',
                 url: 'http://127.0.0.1:5000/todolist',
@@ -56,13 +49,13 @@ const AddTodoList = () => {
             }).then((resp) => {
                 console.log(resp.data)
                 if(resp.data.message){
-                    swal({text:resp.data.message ,icon:"success"}).then(function(){window.location="http://localhost:3000/users";});
+                    swal({text:resp.data.message ,icon:"success", closeModel:false})
                 }
                 // window.location.href= '/users'
-            })
-            .catch((e) => {
+            }).catch((e) => {
                 if (e.response.status == 409){
-                    swal({text:"Todo list already exist",icon:"error"}).then(function(){window.location="http://localhost:3000/users";});
+                    swal({text:"Todo list already exist",icon:"error",closeModel:false})
+                    // .then(function(){window.location="http://localhost:3000/users";});
 
                 }
             })
@@ -110,4 +103,4 @@ const AddTodoList = () => {
   )
 }
 
-export default AddTodoList;
+export default AddTodoList
