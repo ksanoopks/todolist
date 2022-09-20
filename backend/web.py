@@ -26,9 +26,9 @@ class Users(db.Model):
     name = db.Column(db.String)
     email = db.Column(db.String)
     password = db.Column(db.Integer)
-    todolists = db.relationship("AddTodolist", back_populates = "user")
+    todolists = db.relationship("Todolist", back_populates = "user")
 
-class AddTodolist(db.Model):
+class Todolist(db.Model):
     __tablename__ = "todolists"
     id = db.Column(db.Integer, primary_key =True)
     name = db.Column(db.String)
@@ -45,7 +45,7 @@ class Task(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"),nullable=False)
     todolist_id = db.Column(db.Integer, db.ForeignKey("todolists.id"), nullable=False)
     status = db.Column(db.String)
-    todolist = db.relationship("AddTodolist", back_populates = "tasks")
+    todolist = db.relationship("Todolist", back_populates = "tasks")
 
 
 def auth_middleware():
@@ -114,7 +114,7 @@ def register():
 @app.route('/addtodoitems', methods = ['POST','GET'])
 @auth_middleware()
 def addtodoitem(current_user):
-    todolists = AddTodolist.query.get(id)
+    todolists = Todolist.query.get(id)
     if(request.method == 'POST'):
         name = request.json['name']
         date = request.json['date']
@@ -137,7 +137,7 @@ def addtodoitem(current_user):
 
 @app.route('/guest',methods=['GET'])  
 def guest():
-    todolist= AddTodolist.query.filter_by(privacy="public")
+    todolist= Todolist.query.filter_by(privacy="public")
     todolists =[]
     for list in todolist:
         todolists.append(dict(name=list.name, user_id = list.id))
@@ -149,7 +149,7 @@ def guest():
 def deletetodolist(current_user):
     if request.method == 'POST':
         id= request.json['id']
-        todo = AddTodolist.query.get(id)
+        todo = Todolist.query.get(id)
         # print("idfffffffff",id)
         tasks = Task.query.filter_by(todolist_id=id).all()
         for task in tasks:
@@ -185,9 +185,9 @@ def addtodolist(current_user):
     if(request.method == 'POST'):
         name = request.json['name']
         privacy = request.json['privacy']
-        todolist = AddTodolist(name = name, user_id = current_user.id, privacy = privacy)
+        todolist = Todolist(name = name, user_id = current_user.id, privacy = privacy)
         # print (todolist)
-        todo_list = AddTodolist.query.filter_by(name = name).first()
+        todo_list = Todolist.query.filter_by(name = name).first()
         if(todo_list and current_user.id == todo_list.id):
             return jsonify({"error": "Todo List already exists"}),409
         else:
