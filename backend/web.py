@@ -119,12 +119,13 @@ def register():
 @app.route('/addtodoitems', methods = ['POST','GET'])
 @auth_middleware()
 def addtodoitem(current_user):
-    todolists = Todolist.query.get(current_user)
+    todolists = Todolist.query.get(current_user.id)
     if(request.method == 'POST'):
         name = request.json['name']
         date = request.json['date']
+        id = request.json['id']
         print(todolists.id)
-        task_one = Task(name = name, date = date, user_id = current_user.id, todolist_id = todolists.id)
+        task_one = Task(name = name, date = date, user_id = current_user.id, todolist_id = id)
         task_exist = Task.query.filter_by(name = name).first()
         if(task_exist):
             return jsonify({"message":"Task already exists"})
