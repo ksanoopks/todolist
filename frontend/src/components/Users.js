@@ -12,6 +12,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import AddTodoItem from "./AddTodoItem";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { red } from "@mui/material/colors";
+import { Link } from "react-router-dom";
+import UserContent from "./UserContent";
 
 
 
@@ -36,49 +38,10 @@ const customStyles = {
 
 
 const User = () => {
-    const Content = (props) => {
-   
-        if(props.val == 'todolist'){
-            return(
-                <div>
-                    <div className="additem-div">
-                        <h3><ul>Add A Task</ul></h3>
-                        <div className="additem-btn-div">
-                        <button onClick ={ () => setModalIsOpen(true)} className="additem-btn"><AddIcon sx={{ fontSize: 40 }}/></button>
-                    </div>
-                    <Modal
-                    isOpen={modalIsOpen}
-                    onRequestClose = {closeModal}
-                    style={customStyles}>
-                     <AddTodoItem/>
-                    </Modal>
-                    </div>
-                    <div className="user-task-table-div">
-                    <table className="user-task-table">
-                    <tr className="user-task-table-1st-row">
-                            <th>index</th>
-                            <th>task</th>
-                            <th>date</th>
-                        </tr>
-                        {response.map((task,key)=>{
-                        return(<tr className="user-task-table-content">
-                                <td>{key}</td>
-                                <td>{task.name}</td>
-                                <td>{task.date}</td>
-                                <td>{task.status}</td>
-                            </tr>)})
-                        } 
-                                   
-                    </table>
-                </div>
-    
-                </div>
-            )
-        }
-    }
+
     
 
-   const deletelist = () => {
+   const getTodoList = () => {
     axios({
         method: 'get',
         url: 'http://127.0.0.1:5000/todolist',
@@ -86,16 +49,23 @@ const User = () => {
             Authorization: "Bearer " + localStorage.getItem("accessToken")
           }
     }).then(resp => {
+       
         setData(
             resp.data
-           
         )
-        console.log(resp.data)
+        
+            // setContent(
+            //     resp.data[0]
+            // )
+       
+        
+       console.log( "item", resp.data)
     })
+   
    }
     const [data, setData] = useState([])
     useEffect(() => {
-      deletelist()
+        getTodoList()
 
       }, [])
     const deleteClick = (id)=>{
@@ -108,7 +78,7 @@ const User = () => {
                   }
         }).then(resp => {
             if(resp.data.status == true){
-                deletelist()
+                getTodoList()
             }
             console.log("resp", resp.data)
         })
@@ -135,7 +105,7 @@ const User = () => {
     const closeModal = () => (
         setModalIsOpen(false)
     )
-    const [ content, setContent] = useState('')
+    const [ content, setContent] = useState({})
     return(
         <div class = "container-fluid userpage">
         <div class="row g-0 navbar-div">
@@ -151,7 +121,7 @@ const User = () => {
 
                     <div class="dropdown">
                         <button class="dropbtn"><ArrowDropDownIcon sx={{ fontSize: 30 }}/></button>
-                        <div class="dropdown-content">
+                        <div class="dropdown-content dropdown-div">
                             <a href="#"><PersonIcon/> <span>User</span></a>
                             <button className="logout-btn" onClick={ () => localStorage.clear()}>
                             <a href="/"><LogoutIcon/> <span>Logout</span></a></button>
@@ -182,10 +152,8 @@ const User = () => {
                 <table className="todolist-ul">
                 {data.map((item, key) => {
                     return(
-
-
                         <tr key = {key}>
-                            <td>  <a className="todolist-name"  onClick = { () => setContent('todolist')} >{item.name} </a></td>
+                            <td> <a className= {item.id == content.id ? "selected-todolist" : "todolist-name" } onClick = { () => setContent(item)} >{item.name} </a></td>
                             <td><label className="todolist-privacy">{item.privacy}</label></td>
                             <button className="delete-btn"onClick={()=>(deleteClick(item.id))}><DeleteForeverIcon sx={{ color: red[800] }}/></button>
                         </tr>
@@ -196,7 +164,7 @@ const User = () => {
             </div> 
     </div>
     <div className="content-div">
-    <Content val = {content}/>
+    <UserContent taskDetails={content}/>
     </div>
     </div>
 
