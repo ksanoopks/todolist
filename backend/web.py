@@ -123,15 +123,16 @@ def addtodoitem(current_user):
     if(request.method == 'POST'):
         name = request.json['name']
         date = request.json['date']
-        print(todolists.id)
-        task_one = Task(name = name, date = date, user_id = current_user.id, todolist_id = todolists.id)
+        id = request.json['id']
+        # print(todolists.id)
+        task_one = Task(name = name, date = date, user_id = current_user.id, todolist_id = id)
         task_exist = Task.query.filter_by(name = name).first()
         if(task_exist):
-            return jsonify({"message":"Task already exists"})
+            return jsonify({"error":"Task already exists"}),409
         else:
             db.session.add(task_one)
             db.session.commit()
-            return jsonify({"message":"Task added"})
+            return jsonify({"message":"Task added"}),200
     
     if(request.method == 'GET'):
         tasks = todolists.tasks

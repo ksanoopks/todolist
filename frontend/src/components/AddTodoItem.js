@@ -1,12 +1,14 @@
 import React, {useState} from 'react';
 import axios from "axios";
+import swal from "sweetalert"
 import '../index.css';
 
-const AddTodoItem = () => {
+const AddTodoItem = (id) => {
     const [values, setValues] = useState(
         Object.assign({
             name: '',
             date: '',
+            id: id.id
         })
     )
     const [errors, setErrors] = useState({})
@@ -46,8 +48,14 @@ const AddTodoItem = () => {
                   }
             }).then((resp) => {
                 console.log(resp.data)
-                alert(resp.data.message)
-                window.location.href= '/users'
+                if(resp.data.message){
+                    swal({text:resp.data.message ,icon:"success"}).then(function(){window.location="http://localhost:3000/users";});
+                }               
+                 // window.location.href= '/users'
+            }).catch((e) => {
+                if (e.response.status == 409){
+                    swal({text:"Todo list already exist",icon:"error"}).then(function(){window.location="http://localhost:3000/users";});
+                }
             })
         }
     }
