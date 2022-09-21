@@ -13,6 +13,7 @@ import AddTodoList from './components/AddTodoList';
 import AddTodoItem from './components/AddTodoItem';
 
 
+
 const App= () => {
   return (
     <BrowserRouter>
@@ -21,8 +22,10 @@ const App= () => {
     <Route path="/register" element={<Register/> }/>
     <Route path="/guest" element={<Guest/> }/>
     <Route path='/users' element ={<Users/>}/>
-    <Route path="/addtodolist" element={<AddTodoList/>}/>
-    <Route path="/addtodoitem" element={<AddTodoItem/>}/>
+        
+    
+    <Route path="/todolists" element={<AddTodoList/>}/>
+    <Route path="/todoitems" element={<AddTodoItem/>}/>
 
 
     </Routes>
