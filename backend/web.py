@@ -7,6 +7,10 @@ import re
 from functools import wraps
 from werkzeug.security import generate_password_hash,check_password_hash
 import jwt
+# from flask_jwt_extended import create_access_token
+# from flask_jwt_extended import get_jwt_identity
+# from flask_jwt_extended import jwt_required,unset_jwt_cookies
+# from flask_jwt_extended import JWTManager
 
 
 app = Flask("Todolist")
@@ -15,10 +19,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///Todolist'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
-app.config["JWT_SECRET_KEY"] = "todolist"
+app.config["JWT_SECRET_KEY"] = "super-secret"  # Change this!
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(hours=1)
 app.config["JWT_REFRESH_TOKEN_EXPIRES"] = timedelta(days=30)
-
+# jwt = JWTManager(app)
 
 class Users(db.Model):
     __tablename__ = "users"
@@ -55,6 +59,7 @@ def auth_middleware():
             token = ""
             if "Authorization" in request.headers:
                 token = request.headers["Authorization"].split(" ")[1]
+                # print(request.headers)
             if not token:
                 return {
                     "message": "Authentication Token is missing!", 
@@ -77,7 +82,7 @@ def auth_middleware():
                     "message": "Something went wrong",
                     "data": None,
                     "error": str(e)
-                },
+                }, 500
 
             return f(current_user, *args, **kwargs)
 
@@ -97,7 +102,7 @@ def register():
     else:
         email = False
     if(user_exists):
-        return jsonify({"message":"User is already exists"})
+        return jsonify({"message":"User is already exists"}),409
     elif(len(name)<3 or name == ''):
         return jsonify({"message":"invalid name"})
     elif (email== False):
@@ -118,6 +123,7 @@ def addtodoitem(current_user):
     if(request.method == 'POST'):
         name = request.json['name']
         date = request.json['date']
+        print(todolists.id)
         task_one = Task(name = name, date = date, user_id = current_user.id, todolist_id = todolists.id)
         task_exist = Task.query.filter_by(name = name).first()
         if(task_exist):
@@ -140,6 +146,7 @@ def guest():
     todolist= Todolist.query.filter_by(privacy="public")
     todolists =[]
     for list in todolist:
+    
         todolists.append(dict(name=list.name, user_id = list.id))
     return jsonify(todolists)
 
@@ -174,7 +181,7 @@ def login():
         }, app.config["JWT_SECRET_KEY"], algorithm="HS256")
         return jsonify({"message": "LoggedIn Successfully",
                         "status": True,
-                        "accessToken": accessToken})
+                        "accessToken": accessToken}),200
     return jsonify({"error":"Password is incorrect"}),401
    
 
@@ -188,7 +195,7 @@ def addtodolist(current_user):
         todolist = Todolist(name = name, user_id = current_user.id, privacy = privacy)
         # print (todolist)
         todo_list = Todolist.query.filter_by(name = name).first()
-        if(todo_list and current_user.id == todo_list.id):
+        if(todo_list and current_user.id == todo_list.user_id):
             return jsonify({"error": "Todo List already exists"}),409
         else:
             db.session.add(todolist)
@@ -199,7 +206,8 @@ def addtodolist(current_user):
         todolists = current_user.todolists
         todolists_ = []
         for todolist in todolists:
-            todolists_.append(dict(name = todolist.name, user_id = todolist.user_id ))
+            todolists_.append(dict(name = todolist.name, user_id = todolist.user_id, privacy = todolist.privacy,id = todolist.id))
+
         return jsonify(todolists_)
 
 

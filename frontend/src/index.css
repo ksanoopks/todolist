@@ -116,8 +116,7 @@ code {
   margin: 10px;
 }
 .sidebar{
-  background-color: lightgray;  height: auto;
-  height: 100vh; 
+  background-color: lightgray;  height: auto; 
 }
 .sidebar-bottom-content{
   margin: 55px;
@@ -190,8 +189,7 @@ code {
   font-size: 20px;
   border-right: solid;
   background-color: rgb(121, 121, 121);
-  height: 100vh;
-
+  height:100vh;
 }
 .sidebarcontent-div h3{
   margin-top: 10px;
@@ -296,11 +294,13 @@ code {
 
 .todolist-name {
   text-decoration: none !important;
-  color: black;
+  color: white;
+  margin: 10px;
+  font-weight: 300;
 }
 
 .user-task-table{
-  width: 900px;
+  width: 00px;
   margin-left: auto;
   margin-right: auto;
   margin-top: 40px;
@@ -325,12 +325,157 @@ v{
 }
 .todolist-name-div{
   display: flex;
+  text-align: start;
 }
-.logout-link a{
-  text-decoration: none !important;
-}
+
 .logout-button{
   background-color: Transparent;
   background-repeat:no-repeat;
   border: none; 
 }
+
+.todolist-privacy{
+  font-size: 60%;
+  color:red;
+  padding: 10px;
+  
+}
+
+
+
+
+
+.navbar-div{
+  background-color: rgb(34, 33, 33);
+  
+}
+.navbar-content h1{
+  color: white;
+  margin: 10px;
+  font-weight: bold;
+
+}
+.navbar-content{
+  display: flex;
+}
+.todoicon-div{
+  margin: 10px;
+}
+.usericon-div{
+  text-align: -webkit-center;
+  margin: 15px;
+  display: flex;
+}
+.usericon-btn{
+  margin: 5px
+}
+.usericon-div h3{
+  color: white;
+  margin: 10px;
+}
+.navitem-dropdown{
+  margin: 5px;
+  font-size: 150%;
+}
+.dropdown{
+  font-size: 150%;
+}
+
+
+
+
+
+.dropbtn {
+  color: white;
+  font-size: 16px;
+  border: none;
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border-radius: 100px; 
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: #1976d2;
+}
+.sidebar-div{
+  width: 20%;
+  height: 100vh;
+  background-color: #222121;
+  border-top: 2px solid #1976d2;
+  border-right: 2px solid white;
+}
+.sidebar-heading h2{
+  color: white;
+  text-align: center;
+  margin-top: 30px;
+  font-weight: 100;
+}
+.addtodolist-div h3{
+ color: white;
+ margin: 8px;
+ font-weight: 100;
+
+}
+.addtodolist-div{
+  display: flex;
+  padding: 10px;
+  margin-top: 20px;
+  justify-content: space-around;
+}
+.logout-btn{
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none; 
+  width: 200px;
+  padding: 0px !important;
+}
+.addicon-btn{
+  margin-left: 5px;
+  background-color: Transparent;
+  background-repeat:no-repeat;
+  border: none; 
+ 
+}
+.todolist-privacy{
+  margin-left: 40px;
+}
+.todolist-data-div{
+  display: flex;
+}
+.userpage{
+  padding: 0px !important;
+  
+}
+.userpage-div{
+  display: flex;
+}
+

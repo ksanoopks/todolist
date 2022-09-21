@@ -50,6 +50,8 @@ const Guest = () =>{
                     <table className="table">
                                 <tr>
                             <th>Todo List</th>
+                            <th>Use</th>
+                            
                             </tr>
                         {data.map((item, index) => {
                         return(
@@ -58,7 +60,9 @@ const Guest = () =>{
                         <tr key ={index}>
                         
                             <td>{item.name}</td>
+                            <td>{item.id}</td>
                         </tr>
+                        
                         
 
                    

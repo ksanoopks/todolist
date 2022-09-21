@@ -98,6 +98,13 @@ const Register = () => {
                 // alert
                 // (resp.data.message)
                 // window.location.href='/'
+            }).catch((e)=> {
+                if(e.response.status===409){
+                    swal({text:"User is already exists"}).then(function(){window.location="http://localhost:3000/register";});
+
+                }
+                
+
             })
             
          }
