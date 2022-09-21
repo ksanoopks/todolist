@@ -3,11 +3,12 @@ import axios from "axios";
 import swal from "sweetalert"
 import '../index.css';
 
-const AddTodoItem = () => {
+const AddTodoItem = (id) => {
     const [values, setValues] = useState(
         Object.assign({
             name: '',
             date: '',
+            id: id.id
         })
     )
     const [errors, setErrors] = useState({})
