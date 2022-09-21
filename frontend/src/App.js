@@ -22,8 +22,6 @@ const App= () => {
     <Route path="/register" element={<Register/> }/>
     <Route path="/guest" element={<Guest/> }/>
     <Route path='/users' element ={<Users/>}/>
-        
-    
     <Route path="/todolists" element={<AddTodoList/>}/>
     <Route path="/todoitems" element={<AddTodoItem/>}/>
 
