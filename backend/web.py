@@ -207,9 +207,15 @@ def addtodolist(current_user):
         todolists = current_user.todolists
         todolists_ = []
         for todolist in todolists:
-            todolists_.append(dict(name = todolist.name, user_id = todolist.user_id, privacy = todolist.privacy,id = todolist.id))
+            todolists_.append(dict(name = todolist.name,  user_id = todolist.user_id, privacy = todolist.privacy,id = todolist.id))
         return jsonify(todolists_)
 
 
 
 
+@app.route('/currentuser', methods = ['GET'])
+@auth_middleware()
+def currentuser(current_user):
+    user_name = []
+    user_name.append(dict(user_name = current_user.name, user_id = current_user.id ))
+    return jsonify(user_name)
