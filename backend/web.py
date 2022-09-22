@@ -134,11 +134,6 @@ def addtodoitem(current_user):
             db.session.commit()
             return jsonify({"message":"Task added"}),200
 
-
-# @app.route('/viewtodoitems', methods = ['GET'])
-# @auth_middleware()
-# def viewtodoitem(current_user):
-    print("fdsfdf",id)
     if(request.method == 'GET'):
 
         # id = request.json['id']
@@ -152,12 +147,15 @@ def addtodoitem(current_user):
 
 @app.route('/guest',methods=['GET'])  
 def guest():
-    todolist= Todolist.query.filter_by(privacy="public")
+    todolist = Todolist.query.filter_by(privacy="public")
     todolists =[]
     for list in todolist:
+        todotask = Task.query.filter_by(todolist_id=list.id)
+        for task in todotask:
+            todolists.append(dict(name=list.name, user_id = list.user_id,username=list.user.name,task=task.name))
     
-        todolists.append(dict(name=list.name, user_id = list.id))
     return jsonify(todolists)
+
 
 
 @app.route('/deletetodo',methods=['POST'])
