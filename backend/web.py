@@ -171,7 +171,7 @@ def deletetodolist(current_user):
 def login():
     email = request.json['email']
     password = request.json['password']
-    print(password)
+    # print(password)
     user = Users.query.filter_by(email = email).first()
     if(not user):
         return jsonify({"error":"Email doesn't exist"}),401
@@ -210,6 +210,17 @@ def addtodolist(current_user):
             todolists_.append(dict(name = todolist.name, user_id = todolist.user_id, privacy = todolist.privacy,id = todolist.id))
 
         return jsonify(todolists_)
+
+
+@app.route('/deletetask', methods = ['POST'])
+@auth_middleware()
+def deletetask(current_user):
+    id = request.json['id']
+    task = Task.query.get(id)
+    # task = Task.query.get(id)
+    db.session.delete(task)
+    db.session.commit()
+    return jsonify({"status":True})
 
 
 
