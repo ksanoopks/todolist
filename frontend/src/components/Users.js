@@ -11,7 +11,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AddTodoItem from "./AddTodoItem";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { red } from "@mui/material/colors";
+import { red, yellow } from "@mui/material/colors";
 import { Link } from "react-router-dom";
 import UserContent from "./UserContent";
 
@@ -38,34 +38,48 @@ const customStyles = {
 
 
 const User = () => {
+    const [user, setUser] = useState([])
+    const getUser = () => {
+        axios({
+            method: 'get',
+            url: 'http://127.0.0.1:5000/currentuser',
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("accessToken")
+              }
+        }).then(resp => {
+            console.log("resp" , resp.data)
+            setUser(
+                resp.data
+        )
+            console.log("user", user)
+        })
+    }
 
     
-
-   const getTodoList = () => {
-    axios({
-        method: 'get',
-        url: 'http://127.0.0.1:5000/todolist',
-        headers: {
-            Authorization: "Bearer " + localStorage.getItem("accessToken")
-          }
-    }).then(resp => {
+    
+    const getTodoList = () => {
+        axios({
+            method: 'get',
+            url: 'http://127.0.0.1:5000/todolist',
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("accessToken")
+            }
+            }).then(resp => {
        
-        setData(
-            resp.data
-        )
+            setData(
+                resp.data
+            )
         
-            // setContent(
-            //     resp.data[0]
-            // )
-       
-        
-       console.log( "item", resp.data)
-    })
+                // setContent(
+                //     resp.data[0]
+                // )
+            })
    
-   }
+    }
     const [data, setData] = useState([])
     useEffect(() => {
         getTodoList()
+        getUser()
 
       }, [])
     const deleteClick = (id)=>{
@@ -93,7 +107,6 @@ const User = () => {
                 Authorization: "Bearer " + localStorage.getItem("accessToken")
               }
         }).then(resp => {
-            console.log("response",resp.data)
             setResponse(
                 resp.data
             )
@@ -122,7 +135,7 @@ const User = () => {
                     <div class="dropdown">
                         <button class="dropbtn"><ArrowDropDownIcon sx={{ fontSize: 30 }}/></button>
                         <div class="dropdown-content dropdown-div">
-                            <a href="#"><PersonIcon/> <span>User</span></a>
+                            <a ><PersonIcon/> <span>{user.user_name}</span></a>
                             <button className="logout-btn" onClick={ () => localStorage.clear()}>
                             <a href="/"><LogoutIcon/> <span>Logout</span></a></button>
                         </div>
@@ -154,7 +167,7 @@ const User = () => {
                     return(
                         <tr key = {key}>
                             <td> <a className= {item.id == content.id ? "selected-todolist" : "todolist-name" } onClick = { () => setContent(item)} >{item.name} </a></td>
-                            <td><label className="todolist-privacy">{item.privacy}</label></td>
+                            <td><label className= {item.privacy == "private" ? "todolist-privacy-private" : "todolist-privacy-public"} >{item.privacy}</label></td>
                             <button className="delete-btn"onClick={()=>(deleteClick(item.id))}><DeleteForeverIcon sx={{ color: red[800] }}/></button>
                         </tr>
                     )
