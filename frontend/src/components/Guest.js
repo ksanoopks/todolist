@@ -12,12 +12,13 @@ const Guest = () =>{
             method: 'get',
             url: 'http://127.0.0.1:5000/guest'
         }).then(resp => {
+            console.log(resp.data)
             setData(resp.data)
-            console.log("data",resp.data[0].name)
+            console.log("data",data)
             
         })
       }, [])
-   
+
     const[modalIsOpen, setModalIsOpen] = useState(false)
     const closeModal = () => (
         setModalIsOpen(false)
@@ -50,24 +51,21 @@ const Guest = () =>{
                     <table className="table">
                                 <tr>
                             <th>Todo List</th>
-                            <th>Use</th>
+                            <th>User</th>
+                            <th>Tasks</th>
                             
                             </tr>
-                        {data.map((item, index) => {
-                        return(
-                            // <h1>{item.name}</h1>
+                        {data.map((todolist) =>
                           
-                        <tr key ={index}>
-                        
-                            <td>{item.name}</td>
-                            <td>{item.id}</td>
-                        </tr>
-                        
-                        
-
-                   
-                        )
-                    })}
+                                <tr>
+                                <td>{todolist.name}</td>
+                                <td>{todolist.username}</td>
+                                <td><ul>{todolist.tasks.map((item,index) => {
+                                    return(<ul>{item}</ul>)
+                                })}</ul></td>
+                            </tr>
+                           
+                        )}     
                      </table>
                     </div>
                 </div>
