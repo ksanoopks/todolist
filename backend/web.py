@@ -48,7 +48,7 @@ class Task(db.Model):
     date = db.Column(db.Date)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"),nullable=False)
     todolist_id = db.Column(db.Integer, db.ForeignKey("todolists.id"), nullable=False)
-    status = db.Column(db.String)
+    status = db.Column(db.String,default = "on progress")
     todolist = db.relationship("Todolist", back_populates = "tasks")
 
 
@@ -126,7 +126,7 @@ def addtodoitem(current_user):
         id = request.json['id']
         # print(todolists.id)
         task_one = Task(name = name, date = date, user_id = current_user.id, todolist_id = id)
-        task_exist = Task.query.filter_by(name = name).first()
+        task_exist = Task.query.filter_by(name = name, user_id = current_user.id).first()
         if(task_exist):
             return jsonify({"error":"Task already exists"}),409
         else:
@@ -144,12 +144,16 @@ def addtodoitem(current_user):
 
 @app.route('/guest',methods=['GET'])  
 def guest():
-    todolist= Todolist.query.filter_by(privacy="public")
-    todolists =[]
-    for list in todolist:
-    
-        todolists.append(dict(name=list.name, user_id = list.id))
-    return jsonify(todolists)
+    todolists = Todolist.query.filter_by(privacy="public").all()
+    public_todolists = []
+    for todolist  in todolists:
+        tasks = Task.query.filter_by(todolist_id=todolist.id)
+        publiclist_element = []
+        for task in tasks:
+        # print(tasks.name)
+            publiclist_element.append(dict(name=todolist.name, user_id = todolist.user_id, user_name = todolist.user.name, tasks = task.name))
+        public_todolists.append(publiclist_element)   
+    return jsonify(public_todolists)
 
 
 @app.route('/deletetodo',methods=['POST'])
