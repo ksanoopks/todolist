@@ -146,15 +146,12 @@ def addtodoitem(current_user):
 def guest():
     todolists = Todolist.query.filter_by(privacy="public").all()
     public_todolists = []
-    for todolist  in todolists:
-        tasks = Task.query.filter_by(todolist_id=todolist.id)
-        publiclist_element = []
-        for task in tasks:
-        # print(tasks.name)
-            publiclist_element.append(dict(name=todolist.name, user_id = todolist.user_id, user_name = todolist.user.name, tasks = task.name))
-        public_todolists.append(publiclist_element)   
+    for todolist in todolists:
+        tasks = []
+        for task in todolist.tasks:
+            tasks.append(task.name)
+        public_todolists.append(dict(name=todolist.name, username=todolist.user.name, tasks=tasks))
     return jsonify(public_todolists)
-
 
 @app.route('/deletetodo',methods=['POST'])
 @auth_middleware()
