@@ -12,7 +12,6 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import AddTodoItem from "./AddTodoItem";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { red, yellow } from "@mui/material/colors";
-import { Link } from "react-router-dom";
 import UserContent from "./UserContent";
 
 
@@ -40,6 +39,7 @@ const customStyles = {
 const User = () => {
     const [user, setUser] = useState([])
     const getUser = () => {
+
         axios({
             method: 'get',
             url: 'http://127.0.0.1:5000/currentuser',
@@ -50,13 +50,9 @@ const User = () => {
             console.log("resp" , resp.data)
             setUser(
                 resp.data
-        )
-            console.log("user", user)
+                )
         })
     }
-
-    
-    
     const getTodoList = () => {
         axios({
             method: 'get',
@@ -69,10 +65,9 @@ const User = () => {
             setData(
                 resp.data
             )
-        
-                // setContent(
-                //     resp.data[0]
-                // )
+                if(resp.data.length > 0) {
+                    setContent(resp.data[0])
+                }
             })
    
     }
@@ -80,7 +75,6 @@ const User = () => {
     useEffect(() => {
         getTodoList()
         getUser()
-
       }, [])
     const deleteClick = (id)=>{
         axios ({
@@ -94,24 +88,23 @@ const User = () => {
             if(resp.data.status == true){
                 getTodoList()
             }
-            console.log("resp", resp.data)
         })
-    }
+    } 
 
-    const [response, setResponse] = useState([])
-    useEffect(() => {
-        axios({
-            method: 'get',
-            url: 'http://127.0.0.1:5000/addtodoitems',
-            headers: {
-                Authorization: "Bearer " + localStorage.getItem("accessToken")
-              }
-        }).then(resp => {
-            setResponse(
-                resp.data
-            )
-        })
-    },[])
+    // const [response, setResponse] = useState([])
+    // useEffect(() => {
+    //     axios({
+    //         method: 'get',
+    //         url: 'http://127.0.0.1:5000/addtodoitems',
+    //         headers: {
+    //             Authorization: "Bearer " + localStorage.getItem("accessToken")
+    //           }
+    //     }).then(resp => {
+    //         setResponse(
+    //             resp.data
+    //         )
+    //     })
+    // },[])
     
    
     const[modalIsOpen, setModalIsOpen] = useState(false)
@@ -177,7 +170,9 @@ const User = () => {
             </div> 
     </div>
     <div className="content-div">
-    <UserContent taskDetails={content}/>
+        {console.log("cc", content)}
+        {content ? <UserContent taskDetails={content}/> : null}
+    
     </div>
     </div>
 
