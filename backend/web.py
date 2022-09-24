@@ -246,3 +246,24 @@ def viewtodoitem(current_user):
     for task in tasks:
         task_.append(dict(name = task.name, date = task.date, status = task.status ,todolist_id=task.todolist_id))
     return jsonify(task_)
+
+
+@app.route('/finishtodoitems', methods = ['POST'])
+@auth_middleware()
+def finishedtask(current_user):
+    if(request.method=="POST"):
+        id = request.json['id']
+        status=request.json['status']
+        task = Task.query.filter_by(id = id).first()
+        task.status=status
+        db.session.commit()
+        
+    return jsonify({'message':"privacy updated"})
+
+
+
+    
+    
+            
+    
+        
