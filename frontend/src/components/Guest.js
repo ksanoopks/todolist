@@ -3,6 +3,7 @@ import '../index.css'
 import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
 import axios from "axios";
+import { textAlign } from "@mui/system";
 
 const Guest = () =>{
 
@@ -48,13 +49,14 @@ const Guest = () =>{
                 </div>
                 <div className="col content-bar">
                     <div className="container table-div">
-                    <table className="table">
+                    <table className="guest-table">
                                 <tr>
                             <th>Todo List</th>
                             <th>User</th>
                             <th>Tasks</th>
                             
                             </tr>
+                            {console.log(data)}
                         {data.map((todolist) =>
                           
                                 <tr>
