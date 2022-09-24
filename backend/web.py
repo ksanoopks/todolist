@@ -225,3 +225,14 @@ def currentuser(current_user):
     user_name = []
     user_name.append(dict(user_name = current_user.name, user_id = current_user.id ))
     return jsonify(user_name)
+
+
+@app.route('/viewtodoitems', methods = ['GET'])
+@auth_middleware()
+def viewtodoitem(current_user):
+    id = request.args['id']
+    tasks = Task.query.filter_by(todolist_id= id)
+    task_ = []
+    for task in tasks:
+        task_.append(dict(name = task.name, date = task.date, status = task.status ,todolist_id=task.todolist_id))
+    return jsonify(task_)
