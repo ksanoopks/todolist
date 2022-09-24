@@ -22,7 +22,7 @@ const App= () => {
     <Route path="/guest" element={<Guest/> }/>
     <Route path='/users' element ={<Users/>}/>
     <Route path="/addtodolist" element={<AddTodoList/>}/>
-    <Route path="/addtodoitem" element={<AddTodoItem/>}/>
+    <Route path="/addtodoitem/:id" element={<AddTodoItem/>}/>
 
 
     </Routes>

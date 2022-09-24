@@ -119,11 +119,11 @@ def register():
 @app.route('/addtodoitems', methods = ['POST','GET'])
 @auth_middleware()
 def addtodoitem(current_user):
-    todolists = Todolist.query.get(current_user.id)
+    id = request.json['id']
     if(request.method == 'POST'):
         name = request.json['name']
         date = request.json['date']
-        id = request.json['id']
+        
         # print(todolists.id)
         task_one = Task(name = name, date = date, user_id = current_user.id, todolist_id = id)
         task_exist = Task.query.filter_by(name = name, user_id = current_user.id).first()
@@ -133,9 +133,12 @@ def addtodoitem(current_user):
             db.session.add(task_one)
             db.session.commit()
             return jsonify({"message":"Task added"}),200
-    
+
     if(request.method == 'GET'):
-        tasks = todolists.tasks
+
+        # id = request.json['id']
+        print(id)
+        tasks = Task.query.filter_by(todolist_id=id)
         task_ = []
         for task in tasks:
             task_.append(dict(name = task.name, date = task.date, status = task.status))
@@ -152,6 +155,7 @@ def guest():
             tasks.append(task.name)
         public_todolists.append(dict(name=todolist.name, username=todolist.user.name, tasks=tasks))
     return jsonify(public_todolists)
+
 
 @app.route('/deletetodo',methods=['POST'])
 @auth_middleware()
@@ -194,7 +198,7 @@ def addtodolist(current_user):
     if(request.method == 'POST'):
         name = request.json['name']
         privacy = request.json['privacy']
-        todolist = Todolist(name = name, user_id = current_user.id, privacy = privacy)
+        todolist = Todolist(name = name, user_id = current_user.id, privacy = privacy )
         # print (todolist)
         todo_list = Todolist.query.filter_by(name = name).first()
         if(todo_list and current_user.id == todo_list.user_id):
