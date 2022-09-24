@@ -126,7 +126,7 @@ def addtodoitem(current_user):
         
         # print(todolists.id)
         task_one = Task(name = name, date = date, user_id = current_user.id, todolist_id = id)
-        task_exist = Task.query.filter_by(name = name, user_id = current_user.id).first()
+        task_exist = Task.query.filter_by(name = name, user_id = current_user.id, todolist_id=id).first()
         if(task_exist):
             return jsonify({"error":"Task already exists"}),409
         else:
