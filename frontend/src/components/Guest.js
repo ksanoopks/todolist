@@ -3,6 +3,7 @@ import '../index.css'
 import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
 import axios from "axios";
+import { textAlign } from "@mui/system";
 
 const Guest = () =>{
 
@@ -12,12 +13,13 @@ const Guest = () =>{
             method: 'get',
             url: 'http://127.0.0.1:5000/guest'
         }).then(resp => {
+            console.log(resp.data)
             setData(resp.data)
-            console.log("data",resp.data[0].name)
+            console.log("data",data)
             
         })
       }, [])
-   
+
     const[modalIsOpen, setModalIsOpen] = useState(false)
     const closeModal = () => (
         setModalIsOpen(false)
@@ -47,32 +49,25 @@ const Guest = () =>{
                 </div>
                 <div className="col content-bar">
                     <div className="container table-div">
-                    <table className="table">
+                    <table className="guest-table">
                                 <tr>
                             <th>Todo List</th>
-                            <th>User name</th>
-                            <th>Task name</th>
+                            <th>User</th>
+                            <th>Tasks</th>
                             
                             </tr>
-                        {data.map((item, index) => {
-                        return(
-                            // <h1>{item.name}</h1>
+                            {console.log(data)}
+                        {data.map((todolist) =>
                           
-                        <tr key ={index}>
-                            <td>{item.name}</td>
-                            <td>{item.username}</td>
-                            <td>{item.task}</td>
-                        
-                            
-                        
-                            
-                        </tr>
-                        
-                        
-
-                   
-                        )
-                    })}
+                                <tr>
+                                <td>{todolist.name}</td>
+                                <td>{todolist.username}</td>
+                                <td><ul>{todolist.tasks.map((item,index) => {
+                                    return(<ul>{item}</ul>)
+                                })}</ul></td>
+                            </tr>
+                           
+                        )}     
                      </table>
                     </div>
                 </div>

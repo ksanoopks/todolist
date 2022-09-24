@@ -48,7 +48,7 @@ class Task(db.Model):
     date = db.Column(db.Date)
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"),nullable=False)
     todolist_id = db.Column(db.Integer, db.ForeignKey("todolists.id"), nullable=False)
-    status = db.Column(db.String)
+    status = db.Column(db.String,default = "on progress")
     todolist = db.relationship("Todolist", back_populates = "tasks")
 
 
@@ -126,7 +126,7 @@ def addtodoitem(current_user):
         
         # print(todolists.id)
         task_one = Task(name = name, date = date, user_id = current_user.id, todolist_id = id)
-        task_exist = Task.query.filter_by(name = name).first()
+        task_exist = Task.query.filter_by(name = name, user_id = current_user.id).first()
         if(task_exist):
             return jsonify({"error":"Task already exists"}),409
         else:
@@ -147,15 +147,14 @@ def addtodoitem(current_user):
 
 @app.route('/guest',methods=['GET'])  
 def guest():
-    todolist = Todolist.query.filter_by(privacy="public")
-    todolists =[]
-    for list in todolist:
-        todotask = Task.query.filter_by(todolist_id=list.id)
-        for task in todotask:
-            todolists.append(dict(name=list.name, user_id = list.user_id,username=list.user.name,task=task.name))
-    
-    return jsonify(todolists)
-
+    todolists = Todolist.query.filter_by(privacy="public").all()
+    public_todolists = []
+    for todolist in todolists:
+        tasks = []
+        for task in todolist.tasks:
+            tasks.append(task.name)
+        public_todolists.append(dict(name=todolist.name, username=todolist.user.name, tasks=tasks))
+    return jsonify(public_todolists)
 
 
 @app.route('/deletetodo',methods=['POST'])
@@ -177,7 +176,7 @@ def deletetodolist(current_user):
 def login():
     email = request.json['email']
     password = request.json['password']
-    print(password)
+    # print(password)
     user = Users.query.filter_by(email = email).first()
     if(not user):
         return jsonify({"error":"Email doesn't exist"}),401
@@ -215,6 +214,17 @@ def addtodolist(current_user):
         for todolist in todolists:
             todolists_.append(dict(name = todolist.name,  user_id = todolist.user_id, privacy = todolist.privacy,id = todolist.id))
         return jsonify(todolists_)
+
+
+@app.route('/deletetask', methods = ['POST'])
+@auth_middleware()
+def deletetask(current_user):
+    id = request.json['id']
+    task = Task.query.get(id)
+    # task = Task.query.get(id)
+    db.session.delete(task)
+    db.session.commit()
+    return jsonify({"status":True})
 
 
 

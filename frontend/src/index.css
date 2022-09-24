@@ -394,7 +394,6 @@ v{
 
 
 
-
 .dropbtn {
   color: white;
   font-size: 16px;
@@ -497,9 +496,19 @@ v{
 .dropdown-div{
   font-size: medium !important;
   width: 160px !important;
- 
-
 }
+ 
+.guest-table th{
+ background-color: #afaeae;
+ width: 2800px;
+ height: 30px;
+ border-bottom: 2px solid white;
+}
+.guest-table td{
+  background-color: #cecccc;
+  border-bottom: 2px solid white;
+}
+
 .todolist-name-link{
   text-decoration: none;
 }
