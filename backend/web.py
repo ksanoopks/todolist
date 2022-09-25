@@ -126,7 +126,7 @@ def addtodoitem(current_user):
         
         # print(todolists.id)
         task_one = Task(name = name, date = date, user_id = current_user.id, todolist_id = id)
-        task_exist = Task.query.filter_by(name = name, user_id = current_user.id, todolist_id=id).first()
+        task_exist = Task.query.filter_by(name = name, user_id = current_user.id, todolist_id=id, date=date).first()
         if(task_exist):
             return jsonify({"error":"Task already exists"}),409
         else:
@@ -134,16 +134,7 @@ def addtodoitem(current_user):
             db.session.commit()
             return jsonify({"message":"Task added"}),200
 
-    # if(request.method == 'GET'):
-
-    #     # id = request.json['id']
-    #     print(id)
-    #     tasks = Task.query.filter_by(todolist_id=id)
-    #     task_ = []
-    #     for task in tasks:
-    #         task_.append(dict(name = task.name, date = task.date, status = task.status))
-    #     return jsonify(task_)
-
+   
 
 @app.route('/guest',methods=['GET'])  
 def guest():

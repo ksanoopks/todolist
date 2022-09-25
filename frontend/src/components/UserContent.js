@@ -68,6 +68,7 @@ const UserContent = ({ taskDetails }) => {
               }
     }).then(resp => {
         if(resp.data.status == true){
+          getTask()
             
         }
     })
@@ -84,7 +85,7 @@ const UserContent = ({ taskDetails }) => {
         console.log("resptasks",resp.data)
 
         setTasks(resp.data)
-        getTask()
+        
       }
     )
   }
@@ -138,7 +139,7 @@ const UserContent = ({ taskDetails }) => {
     </tr>
   </thead>
   {tasks && tasks.map((item, key) => {
-          if(item.status=="on progress" || item.status=="On progress"){
+          if(item.status=="on progress"){
             return(
               <tr style={{backgroundColor:"Highlight"}} key={key}>
               <td>{item.date}</td>
