@@ -220,13 +220,12 @@ def addtodolist(current_user):
 @auth_middleware()
 def deletetask(current_user):
     id = request.json['id']
+    # print(id)
     task = Task.query.get(id)
     # task = Task.query.get(id)
     db.session.delete(task)
     db.session.commit()
     return jsonify({"status":True})
-
-
 
 
 @app.route('/currentuser', methods = ['GET'])
@@ -244,5 +243,5 @@ def viewtodoitem(current_user):
     tasks = Task.query.filter_by(todolist_id= id)
     task_ = []
     for task in tasks:
-        task_.append(dict(name = task.name, date = task.date, status = task.status ,todolist_id=task.todolist_id))
+        task_.append(dict(id = task.id, name = task.name, date = task.date, status = task.status ,todolist_id=task.todolist_id))
     return jsonify(task_)
