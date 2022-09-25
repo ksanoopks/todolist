@@ -60,7 +60,6 @@ def auth_middleware():
             token = ""
             if "Authorization" in request.headers:
                 token = request.headers["Authorization"].split(" ")[1]
-                # print(request.headers)
             if not token:
                 return {
                     "message": "Authentication Token is missing!", 
@@ -69,7 +68,6 @@ def auth_middleware():
                 }, 401
             try:
                 data=jwt.decode(token, app.config["JWT_SECRET_KEY"], algorithms=["HS256"])
-                # print(data)
                 current_user=Users.query.get(data["user_id"])
                 if current_user is None:
                     return {
@@ -125,7 +123,6 @@ def addtodoitem(current_user):
         name = request.json['name']
         date = request.json['date']
         formated_date=datetime.strptime(date,'%Y-%m-%d')
-        print(date)
         task_one = Task(name = name, date = date, user_id = current_user.id, todolist_id = id)
         task_exist = Task.query.filter_by(name = name, user_id = current_user.id, todolist_id=id, date=formated_date).first()
         if(task_exist):
@@ -157,7 +154,6 @@ def deletetodolist(current_user):
     if request.method == 'POST':
         id= request.json['id']
         todo = Todolist.query.get(id)
-        # print("idfffffffff",id)
         tasks = Task.query.filter_by(todolist_id=id).all()
         for task in tasks:
             db.session.delete(task)
@@ -170,7 +166,6 @@ def deletetodolist(current_user):
 def login():
     email = request.json['email']
     password = request.json['password']
-    # print(password)
     user = Users.query.filter_by(email = email).first()
     if(not user):
         return jsonify({"error":"Email doesn't exist"}),401
@@ -212,7 +207,6 @@ def addtodolist(current_user):
 @auth_middleware()
 def deletetask(current_user):
     id = request.json['id']
-    # print(id)
     task = Task.query.get(id)
     # task = Task.query.get(id)
     db.session.delete(task)
@@ -236,7 +230,8 @@ def viewtodoitem(current_user):
     task_ = []
     for task in tasks:
         if(task.date<today_date):
-            task.status="Pending"
+            if(task.status != "Finished"):
+                task.status="Pending"
             db.session.commit()
             task_.append(dict(name = task.name, date = task.date, status = task.status,todolist_id=task.todolist_id,id=task.id))
         else:

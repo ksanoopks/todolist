@@ -9,7 +9,6 @@ import {red} from "@mui/material/colors";
 
 
 
-
 const customStyles = {
   content: {
     top: '50%',
@@ -29,7 +28,7 @@ const customStyles = {
 
 const UserContent = ({ taskDetails }) => {
   const [tasks, setTasks] = useState()
-  console.log("tasks",tasks)
+  // console.log("tasks",tasks.name)
 
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const closeModal = () => (
@@ -49,7 +48,7 @@ const UserContent = ({ taskDetails }) => {
         }
       }).then(resp => {
         console.log("data",resp.data)
-        console.log("tasks",resp.data.tasks)
+        // console.log("tasks",resp.data.tasks)
         setTasks(
           resp.data
         )
@@ -70,6 +69,7 @@ const UserContent = ({ taskDetails }) => {
         if(resp.data.status == true){
           getTask()
             
+  
         }
     })
 } 
@@ -106,6 +106,10 @@ const UserContent = ({ taskDetails }) => {
       }
     )
   }
+  const getDate = (dateString) => {
+    let date = new Date(dateString)
+    return `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`
+  }
 
   return (
     <div className='align-items-center justify-content-center'>
@@ -128,66 +132,69 @@ const UserContent = ({ taskDetails }) => {
         style={customStyles}>
         <AddTodoItem id={taskDetails.id} />
       </Modal>
-      <div className='table-wrapper'>
-      <table className="table">
-  <thead>
-    <tr>
-      <th >Date</th>
-      <th >Task Name</th>
-      {/* <th >Status</th> */}
-      <th >Action</th>
-    </tr>
-  </thead>
-  {tasks && tasks.map((item, key) => {
-    
-          if(item.status=="on progress"){
-            return(
-              <tr style={{backgroundColor:"Highlight"}} key={key}>
-              <td>{item.date}</td>
-              <td>{item.name}</td>
-              
-              <button  class="btn btn-danger" onClick={()=>(deletetask(item.id))}>Delete</button>
-              <button  class="btn btn-success" onClick={()=>(finishClick(item.id))}>Finish</button>
-              </tr>
-            )
-          }
-          else if(item.status=="Pending"){
-            return(
-              <tr style={{backgroundColor:"red"}} key={key}>
-              <td>{item.date}</td>
-              <td>{item.name}</td>
-              
-              <button  class="btn btn-danger" onClick={()=>(deletetask(item.id))}>Delete</button>
-              <button  class="btn btn-success" onClick={()=>(finishClick(item.id))}>Finish</button>
-              </tr>
-            )
 
-          }
-          else{return(
-            <tr style ={{textDecoration:"line-through", backgroundColor:"#45B39D" }} key={key}>
-            <td>{item.date}</td>
-            <td>{item.name}</td>
-            {/* <td>{item.status}</td> */}
-            </tr>
-          )}
-
-          console.log("hi amoop")
-          // return (
-  
-          //       <tr key={key}>
-                
-              
-
-          //     </tr>
-          
-          // )
-        })}
-</table>
+ <div className='table-wrapper'>
+ <table className="table">
+<thead>
+<tr>
+ <th >Date</th>
+ <th >Task Name</th>
+ {/* <th >Status</th> */}
+ <th >Action</th>
+</tr>
+</thead>
+{tasks && tasks.map((item, key) => {
+  // console.log("tasks",tasks)
+  // console.log("date",new Date(item.date).toLocaleString().split(","))
+     if(item.status=="on progress"){
+       return(
+         <tr style={{backgroundColor:"Highlight"}} key={key}>
+         <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
+         <td>{item.name}</td>
+         
+         <button  class="btn btn-danger" onClick={()=>(deletetask(item.id))}>Delete</button>
+         <button  class="btn btn-success" onClick={()=>(finishClick(item.id))}>Finish</button>
+         </tr>
+       )
+     }
+     if(item.status=="Pending"){
+      return(
+        <tr style={{backgroundColor:"Red"}} key={key}>
+        <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
+        <td>{item.name}</td>
         
+        <button  class="btn btn-danger" onClick={()=>(deletetask(item.id))}>Delete</button>
+        <button  class="btn btn-success" onClick={()=>(finishClick(item.id))}>Finish</button>
+        </tr>
+      )
+    }
+     else{return(
+       <tr style ={{textDecoration:"line-through", backgroundColor:"#45B39D" }} key={key}>
+       <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
+       <td>{item.name}</td>
+       </tr>
+     )}
+
+     console.log("hi amoop")
+     // return (
+
+     //       <tr key={key}>
+           
+         
+
+     //     </tr>
+     
+     // )
+   })}
+</table>
+   
+ 
+ </div>
       
-      </div>
+     
     </div>
   )
 }
 
 export default UserContent
+
