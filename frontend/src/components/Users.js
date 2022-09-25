@@ -61,7 +61,6 @@ const User = () => {
                 Authorization: "Bearer " + localStorage.getItem("accessToken")
             }
             }).then(resp => {
-       
             setData(
                 resp.data
             )
@@ -86,6 +85,7 @@ const User = () => {
                   }
         }).then(resp => {
             if(resp.data.status == true){
+                console.log("status",resp.data.status)
                 getTodoList()
             }
         })

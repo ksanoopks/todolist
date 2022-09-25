@@ -4,7 +4,10 @@ import AddIcon from '@mui/icons-material/Add';
 import AddTodoItem from './AddTodoItem';
 import Modal from 'react-modal';
 import axios from 'axios';
-import { FormatUnderlined } from '@mui/icons-material';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import {red} from "@mui/material/colors";
+
+
 
 
 const customStyles = {
@@ -26,18 +29,17 @@ const customStyles = {
 
 const UserContent = ({ taskDetails }) => {
   const [tasks, setTasks] = useState()
-  // const id = taskDetails.id
-  // console.log("id", id)
+  console.log("tasks",tasks)
 
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const closeModal = () => (
     setModalIsOpen(false)
   )
+  // let id = data.id
   // console.log("id", taskDetails.id)
 
-  useEffect(() => {
-    console.log('hits')
-    console.log('dfdf', taskDetails)
+  useEffect(() => {    
+    console.log('taskDeatails', taskDetails)
     if (taskDetails && taskDetails.id) {
       axios({
         method: 'get',
@@ -46,11 +48,13 @@ const UserContent = ({ taskDetails }) => {
           Authorization: "Bearer " + localStorage.getItem("accessToken")
         }
       }).then(resp => {
-        console.log("tasks", resp.data)
+        console.log("data",resp.data)
+        console.log("tasks",resp.data.tasks)
         setTasks(
           resp.data
         )
       })
+      getTask()
 
     }
   }, [taskDetails])
@@ -68,6 +72,39 @@ const UserContent = ({ taskDetails }) => {
         }
     })
 } 
+
+
+  const getTask = () => {
+    axios({
+      method:'get',
+      url: `http://127.0.0.1:5000/viewtodoitems?id=${taskDetails.id}`,
+      headers:{Authorization: "Bearer " + localStorage.getItem("accessToken")}
+    }).then(
+      resp => {
+        console.log("resptasks",resp.data)
+
+        setTasks(resp.data)
+        getTask()
+      }
+    )
+  }
+ 
+
+  const deletetask = (id) => {
+    axios({
+      method:'post',
+      url:'http://127.0.0.1:5000/deletetask',
+      data:{id},
+      headers:{Authorization: "Bearer " + localStorage.getItem("accessToken")}
+    }).then(
+      resp => {
+        console.log("true",resp.data.name)
+        if (resp.data.status == true){
+          getTask()
+        }
+      }
+    )
+  }
 
   return (
     <div className='align-items-center justify-content-center'>
@@ -106,9 +143,8 @@ const UserContent = ({ taskDetails }) => {
               <tr style={{backgroundColor:"Highlight"}} key={key}>
               <td>{item.date}</td>
               <td>{item.name}</td>
-              {/* <td>{item.status}</td> */}
-              {/* <td><button onClick={()=>(finishClick(item.id))}>Done</button></td> */}
-              {/* <td><button onClick={()=>(TaskDeleteClick(item.id))}>Delete</button></td> */}
+              
+              <button  class="btn btn-danger" onClick={()=>(deletetask(item.id))}>Delete</button>
               <button  class="btn btn-success" onClick={()=>(finishClick(item.id))}>Finish</button>
               </tr>
             )
