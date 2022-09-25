@@ -139,6 +139,7 @@ const UserContent = ({ taskDetails }) => {
     </tr>
   </thead>
   {tasks && tasks.map((item, key) => {
+    
           if(item.status=="on progress"){
             return(
               <tr style={{backgroundColor:"Highlight"}} key={key}>
@@ -149,6 +150,18 @@ const UserContent = ({ taskDetails }) => {
               <button  class="btn btn-success" onClick={()=>(finishClick(item.id))}>Finish</button>
               </tr>
             )
+          }
+          else if(item.status=="Pending"){
+            return(
+              <tr style={{backgroundColor:"red"}} key={key}>
+              <td>{item.date}</td>
+              <td>{item.name}</td>
+              
+              <button  class="btn btn-danger" onClick={()=>(deletetask(item.id))}>Delete</button>
+              <button  class="btn btn-success" onClick={()=>(finishClick(item.id))}>Finish</button>
+              </tr>
+            )
+
           }
           else{return(
             <tr style ={{textDecoration:"line-through", backgroundColor:"#45B39D" }} key={key}>
