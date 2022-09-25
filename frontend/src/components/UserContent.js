@@ -4,6 +4,7 @@ import AddIcon from '@mui/icons-material/Add';
 import AddTodoItem from './AddTodoItem';
 import Modal from 'react-modal';
 import axios from 'axios';
+import { FormatUnderlined } from '@mui/icons-material';
 
 
 const customStyles = {
@@ -53,9 +54,23 @@ const UserContent = ({ taskDetails }) => {
 
     }
   }, [taskDetails])
+  const finishClick = (id)=>{
+    axios ({
+        method: 'post',
+            url: 'http://127.0.0.1:5000/finishedtask',
+            data: {id},
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("accessToken")
+              }
+    }).then(resp => {
+        if(resp.data.status == true){
+            
+        }
+    })
+} 
 
   return (
-    <div>UserConent
+    <div className='align-items-center justify-content-center'>
       <div className="additem-div">
         <h3><ul>Add A Task</ul></h3>
         <div className="additem-btn-div">
@@ -63,11 +78,9 @@ const UserContent = ({ taskDetails }) => {
         </div>
       </div>
       <table>
+        
         <tr>
-          <th>name</th>
-        </tr>
-        <tr>
-          <td>{taskDetails.name}</td>
+          <td><h1>{taskDetails.name}</h1></td>
 
         </tr>
       </table>
@@ -77,28 +90,51 @@ const UserContent = ({ taskDetails }) => {
         style={customStyles}>
         <AddTodoItem id={taskDetails.id} />
       </Modal>
-      <div>
-      <table >
-              <tr >
-                <th>date</th>
-                <th>Name</th>
-                
-
+      <div className='table-wrapper'>
+      <table className="table">
+  <thead>
+    <tr>
+      <th >Date</th>
+      <th >Task Name</th>
+      {/* <th >Status</th> */}
+      <th >Action</th>
+    </tr>
+  </thead>
+  {tasks && tasks.map((item, key) => {
+          if(item.status=="on progress" || item.status=="On progress"){
+            return(
+              <tr style={{backgroundColor:"Highlight"}} key={key}>
+              <td>{item.date}</td>
+              <td>{item.name}</td>
+              {/* <td>{item.status}</td> */}
+              {/* <td><button onClick={()=>(finishClick(item.id))}>Done</button></td> */}
+              {/* <td><button onClick={()=>(TaskDeleteClick(item.id))}>Delete</button></td> */}
+              <button  class="btn btn-success" onClick={()=>(finishClick(item.id))}>Finish</button>
               </tr>
-        {tasks && tasks.map((item, key) => {
-          return (
+            )
+          }
+          else{return(
+            <tr style ={{textDecoration:"line-through", backgroundColor:"#45B39D" }} key={key}>
+            <td>{item.date}</td>
+            <td>{item.name}</td>
+            {/* <td>{item.status}</td> */}
+            </tr>
+          )}
 
-            
-              <tr key={key}>
-                <td>{item.date}</td>
-                <td>{item.name}</td>
+          console.log("hi amoop")
+          // return (
+  
+          //       <tr key={key}>
+                
               
 
-              </tr>
+          //     </tr>
           
-          )
+          // )
         })}
-          </table>
+</table>
+        
+      
       </div>
     </div>
   )

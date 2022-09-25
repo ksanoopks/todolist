@@ -238,6 +238,7 @@ code {
 }
 .content-div{
   text-align: center;
+  margin-left: 100px;
 
   width: auto;
 }
