@@ -1,4 +1,4 @@
-from datetime import datetime,timedelta
+from datetime import timedelta,date,datetime
 from email.policy import default
 from flask import Flask,request,jsonify,flash
 from flask_sqlalchemy import SQLAlchemy
@@ -51,7 +51,7 @@ class Task(db.Model):
     status = db.Column(db.String,default = "on progress")
     todolist = db.relationship("Todolist", back_populates = "tasks")
 
-
+today = datetime.today()
 def auth_middleware():
     def token_required(f):
         @wraps(f)
@@ -123,12 +123,14 @@ def addtodoitem(current_user):
     if(request.method == 'POST'):
         name = request.json['name']
         date = request.json['date']
-        
-        # print(todolists.id)
+        formated_date=datetime.strptime(date,'%Y-%m-%d')
+        print(date)
         task_one = Task(name = name, date = date, user_id = current_user.id, todolist_id = id)
-        task_exist = Task.query.filter_by(name = name, user_id = current_user.id, todolist_id=id, date=date).first()
+        task_exist = Task.query.filter_by(name = name, user_id = current_user.id, todolist_id=id, date=formated_date).first()
         if(task_exist):
             return jsonify({"error":"Task already exists"}),409
+        elif(formated_date<today):
+            return jsonify({"error":"add task"}),408
         else:
             db.session.add(task_one)
             db.session.commit()
@@ -247,7 +249,7 @@ def finishedtask(current_user):
         task_finished.status="Finished"
         db.session.commit()
         
-    return jsonify({'message':"privacy updated"}),200
+    return jsonify({"status": True})
 
 
 
