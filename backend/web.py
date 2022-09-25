@@ -52,6 +52,7 @@ class Task(db.Model):
     todolist = db.relationship("Todolist", back_populates = "tasks")
 
 today = datetime.today()
+today_date=date.today()
 def auth_middleware():
     def token_required(f):
         @wraps(f)
@@ -187,12 +188,10 @@ def login():
 @app.route('/todolist', methods = ['POST', 'GET'])
 @auth_middleware()
 def addtodolist(current_user):
-    # print(current_user)
     if(request.method == 'POST'):
         name = request.json['name']
         privacy = request.json['privacy']
         todolist = Todolist(name = name, user_id = current_user.id, privacy = privacy )
-        # print (todolist)
         todo_list = Todolist.query.filter_by(name = name).first()
         if(todo_list and current_user.id == todo_list.user_id):
             return jsonify({"error": "Todo List already exists"}),409
@@ -236,7 +235,13 @@ def viewtodoitem(current_user):
     tasks = Task.query.filter_by(todolist_id= id)
     task_ = []
     for task in tasks:
-        task_.append(dict(name = task.name, date = task.date, status = task.status ,todolist_id=task.todolist_id,id=task.id))
+        if(task.date<today_date):
+            task.status="Pending"
+            db.session.commit()
+            task_.append(dict(name = task.name, date = task.date, status = task.status,todolist_id=task.todolist_id,id=task.id))
+        else:
+            task_.append(dict(name = task.name, date = task.date, status = task.status ,todolist_id=task.todolist_id,id=task.id))   
+        # task_.append(dict(name = task.name, date = task.date, status = task.status ,todolist_id=task.todolist_id,id=task.id))
     return jsonify(task_)
 
 
