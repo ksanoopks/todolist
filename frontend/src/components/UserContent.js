@@ -68,6 +68,7 @@ const UserContent = ({ taskDetails }) => {
     }).then(resp => {
         if(resp.data.status == true){
           getTask()
+            
   
         }
     })
@@ -84,6 +85,7 @@ const UserContent = ({ taskDetails }) => {
         console.log("resptasks",resp.data)
 
         setTasks(resp.data)
+        
       }
     )
   }
@@ -142,8 +144,8 @@ const UserContent = ({ taskDetails }) => {
 </tr>
 </thead>
 {tasks && tasks.map((item, key) => {
-  console.log("tasks",tasks)
-  console.log("date",new Date(item.date).toLocaleString().split(","))
+  // console.log("tasks",tasks)
+  // console.log("date",new Date(item.date).toLocaleString().split(","))
      if(item.status=="on progress"){
        return(
          <tr style={{backgroundColor:"Highlight"}} key={key}>
@@ -155,11 +157,21 @@ const UserContent = ({ taskDetails }) => {
          </tr>
        )
      }
+     if(item.status=="Pending"){
+      return(
+        <tr style={{backgroundColor:"Red"}} key={key}>
+        <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
+        <td>{item.name}</td>
+        
+        <button  class="btn btn-danger" onClick={()=>(deletetask(item.id))}>Delete</button>
+        <button  class="btn btn-success" onClick={()=>(finishClick(item.id))}>Finish</button>
+        </tr>
+      )
+    }
      else{return(
        <tr style ={{textDecoration:"line-through", backgroundColor:"#45B39D" }} key={key}>
-       <td>{item.date}</td>
+       <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
        <td>{item.name}</td>
-       {/* <td>{item.status}</td> */}
        </tr>
      )}
 
