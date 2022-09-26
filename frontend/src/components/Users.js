@@ -37,22 +37,23 @@ const customStyles = {
 
 
 const User = () => {
+    useEffect(() => {
+            axios({
+                method: 'get',
+                url: 'http://127.0.0.1:5000/currentuser',
+                headers: {
+                    Authorization: "Bearer " + localStorage.getItem("accessToken")
+                  }
+            }).then(resp => {
+                console.log("user" , resp.data)
+                setUser(
+                    resp.data
+                    )
+                    console.log("userrrrrr" , user)
+            })
+    },[])
     const [user, setUser] = useState([])
-    const getUser = () => {
-
-        axios({
-            method: 'get',
-            url: 'http://127.0.0.1:5000/currentuser',
-            headers: {
-                Authorization: "Bearer " + localStorage.getItem("accessToken")
-              }
-        }).then(resp => {
-            console.log("resp" , resp.data)
-            setUser(
-                resp.data
-                )
-        })
-    }
+   
     const getTodoList = () => {
         axios({
             method: 'get',
@@ -61,6 +62,7 @@ const User = () => {
                 Authorization: "Bearer " + localStorage.getItem("accessToken")
             }
             }).then(resp => {
+                console.log("data",resp.data)
             setData(
                 resp.data
             )
@@ -73,7 +75,6 @@ const User = () => {
     const [data, setData] = useState([])
     useEffect(() => {
         getTodoList()
-        getUser()
       }, [])
     const listdeleteClick = (id)=>{
         axios ({
@@ -128,7 +129,7 @@ const User = () => {
                     <div class="dropdown">
                         <button class="dropbtn"><ArrowDropDownIcon sx={{ fontSize: 30 }}/></button>
                         <div class="dropdown-content dropdown-div">
-                            <a ><PersonIcon/> <span>{user.user_name}</span></a>
+                            <a ><PersonIcon/> <span>{data.user_name}</span></a>
                             <button className="logout-btn" onClick={ () => localStorage.clear()}>
                             <a href="/"><LogoutIcon/> <span>Logout</span></a></button>
                         </div>
