@@ -55,7 +55,10 @@ const AddTodoItem = (id) => {
                  // window.location.href= '/users'
             }).catch((e) => {
                 if (e.response.status == 409){
-                    swal({text:"Todo list already exist",icon:"error"}).then(function(){window.location="http://localhost:3000/users";}); 
+                    swal({text:"Task already exist",icon:"error"}).then(function(){window.location="http://localhost:3000/users";});
+                }
+                if (e.response.status == 408){
+                    swal({text:"Invalid Date",icon:"error"});
                 }
             })
         }

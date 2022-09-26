@@ -61,7 +61,6 @@ const User = () => {
                 Authorization: "Bearer " + localStorage.getItem("accessToken")
             }
             }).then(resp => {
-       
             setData(
                 resp.data
             )
@@ -76,7 +75,7 @@ const User = () => {
         getTodoList()
         getUser()
       }, [])
-    const deleteClick = (id)=>{
+    const listdeleteClick = (id)=>{
         axios ({
             method: 'post',
                 url: 'http://127.0.0.1:5000/deletetodo',
@@ -86,6 +85,7 @@ const User = () => {
                   }
         }).then(resp => {
             if(resp.data.status == true){
+                console.log("status",resp.data.status)
                 getTodoList()
             }
         })
@@ -161,7 +161,7 @@ const User = () => {
                         <tr key = {key}>
                             <td> <a className= {item.id == content.id ? "selected-todolist" : "todolist-name" } onClick = { () => setContent(item)} >{item.name} </a></td>
                             <td><label className= {item.privacy == "private" ? "todolist-privacy-private" : "todolist-privacy-public"} >{item.privacy}</label></td>
-                            <button className="delete-btn"onClick={()=>(deleteClick(item.id))}><DeleteForeverIcon sx={{ color: red[800] }}/></button>
+                            <button className="delete-btn"onClick={()=>(listdeleteClick(item.id))}><DeleteForeverIcon sx={{ color: red[800] }}/></button>
                         </tr>
                     )
                 })}

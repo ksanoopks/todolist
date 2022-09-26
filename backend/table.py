@@ -35,6 +35,8 @@ class Task(Base):
     status = Column(String)
     todolist = relationship("Todolist", back_populates = "tasks")
 
-Base.metadata.drop_all(engine)
-Base.metadata.create_all(engine)
+def table_dropandcreate():
+    Base.metadata.drop_all(engine)
+    Base.metadata.create_all(engine)
 
+table_dropandcreate()
