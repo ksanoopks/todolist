@@ -214,7 +214,7 @@ def deletetask(current_user):
 @auth_middleware()
 def currentuser(current_user):
     user_name = []
-    user_name.append(dict(user_name = current_user.name, user_id = current_user.id ))
+    user_name.append(dict(user_name = current_user.name))
     return jsonify(user_name)
 
 
