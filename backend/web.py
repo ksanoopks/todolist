@@ -7,10 +7,6 @@ import re
 from functools import wraps
 from werkzeug.security import generate_password_hash,check_password_hash
 import jwt
-# from flask_jwt_extended import create_access_token
-# from flask_jwt_extended import get_jwt_identity
-# from flask_jwt_extended import jwt_required,unset_jwt_cookies
-# from flask_jwt_extended import JWTManager
 
 
 app = Flask("Todolist")
@@ -108,7 +104,7 @@ def register():
         return jsonify({"message":"invalid Email"})
 
     elif(len(password)<6 or password== ''):
-        return jsonify({"message":"invalid password"}),
+        return jsonify({"message":"invalid password"})
     else:  
         db.session.add(user)
         db.session.commit()
@@ -127,8 +123,8 @@ def addtodoitem(current_user):
         task_exist = Task.query.filter_by(name = name, user_id = current_user.id, todolist_id=id, date=formated_date).first()
         if(task_exist):
             return jsonify({"error":"Task already exists"}),409
-        elif(formated_date<today):
-            return jsonify({"error":"add task"}),408
+        elif(formated_date+timedelta(days=1)<today):
+            return jsonify({"error":"invalid date"}),422
         else:
             db.session.add(task_one)
             db.session.commit()
@@ -236,7 +232,6 @@ def viewtodoitem(current_user):
             task_.append(dict(name = task.name, date = task.date, status = task.status,todolist_id=task.todolist_id,id=task.id))
         else:
             task_.append(dict(name = task.name, date = task.date, status = task.status ,todolist_id=task.todolist_id,id=task.id))   
-        # task_.append(dict(name = task.name, date = task.date, status = task.status ,todolist_id=task.todolist_id,id=task.id))
     return jsonify(task_)
 
 
