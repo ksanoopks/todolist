@@ -1,5 +1,4 @@
 from datetime import timedelta,date,datetime
-from email.policy import default
 from flask import Flask,request,jsonify,flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS,cross_origin
@@ -144,19 +143,12 @@ def guest():
     return jsonify(public_todolists)
 
 
-@app.route('/deletetodo',methods=['POST'])
-@auth_middleware()
-def deletetodolist(current_user):
-    if request.method == 'POST':
-        id= request.json['id']
-        todo = Todolist.query.get(id)
-        tasks = Task.query.filter_by(todolist_id=id).all()
-        for task in tasks:
-            db.session.delete(task)
-            db.session.commit()
-        db.session.delete(todo)
-        db.session.commit()
-        return jsonify({"status": True})
+# @app.route('/todolist',methods=['DELETE'])
+# @auth_middleware()
+# def deletetodolist(current_user):
+    
+   
+        
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -176,27 +168,45 @@ def login():
     return jsonify({"error":"Password is incorrect"}),401
    
 
-@app.route('/todolist', methods = ['POST', 'GET'])
+@app.route('/todolist', methods = ['POST'])
 @auth_middleware()
 def addtodolist(current_user):
-    if(request.method == 'POST'):
-        name = request.json['name']
-        privacy = request.json['privacy']
-        todolist = Todolist(name = name, user_id = current_user.id, privacy = privacy )
-        todo_list = Todolist.query.filter_by(name = name).first()
-        if(todo_list and current_user.id == todo_list.user_id):
-            return jsonify({"error": "Todo List already exists"}),409
-        else:
-            db.session.add(todolist)
-            db.session.commit()
-            return jsonify({"message": "Todo List Added"}),200
+    name = request.json['name']
+    privacy = request.json['privacy']
+    todolist = Todolist(name = name, user_id = current_user.id, privacy = privacy )
+    todolists = Todolist.query.filter_by(name = name).first()
+    if(todolists and current_user.id == todolists.user_id):
+        return jsonify({"error": "Todo List already exists"}),409
+    else:
+        db.session.add(todolist)
+        db.session.commit()
+        return jsonify({"message": "Todo List Added"}),200
+        
+
+@app.route('/todolist', methods = ['GET'])
+@auth_middleware()
+def viewtodolist(current_user):
+           
+    user_todolist = current_user.todolists
+    todolists = []
+    for todolist in user_todolist:
+        todolists.append(dict(name = todolist.name,  user_id = todolist.user_id, privacy = todolist.privacy,id = todolist.id))
+    return jsonify(todolists)
+
     
-    if (request.method == 'GET'):        
-        todolists = current_user.todolists
-        todolists_ = []
-        for todolist in todolists:
-            todolists_.append(dict(name = todolist.name,  user_id = todolist.user_id, privacy = todolist.privacy,id = todolist.id))
-        return jsonify(todolists_)
+@app.route('/todolist', methods = ['DELETE'])
+@auth_middleware()
+def deletetodolist(current_user):
+
+    id=request.json['id']
+    todolist = Todolist.query.get(id)
+    tasks = Task.query.filter_by(todolist_id=id).all()
+    for task in tasks:
+        db.session.delete(task)
+        db.session.commit()
+    db.session.delete(todolist)
+    db.session.commit()
+    return jsonify({"status": True})
 
 
 @app.route('/deletetask', methods = ['POST'])
@@ -231,7 +241,7 @@ def viewtodoitem(current_user):
             db.session.commit()
             task_.append(dict(name = task.name, date = task.date, status = task.status,todolist_id=task.todolist_id,id=task.id))
         else:
-            task_.append(dict(name = task.name, date = task.date, status = task.status ,todolist_id=task.todolist_id,id=task.id))   
+            task_.append(dict(name = task.name, date = task.date, status = task.status ,todolist_id=task.todolist_id,id=task.id)) 
     return jsonify(task_)
 
 

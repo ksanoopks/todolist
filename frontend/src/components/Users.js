@@ -78,8 +78,8 @@ const User = () => {
       }, [])
     const listdeleteClick = (id)=>{
         axios ({
-            method: 'post',
-                url: 'http://127.0.0.1:5000/deletetodo',
+            method: 'DELETE',
+                url: `http://127.0.0.1:5000/todolist`,
                 data: {id},
                 headers: {
                     Authorization: "Bearer " + localStorage.getItem("accessToken")
@@ -92,21 +92,6 @@ const User = () => {
         })
     } 
 
-    // const [response, setResponse] = useState([])
-    // useEffect(() => {
-    //     axios({
-    //         method: 'get',
-    //         url: 'http://127.0.0.1:5000/addtodoitems',
-    //         headers: {
-    //             Authorization: "Bearer " + localStorage.getItem("accessToken")
-    //           }
-    //     }).then(resp => {
-    //         setResponse(
-    //             resp.data
-    //         )
-    //     })
-    // },[])
-    
    
     const[modalIsOpen, setModalIsOpen] = useState(false)
     const closeModal = () => (

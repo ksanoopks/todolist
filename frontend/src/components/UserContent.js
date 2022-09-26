@@ -160,7 +160,7 @@ const UserContent = ({ taskDetails }) => {
          </tr>
        )
      }
-     if(item.status=="Pending"){
+     else if(item.status=="Pending"){
       return(
         <tr style={{backgroundColor:"orange"}} key={key}>
         <td>{item.name}</td>
@@ -174,8 +174,9 @@ const UserContent = ({ taskDetails }) => {
     }
      else{return(
        <tr style ={{textDecoration:"line-through", backgroundColor:"#45B39D" }} key={key}>
-      <td>{item.name}</td>
+       <td>{item.name}</td>
        <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
+       <td>Finished</td>
        
        </tr>
      )}
