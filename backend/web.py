@@ -115,24 +115,23 @@ def register():
         return jsonify({"message":"Registration done Successfully"}),200
 
 
-@app.route('/addtodoitems', methods = ['POST','GET'])
+@app.route('/task', methods = ['POST'])
 @auth_middleware()
 def addtodoitem(current_user):
     id = request.json['id']
-    if(request.method == 'POST'):
-        name = request.json['name']
-        date = request.json['date']
-        formated_date=datetime.strptime(date,'%Y-%m-%d')
-        task_one = Task(name = name, date = date, user_id = current_user.id, todolist_id = id)
-        task_exist = Task.query.filter_by(name = name, user_id = current_user.id, todolist_id=id, date=formated_date).first()
-        if(task_exist):
-            return jsonify({"error":"Task already exists"}),409
-        elif(formated_date<today):
-            return jsonify({"error":"add task"}),408
-        else:
-            db.session.add(task_one)
-            db.session.commit()
-            return jsonify({"message":"Task added"}),200
+    name = request.json['name']
+    date = request.json['date']
+    formated_date = datetime.strptime(date,'%Y-%m-%d')
+    task = Task(name = name, date = date, user_id = current_user.id, todolist_id = id)
+    task_exist = Task.query.filter_by(name = name, user_id = current_user.id, todolist_id=id, date=formated_date).first()
+    if(task_exist):
+        return jsonify({"error":"Task already exists"}),409
+    elif(formated_date<today):
+        return jsonify({"error":"invalid date"}),422
+    else:
+        db.session.add(task)
+        db.session.commit()
+        return jsonify({"message":"Task added"}),200
 
    
 
@@ -203,12 +202,11 @@ def addtodolist(current_user):
         return jsonify(todolists_)
 
 
-@app.route('/deletetask', methods = ['POST'])
+@app.route('/task', methods = ['Delete'])
 @auth_middleware()
 def deletetask(current_user):
     id = request.json['id']
     task = Task.query.get(id)
-    # task = Task.query.get(id)
     db.session.delete(task)
     db.session.commit()
     return jsonify({"status":True})
@@ -222,33 +220,31 @@ def currentuser(current_user):
     return jsonify(user_name)
 
 
-@app.route('/viewtodoitems', methods = ['GET'])
+@app.route('/task', methods = ['GET'])
 @auth_middleware()
 def viewtodoitem(current_user):
     id = request.args['id']
     tasks = Task.query.filter_by(todolist_id= id)
-    task_ = []
+    task_exist = []
     for task in tasks:
         if(task.date<today_date):
             if(task.status != "Finished"):
                 task.status="Pending"
             db.session.commit()
-            task_.append(dict(name = task.name, date = task.date, status = task.status,todolist_id=task.todolist_id,id=task.id))
+            task_exist.append(dict(name = task.name, date = task.date, status = task.status,todolist_id=task.todolist_id,id=task.id))
         else:
-            task_.append(dict(name = task.name, date = task.date, status = task.status ,todolist_id=task.todolist_id,id=task.id))   
+            task_exist.append(dict(name = task.name, date = task.date, status = task.status ,todolist_id=task.todolist_id,id=task.id))   
         # task_.append(dict(name = task.name, date = task.date, status = task.status ,todolist_id=task.todolist_id,id=task.id))
-    return jsonify(task_)
+    return jsonify(task_exist)
 
 
-@app.route('/finishedtask', methods = ['POST'])
+@app.route('/task', methods = ['PATCH'])
 @auth_middleware()
 def finishedtask(current_user):
-    if(request.method=="POST"):
-        id = request.json['id']
-        task_finished = Task.query.filter_by(id = id).first()
-        task_finished.status="Finished"
-        db.session.commit()
-        
+    id = request.json['id']
+    task_finished = Task.query.filter_by(id = id).first()
+    task_finished.status="Finished"
+    db.session.commit()   
     return jsonify({"status": True})
 
 
