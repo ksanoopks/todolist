@@ -197,10 +197,10 @@ def addtodolist(current_user):
     
     if (request.method == 'GET'):        
         todolists = current_user.todolists
-        todolists_ = []
+        todolistsDetails = []
         for todolist in todolists:
-            todolists_.append(dict(name = todolist.name,  user_id = todolist.user_id, privacy = todolist.privacy,id = todolist.id))
-        return jsonify(todolists_)
+            todolistsDetails.append(dict(name = todolist.name,  user_id = todolist.user_id, privacy = todolist.privacy,id = todolist.id))
+        return jsonify(todolistsDetails)
 
 
 @app.route('/deletetask', methods = ['POST'])
