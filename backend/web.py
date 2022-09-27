@@ -3,6 +3,7 @@ from flask import Flask,request,jsonify,flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS,cross_origin
 import re
+import operator
 from functools import wraps
 from werkzeug.security import generate_password_hash,check_password_hash
 import jwt
@@ -121,7 +122,7 @@ def addtodoitem(current_user):
     task_exist = Task.query.filter_by(name = name, user_id = current_user.id, todolist_id=id, date=formated_date).first()
     if(task_exist):
         return jsonify({"error":"Task already exists"}),409
-    elif(formated_date<today):
+    elif(formated_date+timedelta(days=1)<today):
         return jsonify({"error":"invalid date"}),422
     else:
         db.session.add(task)
@@ -140,14 +141,8 @@ def guest():
             tasks.append(task.name)
         public_todolists.append(dict(name=todolist.name, username=todolist.user.name, tasks=tasks))
     return jsonify(public_todolists)
-
-
-# @app.route('/todolist',methods=['DELETE'])
-# @auth_middleware()
-# def deletetodolist(current_user):
-    
-   
-        
+ 
+      
 
 @app.route("/login", methods=["POST"])
 def login():
@@ -239,8 +234,9 @@ def viewtodoitem(current_user):
             db.session.commit()
             task_exist.append(dict(name = task.name, date = task.date, status = task.status,todolist_id=task.todolist_id,id=task.id))
         else:
-            task_.append(dict(name = task.name, date = task.date, status = task.status ,todolist_id=task.todolist_id,id=task.id)) 
-    return jsonify(task_)
+            task_exist.append(dict(name = task.name, date = task.date, status = task.status ,todolist_id=task.todolist_id,id=task.id)) 
+    sorted_task=(sorted(task_exist, key=operator.itemgetter('status'),reverse=True))       
+    return jsonify(sorted_task)
 
 
 @app.route('/task', methods = ['PATCH'])
