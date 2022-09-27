@@ -160,25 +160,27 @@ const UserContent = ({ taskDetails }) => {
          </tr>
        )
      }
-     else if(item.status=="Pending"){
+     else if(item.status=="Finished"){
       return(
-        <tr style={{backgroundColor:"orange"}} key={key}>
+        <tr style ={{textDecoration:"line-through", backgroundColor:"#45B39D" }} key={key}>
+       <td>{item.name}</td>
+       <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
+       <td>Finished</td>
+       
+       </tr>
+        
+        
+      )
+    }
+     else{return(
+      <tr style={{backgroundColor:"orange"}} key={key}>
         <td>{item.name}</td>
         <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
         
         
         <button  class="btn btn-danger" onClick={()=>(deletetask(item.id))}>Delete</button>
         <button  class="btn btn-success" onClick={()=>(finishClick(item.id))}>Finish</button>
-        </tr>
-      )
-    }
-     else{return(
-       <tr style ={{textDecoration:"line-through", backgroundColor:"#45B39D" }} key={key}>
-       <td>{item.name}</td>
-       <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
-       <td>Finished</td>
-       
-       </tr>
+        </tr> 
      )}
 
      console.log("hi amoop")
