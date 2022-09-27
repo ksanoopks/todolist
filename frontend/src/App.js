@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import 'mdb-react-ui-kit/dist/css/mdb.min.css'
 import {
   BrowserRouter,
   Routes,
@@ -11,8 +12,7 @@ import Guest from './components/Guest';
 import Users from './components/Users'
 import AddTodoList from './components/AddTodoList';
 import AddTodoItem from './components/AddTodoItem';
-
-
+import UserContent from './components/UserContent';
 
 const App= () => {
   return (
@@ -21,9 +21,12 @@ const App= () => {
     <Route path="/" element={<Login/> }/>
     <Route path="/register" element={<Register/> }/>
     <Route path="/guest" element={<Guest/> }/>
-    <Route path='/users' element ={<Users/>}/>
-    <Route path="/todolists" element={<AddTodoList/>}/>
+    <Route path='/users' element ={<Users/>}>
+    </Route>
+   
+    <Route path="/todolistss" element={<AddTodoList/>}/>
     <Route path="/todoitems" element={<AddTodoItem/>}/>
+    {/* <Route path="/modal" element={<Modal/>}/> */}
 
 
     </Routes>

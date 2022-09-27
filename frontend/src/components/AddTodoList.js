@@ -2,6 +2,8 @@ import React, {useState} from 'react';
 import axios from "axios";
 import '../index.css';
 import swal from 'sweetalert';
+import { MDBBtn } from "mdb-react-ui-kit";
+
 
 const AddTodoList = () => {
     const [values, setValues] = useState(
@@ -97,7 +99,8 @@ const AddTodoList = () => {
                             {errors.privacy ? <label style={{color:'red'}}>{errors.privacy}</label> : null}
                         </div>
                         <div className="todobtn-div">
-                            <button className="addbutton-todolist" onClick={ () => handleSubmit()}>Add</button>
+                        <MDBBtn className="addbutton-todolist" onClick={ () => handleSubmit()}>Add</MDBBtn>
+                            {/* <button >Add</button> */}
                         </div>
                     </div>
   )

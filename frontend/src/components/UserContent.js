@@ -26,29 +26,26 @@ const customStyles = {
   },
 };
 
-const UserContent = ({ taskDetails }) => {
+const UserContent = ({ todoListDetails }) => {
+
   const [tasks, setTasks] = useState()
-  // console.log("tasks",tasks.name)
+
 
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const closeModal = () => (
     setModalIsOpen(false)
   )
-  // let id = data.id
-  // console.log("id", taskDetails.id)
 
   useEffect(() => {    
-    console.log('taskDeatails', taskDetails)
-    if (taskDetails && taskDetails.id) {
+    if (todoListDetails && todoListDetails.id) {
       axios({
         method: 'get',
-        url: `http://127.0.0.1:5000/viewtodoitems?id=${taskDetails.id}`,
+        url: `http://127.0.0.1:5000/viewtodoitems?id=${todoListDetails.id}`,
         headers: {
           Authorization: "Bearer " + localStorage.getItem("accessToken")
         }
       }).then(resp => {
         console.log("data",resp.data)
-        // console.log("tasks",resp.data.tasks)
         setTasks(
           resp.data
         )
@@ -56,7 +53,7 @@ const UserContent = ({ taskDetails }) => {
       getTask()
 
     }
-  }, [taskDetails])
+  }, [todoListDetails])
   const finishClick = (id)=>{
     axios ({
         method: 'post',
@@ -78,7 +75,7 @@ const UserContent = ({ taskDetails }) => {
   const getTask = () => {
     axios({
       method:'get',
-      url: `http://127.0.0.1:5000/viewtodoitems?id=${taskDetails.id}`,
+      url: `http://127.0.0.1:5000/viewtodoitems?id=${todoListDetails.id}`,
       headers:{Authorization: "Bearer " + localStorage.getItem("accessToken")}
     }).then(
       resp => {
@@ -122,7 +119,7 @@ const UserContent = ({ taskDetails }) => {
       <table>
         
         <tr>
-          <td><h1>{taskDetails.name}</h1></td>
+          <td><h1>{todoListDetails.name}</h1></td>
 
         </tr>
       </table>
@@ -130,7 +127,7 @@ const UserContent = ({ taskDetails }) => {
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         style={customStyles}>
-        <AddTodoItem id={taskDetails.id} />
+        <AddTodoItem id={todoListDetails.id} />
       </Modal>
 
  <div className='table-wrapper'>

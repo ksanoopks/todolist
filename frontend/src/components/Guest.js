@@ -8,6 +8,7 @@ import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import PersonIcon from '@mui/icons-material/Person';
+import { MDBCollapse, MDBBtn } from 'mdb-react-ui-kit';
 
 const Guest = () => {
 
@@ -23,6 +24,11 @@ const Guest = () => {
 
         })
     }, [])
+    const [showShow, setShowShow] = useState(false);
+
+    const toggleShow = () => setShowShow(!showShow);
+
+
 
     return (
         <div class="container-fluid userpage">
@@ -65,9 +71,60 @@ const Guest = () => {
                     </div>
                 </div>
                 <div className="content-div">
-                <center><h1>Public TodoLists</h1></center>
+                    <center><h1>Public TodoLists</h1></center>
                     <div className="container table-div">
-                        <table className="guest-table">
+
+                        <table class="table ">
+                            <thead>
+                                <tr>
+                                    <th>Todo List</th>
+                                    <th>User</th>
+                                    <th>Tasks</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {data.map((todolist, key) =>
+
+                                    <tr key={key}>
+                                        <td>{todolist.name}</td>
+                                        <td>{todolist.username}</td>
+                                        {/* <td><ul>{todolist.tasks.map((item, index) => {
+                                            return (<ul>{item}</ul>)
+                                        })}</ul></td>
+                                        <td><a onClick = { () => setTasks(todolist.tasks.map((item,index) =>{
+                                            return(
+                                                <ul key = {index}>{item}</ul>
+                                            )
+                                        }))}>Tasks</a></td>
+                                        <td><button onClick = { () => setTasks(todolist.tasks)}> tasks</button></td> */}
+                                        {/* {console.log("fafjjajah", tasks)} */}
+                                        {/* <td>
+                                        <select name = "tasks">
+                                        {todolist.tasks.map((item, index) => {
+                                            return (
+                                                <option value = {item}>{item}</option>
+                                            )
+                                        })}
+
+                                        </select>
+                                       </td> */}
+                                        <td><MDBBtn onClick={toggleShow}>Tasks</MDBBtn>
+                                            <MDBCollapse show={showShow}>
+                                                {todolist.tasks.map((item, index) => {
+                                                    return (<ul>{item}</ul>)
+                                                })}
+                                            </MDBCollapse>
+                                        </td>
+
+                                    </tr>
+
+                                )}
+
+                            </tbody>
+                        </table>
+
+                        {/* <table className="guest-table">
                             <tr>
                                 <th>Todo List</th>
                                 <th>User</th>
@@ -86,7 +143,7 @@ const Guest = () => {
                                 </tr>
 
                             )}
-                        </table>
+                        </table> */}
                     </div>
                 </div>
             </div>

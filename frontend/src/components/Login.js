@@ -59,7 +59,7 @@ const Login = () => {
                                 
             }).catch((e)=> {
                 if(e.response.status===401){
-                    swal({text:"Invalid Email or Password",icon:"error"}).then(function(){window.location="http://localhost:3000";});
+                    swal({text:"Invalid Email or Password",icon:"error" ,closeModal:true})
 
                 }
                 
