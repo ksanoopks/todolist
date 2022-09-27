@@ -42,7 +42,7 @@ const UserContent = ({ taskDetails }) => {
     if (taskDetails && taskDetails.id) {
       axios({
         method: 'get',
-        url: `http://127.0.0.1:5000/viewtodoitems?id=${taskDetails.id}`,
+        url: `http://127.0.0.1:5000/task?id=${taskDetails.id}`,
         headers: {
           Authorization: "Bearer " + localStorage.getItem("accessToken")
         }
@@ -59,8 +59,8 @@ const UserContent = ({ taskDetails }) => {
   }, [taskDetails])
   const finishClick = (id)=>{
     axios ({
-        method: 'post',
-            url: 'http://127.0.0.1:5000/finishedtask',
+        method: 'patch',
+            url: 'http://127.0.0.1:5000/task',
             data: {id},
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("accessToken")
@@ -78,7 +78,7 @@ const UserContent = ({ taskDetails }) => {
   const getTask = () => {
     axios({
       method:'get',
-      url: `http://127.0.0.1:5000/viewtodoitems?id=${taskDetails.id}`,
+      url: `http://127.0.0.1:5000/task?id=${taskDetails.id}`,
       headers:{Authorization: "Bearer " + localStorage.getItem("accessToken")}
     }).then(
       resp => {
@@ -93,8 +93,8 @@ const UserContent = ({ taskDetails }) => {
 
   const deletetask = (id) => {
     axios({
-      method:'post',
-      url:'http://127.0.0.1:5000/deletetask',
+      method:'delete',
+      url:'http://127.0.0.1:5000/task',
       data:{id},
       headers:{Authorization: "Bearer " + localStorage.getItem("accessToken")}
     }).then(
@@ -137,8 +137,8 @@ const UserContent = ({ taskDetails }) => {
  <table className="table">
 <thead>
 <tr>
+ <th >Task name</th>
  <th >Date</th>
- <th >Task Name</th>
  {/* <th >Status</th> */}
  <th >Action</th>
 </tr>
@@ -149,8 +149,8 @@ const UserContent = ({ taskDetails }) => {
      if(item.status=="on progress"){
        return(
          <tr style={{backgroundColor:"Highlight"}} key={key}>
+          <td>{item.name}</td>
          <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
-         <td>{item.name}</td>
          
          <button  class="btn btn-danger" onClick={()=>(deletetask(item.id))}>Delete</button>
          <button  class="btn btn-success" onClick={()=>(finishClick(item.id))}>Finish</button>
@@ -159,9 +159,9 @@ const UserContent = ({ taskDetails }) => {
      }
      if(item.status=="Pending"){
       return(
-        <tr style={{backgroundColor:"Red"}} key={key}>
-        <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
+        <tr style={{backgroundColor:"Orange"}} key={key}>
         <td>{item.name}</td>
+        <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
         
         <button  class="btn btn-danger" onClick={()=>(deletetask(item.id))}>Delete</button>
         <button  class="btn btn-success" onClick={()=>(finishClick(item.id))}>Finish</button>
@@ -170,8 +170,10 @@ const UserContent = ({ taskDetails }) => {
     }
      else{return(
        <tr style ={{textDecoration:"line-through", backgroundColor:"#45B39D" }} key={key}>
+        <td>{item.name}</td>
        <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
-       <td>{item.name}</td>
+       <td>Finished</td>
+
        </tr>
      )}
 

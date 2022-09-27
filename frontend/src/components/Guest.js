@@ -70,7 +70,7 @@ const Guest = () => {
                         <table className="guest-table">
                             <tr>
                                 <th>Todo List</th>
-                                <th>User</th>
+                                <th>User name</th>
                                 <th>Tasks</th>
 
                             </tr>
