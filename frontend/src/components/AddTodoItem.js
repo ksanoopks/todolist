@@ -58,7 +58,7 @@ const AddTodoItem = (id) => {
                     swal({text:"Task already exist",icon:"error"}).then(function(){window.location="http://localhost:3000/users";});
                 }
                 if (e.response.status == 422){
-                    swal({text:"Invalid Date",icon:"error"});
+                    swal({text:"Date must not be in past ",icon:"warning"});
                 }
             })
         }

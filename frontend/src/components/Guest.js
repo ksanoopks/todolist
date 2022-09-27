@@ -60,7 +60,7 @@ const Guest = () => {
                     </div>
                     <div className="guest-register-div">
                         <p> You can register as a user <br /> and add todolists.</p>
-
+                        <h6 className="guest-register-link-div">Don't have an accout?</h6>
                         <div className="guest-register-link-div"><a className="guest-register-link" href="/register">Register</a></div>
                     </div>
                 </div>
@@ -70,7 +70,7 @@ const Guest = () => {
                         <table className="guest-table">
                             <tr>
                                 <th>Todo List</th>
-                                <th>User name</th>
+                                <th>User Name</th>
                                 <th>Tasks</th>
 
                             </tr>

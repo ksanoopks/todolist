@@ -133,11 +133,12 @@ const UserContent = ({ taskDetails }) => {
         <AddTodoItem id={taskDetails.id} />
       </Modal>
 
- <div className='table-wrapper'>
+ <div className='table'>
  <table className="table">
-<thead>
+<thead className='thead-dark'>
 <tr>
- <th >Task name</th>
+ 
+ <th >Task Name</th>
  <th >Date</th>
  {/* <th >Status</th> */}
  <th >Action</th>
@@ -148,20 +149,23 @@ const UserContent = ({ taskDetails }) => {
   // console.log("date",new Date(item.date).toLocaleString().split(","))
      if(item.status=="on progress"){
        return(
+        
          <tr style={{backgroundColor:"Highlight"}} key={key}>
-          <td>{item.name}</td>
+         <td>{item.name}</td>
          <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
+         
          
          <button  class="btn btn-danger" onClick={()=>(deletetask(item.id))}>Delete</button>
          <button  class="btn btn-success" onClick={()=>(finishClick(item.id))}>Finish</button>
          </tr>
        )
      }
-     if(item.status=="Pending"){
+     else if(item.status=="Pending"){
       return(
-        <tr style={{backgroundColor:"Orange"}} key={key}>
+        <tr style={{backgroundColor:"orange"}} key={key}>
         <td>{item.name}</td>
         <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
+        
         
         <button  class="btn btn-danger" onClick={()=>(deletetask(item.id))}>Delete</button>
         <button  class="btn btn-success" onClick={()=>(finishClick(item.id))}>Finish</button>
@@ -170,10 +174,10 @@ const UserContent = ({ taskDetails }) => {
     }
      else{return(
        <tr style ={{textDecoration:"line-through", backgroundColor:"#45B39D" }} key={key}>
-        <td>{item.name}</td>
+       <td>{item.name}</td>
        <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
        <td>Finished</td>
-
+       
        </tr>
      )}
 
