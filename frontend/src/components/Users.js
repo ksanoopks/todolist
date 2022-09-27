@@ -88,8 +88,8 @@ const User = () => {
       }, [])
     const listdeleteClick = (id)=>{
         axios ({
-            method: 'post',
-                url: 'http://127.0.0.1:5000/deletetodo',
+            method: 'DELETE',
+                url: `http://127.0.0.1:5000/todolist`,
                 data: {id},
                 headers: {
                     Authorization: "Bearer " + localStorage.getItem("accessToken")

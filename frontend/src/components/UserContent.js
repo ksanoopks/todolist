@@ -38,26 +38,15 @@ const UserContent = ({ todoListDetails }) => {
 
   useEffect(() => {    
     if (todoListDetails && todoListDetails.id) {
-      axios({
-        method: 'get',
-        url: `http://127.0.0.1:5000/viewtodoitems?id=${todoListDetails.id}`,
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("accessToken")
-        }
-      }).then(resp => {
-        console.log("data",resp.data)
-        setTasks(
-          resp.data
-        )
-      })
+     
       getTask()
 
     }
   }, [todoListDetails])
   const finishClick = (id)=>{
     axios ({
-        method: 'post',
-            url: 'http://127.0.0.1:5000/finishedtask',
+        method: 'patch',
+            url: 'http://127.0.0.1:5000/task',
             data: {id},
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("accessToken")
@@ -75,7 +64,7 @@ const UserContent = ({ todoListDetails }) => {
   const getTask = () => {
     axios({
       method:'get',
-      url: `http://127.0.0.1:5000/viewtodoitems?id=${todoListDetails.id}`,
+      url: `http://127.0.0.1:5000/task?id=${todoListDetails.id}`,
       headers:{Authorization: "Bearer " + localStorage.getItem("accessToken")}
     }).then(
       resp => {
@@ -90,8 +79,8 @@ const UserContent = ({ todoListDetails }) => {
 
   const deletetask = (id) => {
     axios({
-      method:'post',
-      url:'http://127.0.0.1:5000/deletetask',
+      method:'delete',
+      url:'http://127.0.0.1:5000/task',
       data:{id},
       headers:{Authorization: "Bearer " + localStorage.getItem("accessToken")}
     }).then(
@@ -130,12 +119,13 @@ const UserContent = ({ todoListDetails }) => {
         <AddTodoItem id={todoListDetails.id} />
       </Modal>
 
- <div className='table-wrapper'>
+ <div className='table'>
  <table className="table">
-<thead>
+<thead className='thead-dark'>
 <tr>
- <th >Date</th>
+ 
  <th >Task Name</th>
+ <th >Date</th>
  {/* <th >Status</th> */}
  <th >Action</th>
 </tr>
@@ -145,31 +135,38 @@ const UserContent = ({ todoListDetails }) => {
   // console.log("date",new Date(item.date).toLocaleString().split(","))
      if(item.status=="on progress"){
        return(
+        
          <tr style={{backgroundColor:"Highlight"}} key={key}>
-         <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
          <td>{item.name}</td>
+         <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
+         
          
          <button  class="btn btn-danger" onClick={()=>(deletetask(item.id))}>Delete</button>
          <button  class="btn btn-success" onClick={()=>(finishClick(item.id))}>Finish</button>
          </tr>
        )
      }
-     if(item.status=="Pending"){
+     else if(item.status=="Finished"){
       return(
-        <tr style={{backgroundColor:"Red"}} key={key}>
-        <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
-        <td>{item.name}</td>
+        <tr style ={{textDecoration:"line-through", backgroundColor:"#45B39D" }} key={key}>
+       <td>{item.name}</td>
+       <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
+       <td>Finished</td>
+       
+       </tr>
         
-        <button  class="btn btn-danger" onClick={()=>(deletetask(item.id))}>Delete</button>
-        <button  class="btn btn-success" onClick={()=>(finishClick(item.id))}>Finish</button>
-        </tr>
+        
       )
     }
      else{return(
-       <tr style ={{textDecoration:"line-through", backgroundColor:"#45B39D" }} key={key}>
-       <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
-       <td>{item.name}</td>
-       </tr>
+      <tr style={{backgroundColor:"orange"}} key={key}>
+        <td>{item.name}</td>
+        <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
+        
+        
+        <button  class="btn btn-danger" onClick={()=>(deletetask(item.id))}>Delete</button>
+        <button  class="btn btn-success" onClick={()=>(finishClick(item.id))}>Finish</button>
+        </tr> 
      )}
 
      console.log("hi amoop")
