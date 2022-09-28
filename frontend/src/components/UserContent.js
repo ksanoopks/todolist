@@ -134,21 +134,21 @@ const UserContent = ({ taskDetails }) => {
      }
      else if(item.status=="Finished"){
       return(
-        <tr style={{backgroundColor:"rgb(248, 186, 129)",color:"rgb(233, 120, 15)"}} key={key}>
+        <tr style ={{textDecoration:"line-through", backgroundColor:"rgb(196, 194, 194)",color:"rgb(112, 111, 111)"}} key={key}>
         <td>{item.name}</td>
         <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
-        <button  className="task-pending-delete-btn" onClick={()=>(deletetask(item.id))}>Delete</button>
-        <button  className="task-pending-finish-btn" onClick={()=>(finishClick(item.id))}>Finish</button>
+        <td><button className="task-delete-finish-btn" onClick={()=>(deletetask(item.id))}>Delete</button></td>
         </tr>
+
       )
     }
      else{return(
-       <tr style ={{textDecoration:"line-through", backgroundColor:"rgb(196, 194, 194)",color:"rgb(112, 111, 111)"}} key={key}>
-       <td>{item.name}</td>
-       <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
-       <td>Finished</td>
-       
-       </tr>
+      <tr style={{backgroundColor:"rgb(248, 186, 129)",color:"rgb(233, 120, 15)"}} key={key}>
+      <td>{item.name}</td>
+      <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
+      <button  className="task-pending-delete-btn" onClick={()=>(deletetask(item.id))}>Delete</button>
+      <button  className="task-pending-finish-btn" onClick={()=>(finishClick(item.id))}>Finish</button>
+      </tr>
      )}
 
     
