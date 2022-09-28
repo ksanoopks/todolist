@@ -15,7 +15,8 @@ import AddTodoItem from './components/AddTodoItem';
 import UserContent from './components/UserContent';
 import Home from './components/Home';
 
-const App= () => {
+
+const App = () => {
   return (
     <BrowserRouter>
     <Routes>
@@ -31,8 +32,8 @@ const App= () => {
     {/* <Route path="/modal" element={<Modal/>}/> */}
 
 
-    </Routes>
-  </BrowserRouter>
+      </Routes>
+    </BrowserRouter>
   );
 };
 
