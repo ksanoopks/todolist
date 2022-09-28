@@ -150,7 +150,7 @@ const UserContent = ({ taskDetails }) => {
          </tr>
        )
      }
-     else if(item.status=="Pending"){
+     else if(item.status=="Finished"){
       return(
         <tr style={{backgroundColor:"rgb(248, 186, 129)",color:"rgb(233, 120, 15)"}} key={key}>
         <td>{item.name}</td>
