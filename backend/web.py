@@ -172,10 +172,10 @@ def login():
 def addtodolist(current_user):
     name = request.json['name']
     privacy = request.json['privacy']
-    todolist = Todolist(name=name, user_id=current_user.id, privacy=privacy)
-    todolists = Todolist.query.filter_by(name=name).first()
-    if (todolists and current_user.id == todolists.user_id):
-        return jsonify({"error": "Todo List already exists"}), 409
+    todolist = Todolist(name = name, user_id = current_user.id, privacy = privacy )
+    todolists = Todolist.query.filter_by(name = name, user_id = current_user.id).first()
+    if (todolists):
+        return jsonify({"error": "Todo List already exists"}),409
     else:
         db.session.add(todolist)
         db.session.commit()
@@ -184,8 +184,7 @@ def addtodolist(current_user):
 
 @app.route('/todolist', methods=['GET'])
 @auth_middleware()
-def viewtodolist(current_user):
-
+def viewtodolist(current_user):       
     user_todolist = current_user.todolists
     todolists = []
     for todolist in user_todolist:
@@ -197,7 +196,6 @@ def viewtodolist(current_user):
 @app.route('/todolist', methods=['DELETE'])
 @auth_middleware()
 def deletetodolist(current_user):
-
     id = request.json['id']
     todolist = Todolist.query.get(id)
     tasks = Task.query.filter_by(todolist_id=id).all()

@@ -80,7 +80,8 @@ const User = () => {
                 getTodoList()
             }
         })
-    }
+    } 
+
     const[modalIsOpen, setModalIsOpen] = useState(false)
     const closeModal = () => (
         setModalIsOpen(false)

@@ -70,7 +70,7 @@ const UserContent = ({ taskDetails }) => {
       headers:{Authorization: "Bearer " + localStorage.getItem("accessToken")}
     }).then(
       resp => {
-        setTasks(resp.data)
+        setTasks(resp.data) 
       }
     )
   }
@@ -112,9 +112,11 @@ const UserContent = ({ taskDetails }) => {
         style={customStyles}>
         <AddTodoItem id={taskDetails.id} />
       </Modal>
+
  <div className='usercontent-table-div'>
  <table className="usercontent-table">
 <tr className='usertable-head'>
+ 
  <th >Task Name</th>
  <th >Date</th>
  <th >Action</th>
@@ -145,8 +147,11 @@ const UserContent = ({ taskDetails }) => {
        <td>{item.name}</td>
        <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
        <td>Finished</td>
+       
        </tr>
      )}
+
+    
    })}
 </table>
  </div>
