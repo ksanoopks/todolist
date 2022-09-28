@@ -14,20 +14,21 @@ import AddTodoItem from './components/AddTodoItem';
 
 
 
-const App= () => {
+
+const App = () => {
   return (
     <BrowserRouter>
-    <Routes>
-    <Route path="/" element={<Login/> }/>
-    <Route path="/register" element={<Register/> }/>
-    <Route path="/guest" element={<Guest/> }/>
-    <Route path='/users' element ={<Users/>}/>
-    <Route path="/todolists" element={<AddTodoList/>}/>
-    <Route path="/todoitems" element={<AddTodoItem/>}/>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/guest" element={<Guest />} />
+        <Route path='/users' element={<Users />} />
+        <Route path="/todolists" element={<AddTodoList />} />
+        <Route path="/todoitems" element={<AddTodoItem />} />
 
 
-    </Routes>
-  </BrowserRouter>
+      </Routes>
+    </BrowserRouter>
   );
 };
 

@@ -70,7 +70,7 @@ const Guest = () => {
                                 <th>Tasks</th>
 
                             </tr>
-                            
+
                             {data.map((todolist) =>
 
                                 <tr>
@@ -82,7 +82,7 @@ const Guest = () => {
                                 </tr>
 
                             )}
-                            
+
                         </table>
                     </div>
                 </div>
