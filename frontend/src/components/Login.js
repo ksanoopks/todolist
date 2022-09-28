@@ -2,6 +2,8 @@ import React , {useState} from "react";
 import '../index.css'
 import axios from 'axios'
 import swal from 'sweetalert';
+import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
+import HomeIcon from '@mui/icons-material/Home';
 
 
 const Login = () => {
@@ -70,9 +72,18 @@ const Login = () => {
     }
     return(
         <div className="main-div">
-            <div className="heading-div">
-                <h1>Todo List</h1>
+             <div class="row g-0 navbar-div">
+            <div class="col-sm-10 col-md-10 navbar-content">
+                
+                <div className="todoicon-div"><PlaylistAddCheckIcon color = "primary" sx={{ fontSize: 40 }}/></div>
+                    <h1>Todo List</h1>
+                </div>
+                <div class="col-2 col-md-2 navbar-home">
+                    <div><HomeIcon color = "primary" sx={{ fontSize: 30 }}/></div>
+                <div className="home-navlink"><a  href='/'>Home</a></div>
+                
             </div>
+        </div>
                 <div className="login-div">
                     <div className="login-heading">
                         <h2>Log In</h2>
@@ -105,12 +116,6 @@ const Login = () => {
                     </div>
                     <div className="loginbutton-div">
                         <button className="loginbutton" onClick={() => handleSubmit()}>Login</button>
-                    </div>
-                    <div className="signup-div">
-                        <a className="signup-link" href="/register">Sign Up?</a>
-                    </div>
-                    <div className="guest-div">
-                        <a className="guest-link" href="/guest">Sign in as Guest</a>
                     </div>
                 </div>
         </div>

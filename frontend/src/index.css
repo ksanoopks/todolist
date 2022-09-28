@@ -70,6 +70,7 @@ code {
 }
 .loginbutton-div{
   text-align: center;
+  margin: 15px;
 }
 .signup-div{
   text-align: center;
@@ -621,4 +622,76 @@ border-bottom: 1px solid white;
   height: 18px;
   border: 1px solid rgb(196, 194, 194);
   font-size:x-small;
+}
+.home-maindiv{
+  height: 100vh;
+  background-image: url("./images/WhatsApp\ Image\ 2022-09-28\ at\ 14.21.03.jpeg");
+  background-size: cover;
+}
+.home-heading{
+  color: rgb(66 70 69) !important;
+}
+.todolist-quotes{
+  font-feature-settings: "smcp";
+    font-variant: small-caps;
+    -webkit-text-stroke: 1px #ffffff;
+    color: black;
+    margin: 10px;
+
+}
+.todolist-quotes:hover {
+  font-size: 40px;
+  
+  }
+  
+.card{
+  --bs-card-bg: none !important;
+
+}
+.col-md-6{
+  width: auto !important;
+}
+.signup-register{
+  text-align: end;
+}
+.signup-button{
+  background-color: white !important;
+  background-repeat:no-repeat !important;
+  border: 2px solid black !important; 
+  height: 60px !important;
+  width: 150px;
+  margin: 10px;
+}
+.signup-button:hover{
+  font-size: 30px;
+
+}
+.signuplink{
+  text-decoration: none !important;
+  color: black;
+}
+.home-navlink a{
+  color: white;
+  text-decoration: none !important;
+  margin-top: 20px;
+}
+.signup-guestbutton{
+  height: 60px !important;
+  background-color: white !important;
+  background-repeat:no-repeat !important;
+  border: 2px solid black !important; 
+  width: 300px;
+  color: #1976d2;
+
+}
+.signup-guestbutton :hover{
+  font-size: 25px;
+}
+.navbar-home{
+  margin-top: 20px !important;
+  font-size: 25px;
+  display: flex;
+}
+.home-navlink{
+  margin: 3px;
 }
