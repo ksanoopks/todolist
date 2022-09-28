@@ -48,7 +48,7 @@ const UserContent = ({ taskDetails }) => {
         }
       }).then(resp => {
         console.log("data",resp.data)
-        // console.log("tasks",resp.data.tasks)
+        console.log("tasks",resp.data.tasks)
         setTasks(
           resp.data
         )
@@ -82,10 +82,7 @@ const UserContent = ({ taskDetails }) => {
       headers:{Authorization: "Bearer " + localStorage.getItem("accessToken")}
     }).then(
       resp => {
-        console.log("resptasks",resp.data)
-
-        setTasks(resp.data)
-        
+        setTasks(resp.data) 
       }
     )
   }
@@ -133,47 +130,38 @@ const UserContent = ({ taskDetails }) => {
         <AddTodoItem id={taskDetails.id} />
       </Modal>
 
- <div className='table'>
- <table className="table">
-<thead className='thead-dark'>
-<tr>
+ <div className='usercontent-table-div'>
+ <table className="usercontent-table">
+<tr className='usertable-head'>
  
  <th >Task Name</th>
  <th >Date</th>
- {/* <th >Status</th> */}
  <th >Action</th>
 </tr>
-</thead>
 {tasks && tasks.map((item, key) => {
-  // console.log("tasks",tasks)
-  // console.log("date",new Date(item.date).toLocaleString().split(","))
+
      if(item.status=="on progress"){
        return(
-        
-         <tr style={{backgroundColor:"Highlight"}} key={key}>
+         <tr style={{backgroundColor:"rgb(160, 158, 158)"}} key={key}>
          <td>{item.name}</td>
          <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
-         
-         
-         <button  class="btn btn-danger" onClick={()=>(deletetask(item.id))}>Delete</button>
-         <button  class="btn btn-success" onClick={()=>(finishClick(item.id))}>Finish</button>
+         <button className="task-delete-btn" onClick={()=>(deletetask(item.id))}>Delete</button>
+         <button className="task-finish-btn"  onClick={()=>(finishClick(item.id))}>Finish</button>
          </tr>
        )
      }
      else if(item.status=="Pending"){
       return(
-        <tr style={{backgroundColor:"orange"}} key={key}>
+        <tr style={{backgroundColor:"rgb(248, 186, 129)",color:"rgb(233, 120, 15)"}} key={key}>
         <td>{item.name}</td>
         <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
-        
-        
-        <button  class="btn btn-danger" onClick={()=>(deletetask(item.id))}>Delete</button>
-        <button  class="btn btn-success" onClick={()=>(finishClick(item.id))}>Finish</button>
+        <button  className="task-pending-delete-btn" onClick={()=>(deletetask(item.id))}>Delete</button>
+        <button  className="task-pending-finish-btn" onClick={()=>(finishClick(item.id))}>Finish</button>
         </tr>
       )
     }
      else{return(
-       <tr style ={{textDecoration:"line-through", backgroundColor:"#45B39D" }} key={key}>
+       <tr style ={{textDecoration:"line-through", backgroundColor:"rgb(196, 194, 194)",color:"rgb(112, 111, 111)"}} key={key}>
        <td>{item.name}</td>
        <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
        <td>Finished</td>
@@ -181,16 +169,7 @@ const UserContent = ({ taskDetails }) => {
        </tr>
      )}
 
-     console.log("hi amoop")
-     // return (
-
-     //       <tr key={key}>
-           
-         
-
-     //     </tr>
-     
-     // )
+    
    })}
 </table>
    

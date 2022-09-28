@@ -92,7 +92,6 @@ const User = () => {
         })
     } 
 
-   
     const[modalIsOpen, setModalIsOpen] = useState(false)
     const closeModal = () => (
         setModalIsOpen(false)
