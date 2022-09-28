@@ -74,7 +74,7 @@ const User = () => {
             }).then(resp => {
                 console.log("data",resp.data)
             setData(
-                resp.data
+                resp.data.todolists
             )
                 if(resp.data.length > 0) {
                     setContent(resp.data[0])

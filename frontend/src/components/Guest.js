@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
 import '../index.css'
-import HomeIcon from '@mui/icons-material/Home';
 import LogoutIcon from '@mui/icons-material/Logout';
 import axios from "axios";
-import { textAlign } from "@mui/system";
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -18,9 +16,7 @@ const Guest = () => {
             method: 'get',
             url: 'http://127.0.0.1:5000/guest'
         }).then(resp => {
-            console.log(resp.data)
-            setData(resp.data)
-            console.log("data", data)
+            setData(resp.data.public)
 
         })
     }, [])
@@ -125,13 +121,14 @@ const Guest = () => {
                         </table>
 
                         {/* <table className="guest-table">
+                        <table className="table table-striped">
                             <tr>
                                 <th>Todo List</th>
                                 <th>User Name</th>
                                 <th>Tasks</th>
 
                             </tr>
-                            {console.log(data)}
+                            
                             {data.map((todolist) =>
 
                                 <tr>
