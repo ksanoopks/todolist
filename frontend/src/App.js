@@ -13,12 +13,14 @@ import Users from './components/Users'
 import AddTodoList from './components/AddTodoList';
 import AddTodoItem from './components/AddTodoItem';
 import UserContent from './components/UserContent';
+import Home from './components/Home';
 
 const App= () => {
   return (
     <BrowserRouter>
     <Routes>
-    <Route path="/" element={<Login/> }/>
+    <Route path="/" element={<Home/> }/>
+    <Route path="/login" element={<Login/> }/>
     <Route path="/register" element={<Register/> }/>
     <Route path="/guest" element={<Guest/> }/>
     <Route path='/users' element ={<Users/>}>
