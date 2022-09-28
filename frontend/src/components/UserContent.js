@@ -6,9 +6,6 @@ import Modal from 'react-modal';
 import axios from 'axios';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import {red} from "@mui/material/colors";
-
-
-
 const customStyles = {
   content: {
     top: '50%',
@@ -22,27 +19,36 @@ const customStyles = {
     width: '30%',
     border: '2px solid black',
     fontSize: '70%',
-
   },
 };
-
-const UserContent = ({ todoListDetails }) => {
-
+const UserContent = ({ taskDetails }) => {
   const [tasks, setTasks] = useState()
-
-
+  // console.log("tasks",tasks.name)
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const closeModal = () => (
     setModalIsOpen(false)
   )
-
-  useEffect(() => {    
-    if (todoListDetails && todoListDetails.id) {
-     
+  // let id = data.id
+  // console.log("id", taskDetails.id)
+  useEffect(() => {
+    console.log('taskDeatails', taskDetails)
+    if (taskDetails && taskDetails.id) {
+      axios({
+        method: 'get',
+        url: `http://127.0.0.1:5000/task?id=${taskDetails.id}`,
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("accessToken")
+        }
+      }).then(resp => {
+        console.log("data",resp.data)
+        console.log("tasks",resp.data.tasks)
+        setTasks(
+          resp.data
+        )
+      })
       getTask()
-
     }
-  }, [todoListDetails])
+  }, [taskDetails])
   const finishClick = (id)=>{
     axios ({
         method: 'patch',
@@ -54,29 +60,20 @@ const UserContent = ({ todoListDetails }) => {
     }).then(resp => {
         if(resp.data.status == true){
           getTask()
-            
-  
         }
     })
-} 
-
-
+}
   const getTask = () => {
     axios({
       method:'get',
-      url: `http://127.0.0.1:5000/task?id=${todoListDetails.id}`,
+      url: `http://127.0.0.1:5000/task?id=${taskDetails.id}`,
       headers:{Authorization: "Bearer " + localStorage.getItem("accessToken")}
     }).then(
       resp => {
-        console.log("resptasks",resp.data)
-
         setTasks(resp.data)
-        
       }
     )
   }
- 
-
   const deletetask = (id) => {
     axios({
       method:'delete',
@@ -96,7 +93,6 @@ const UserContent = ({ todoListDetails }) => {
     let date = new Date(dateString)
     return `${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`
   }
-
   return (
     <div className='align-items-center justify-content-center'>
       <div className="additem-div">
@@ -106,89 +102,55 @@ const UserContent = ({ todoListDetails }) => {
         </div>
       </div>
       <table>
-        
         <tr>
-          <td><h1>{todoListDetails.name}</h1></td>
-
+          <td><h1>{taskDetails.name}</h1></td>
         </tr>
       </table>
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         style={customStyles}>
-        <AddTodoItem id={todoListDetails.id} />
+        <AddTodoItem id={taskDetails.id} />
       </Modal>
-
- <div className='table'>
- <table className="table">
-<thead className='thead-dark'>
-<tr>
- 
+ <div className='usercontent-table-div'>
+ <table className="usercontent-table">
+<tr className='usertable-head'>
  <th >Task Name</th>
  <th >Date</th>
- {/* <th >Status</th> */}
  <th >Action</th>
 </tr>
-</thead>
 {tasks && tasks.map((item, key) => {
-  // console.log("tasks",tasks)
-  // console.log("date",new Date(item.date).toLocaleString().split(","))
      if(item.status=="on progress"){
        return(
-        
-         <tr style={{backgroundColor:"Highlight"}} key={key}>
+         <tr style={{backgroundColor:"rgb(160, 158, 158)"}} key={key}>
          <td>{item.name}</td>
          <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
-         
-         
-         <button  class="btn btn-danger" onClick={()=>(deletetask(item.id))}>Delete</button>
-         <button  class="btn btn-success" onClick={()=>(finishClick(item.id))}>Finish</button>
+         <button className="task-delete-btn" onClick={()=>(deletetask(item.id))}>Delete</button>
+         <button className="task-finish-btn"  onClick={()=>(finishClick(item.id))}>Finish</button>
          </tr>
        )
      }
      else if(item.status=="Finished"){
       return(
-        <tr style ={{textDecoration:"line-through", backgroundColor:"#45B39D" }} key={key}>
-       <td>{item.name}</td>
-       <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
-       <td>Finished</td>
-       
-       </tr>
-        
-        
+        <tr style={{backgroundColor:"rgb(248, 186, 129)",color:"rgb(233, 120, 15)"}} key={key}>
+        <td>{item.name}</td>
+        <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
+        <button  className="task-pending-delete-btn" onClick={()=>(deletetask(item.id))}>Delete</button>
+        <button  className="task-pending-finish-btn" onClick={()=>(finishClick(item.id))}>Finish</button>
+        </tr>
       )
     }
      else{return(
-      <tr style={{backgroundColor:"orange"}} key={key}>
-        <td>{item.name}</td>
-        <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
-        
-        
-        <button  class="btn btn-danger" onClick={()=>(deletetask(item.id))}>Delete</button>
-        <button  class="btn btn-success" onClick={()=>(finishClick(item.id))}>Finish</button>
-        </tr> 
+       <tr style ={{textDecoration:"line-through", backgroundColor:"rgb(196, 194, 194)",color:"rgb(112, 111, 111)"}} key={key}>
+       <td>{item.name}</td>
+       <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
+       <td>Finished</td>
+       </tr>
      )}
-
-     console.log("hi amoop")
-     // return (
-
-     //       <tr key={key}>
-           
-         
-
-     //     </tr>
-     
-     // )
    })}
 </table>
-   
- 
  </div>
-      
-     
     </div>
   )
 }
-
 export default UserContent
-
