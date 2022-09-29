@@ -61,16 +61,16 @@ const User = () => {
             headers: {
                 Authorization: "Bearer " + localStorage.getItem("accessToken")
             }
-            }).then(resp => {
-                console.log("data",resp.data)
+        }).then(resp => {
+            console.log("fjhjhsljd", resp.data)
             setData(
                 resp.data.todolists
             )
-                if(resp.data.length > 0) {
-                    setContent(resp.data[0])
-                }
-            })
-   
+            if (resp.data.todolists.length > 0) {
+                setContent(resp.data.todolists[0])
+            }
+        })
+
     }
     const [data, setData] = useState([])
     useEffect(() => {
