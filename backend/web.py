@@ -241,7 +241,7 @@ def viewtodoitem(current_user):
                               status=task.status, todolist_id=task.todolist_id, id=task.id))
     sorted_task = (
         sorted(task_exist, key=operator.itemgetter('status'), reverse=True))
-    return jsonify(sorted_task)
+    return jsonify(dict(sorted_task=sorted_task))
 
 
 @app.route('/task', methods=['PATCH'])
