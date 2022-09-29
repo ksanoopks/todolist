@@ -110,17 +110,17 @@ const UserContent = ({ taskDetails }) => {
 
   return (
     <div className='align-items-center justify-content-center'>
-      <div className="additem-div">
-        <h3><ul>Add A Task</ul></h3>
-        <div className="additem-btn-div">
-          <button className="additem-btn" onClick={() => setModalIsOpen(true)}><AddIcon sx={{ fontSize: 40 }} /></button>
-        </div>
-      </div>
+     
       <table>
         
         <tr>
           <td><h1>{taskDetails.name}</h1></td>
-
+          <div className="additem-div">
+        <h4><ul>Add A Task</ul></h4>
+        <div className="additem-btn-div">
+          <button className="additem-btn" onClick={() => setModalIsOpen(true)}><AddIcon sx={{ fontSize: 32 }} /></button>
+        </div>
+      </div>
         </tr>
       </table>
       <Modal

@@ -137,7 +137,7 @@ const User = () => {
         </div>
             <div className="addtodolist-div">
             <h3>Todo List</h3>
-            <button className="addicon-btn" onClick ={ () => setModalIsOpen(true)}> <span><AddIcon color = "primary" sx={{ fontSize: 35 }}/></span></button>
+            <button className="addicon-btn" onClick ={ () => setModalIsOpen(true)}> <span><AddIcon color = "white" sx={{ fontSize: 32 }}/></span></button>
         </div>
         <div className="todolist-name-div">
                 <table className="todolist-ul">
