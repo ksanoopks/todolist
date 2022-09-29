@@ -47,7 +47,7 @@ const UserContent = ({ taskDetails }) => {
       })
       getTask()
     }
-  }, [taskDetails, tasks])
+  }, [taskDetails])
   const finishClick = (id) => {
     axios({
       method: 'patch',
