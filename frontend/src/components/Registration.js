@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import '../index.css';
 import axios from 'axios'
 import swal from 'sweetalert';
+import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
+import HomeIcon from '@mui/icons-material/Home';
+
 
 const Register = () => {
     const [values, setValues] = useState(
@@ -93,7 +96,7 @@ const Register = () => {
                 url: 'http://127.0.0.1:5000/register',
                 data: values
             }).then((resp) => {
-                swal({text:resp.data.message ,showCancelButton: true}).then(function(){window.location="http://localhost:3000";});
+                swal({text:resp.data.message ,showCancelButton: true}).then(function(){window.location="http://localhost:3000/login";});
 
                 // alert
                 // (resp.data.message)
@@ -110,10 +113,19 @@ const Register = () => {
          }
      }
     return(
-        <div className=" container main-div">
-            <div className="heading-div">
-                <h1>Todo List</h1>
+        <div className="main-div">
+             <div class="row g-0 navbar-div">
+            <div class="col-sm-10 col-md-10 navbar-content">
+                
+                <div className="todoicon-div"><PlaylistAddCheckIcon color = "primary" sx={{ fontSize: 40 }}/></div>
+                    <h1>Todo List</h1>
+                </div>
+                <div class="col-2 col-md-2 navbar-home">
+                    <div><HomeIcon color = "primary" sx={{ fontSize: 30 }}/></div>
+                <div className="home-navlink"><a  href='/'>Home</a></div>
+                
             </div>
+        </div>
                 <div className="register-div">
                     <div className="register-heading">
                         <h2>Register</h2>
