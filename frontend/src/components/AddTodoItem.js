@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import axios from "axios";
 import swal from "sweetalert"
 import '../index.css';
+import { MDBBtn } from 'mdb-react-ui-kit';
 
-const AddTodoItem = (id) => {
+const AddTodoItem = (id,modal) => {
+    console.log("modal", modal)
 
     const [values, setValues] = useState(
         Object.assign({
@@ -50,6 +52,7 @@ const AddTodoItem = (id) => {
             }).then((resp) => {
                 if (resp.data.message) {
                     swal({ text: resp.data.message, icon: "success", closeModal: true })
+                    
                 }
                 // window.location.href= '/users'
             }).catch((e) => {
@@ -81,6 +84,7 @@ const AddTodoItem = (id) => {
                 {errors.name ? <label style={{ color: 'red' }}>{errors.name}</label> : null}
             </div>
             <div className='addtodo-div'>
+                <span className='endate-span'>End Date</span>
                 <input type="date"
                     name="date"
                     placeholder='Date'
@@ -92,7 +96,8 @@ const AddTodoItem = (id) => {
                 {errors.date ? <label style={{ color: 'red' }}>{errors.date}</label> : null}
             </div>
             <div className="todobtn-div">
-                <button className="addbutton-todolist" onClick={() => handleSubmit()}>Add</button>
+            <MDBBtn className="addbutton-todolist" onClick={ () => handleSubmit()}>Add</MDBBtn>
+
             </div>
         </div>
     )
