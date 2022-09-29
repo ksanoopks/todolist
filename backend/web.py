@@ -190,7 +190,7 @@ def viewtodolist(current_user):
     user_todolist = current_user.todolists
     todolists = []
     for todolist in user_todolist:
-        todolists.append(dict(name=todolist.name,  user_id=todolist.user_id,
+        todolists.append(dict(username = current_user.name,name=todolist.name,  user_id=todolist.user_id,
                          privacy=todolist.privacy, id=todolist.id))
     return jsonify(dict(todolists=todolists))
 
@@ -218,9 +218,7 @@ def deletetask(current_user):
 @app.route('/currentuser', methods=['GET'])
 @auth_middleware()
 def currentuser(current_user):
-    user_name = []
-    user_name.append(dict(user_name=current_user.name))
-    return jsonify(user_name)
+    return jsonify({"user_name": current_user.name})
 
 
 @app.route('/task', methods=['GET'])

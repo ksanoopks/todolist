@@ -10,6 +10,14 @@ import { red } from "@mui/material/colors";
 
 
 const customStyles = {
+  overlay: {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.75)'
+  },
   content: {
     top: '50%',
     left: '50%',
@@ -17,11 +25,13 @@ const customStyles = {
     bottom: 'auto',
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
-    backgroundColor: "rgb(159 163 163)",
+    backgroundColor: "#fff",
     height: 'auto',
     width: '30%',
     border: '2px solid black',
     fontSize: '70%',
+    WebkitOverflowScrolling: 'touch',
+    borderRadius: '20px',
   },
 };
 const UserContent = ({ taskDetails }) => {
@@ -98,19 +108,22 @@ const UserContent = ({ taskDetails }) => {
   if (tasks && taskDetails && tasks.length == 0) {
 
     return (
-      <div className='align-items-center justify-content-center'>
-        <div className="additem-div">
-          <h3><ul>Add A Task</ul></h3>
+      <div className='view-todolist'>
+        <h2>{taskDetails.name}</h2>
+          <div className='usercontent-table-div'>
+          <div className="additem-div">
+          <h3>Add a Task</h3>
           <div className="additem-btn-div">
             <button className="additem-btn" onClick={() => setModalIsOpen(true)}><AddIcon sx={{ fontSize: 40 }} /></button>
           </div>
+        </div>
         </div>
 
         <Modal
           isOpen={modalIsOpen}
           onRequestClose={closeModal}
           style={customStyles}>
-          <AddTodoItem id={taskDetails.id} />
+          <AddTodoItem id={taskDetails.id} modal = {closeModal} />
         </Modal>
 
 
@@ -120,19 +133,18 @@ const UserContent = ({ taskDetails }) => {
   else if (tasks) {
     return (
       <div className='align-items-center justify-content-center'>
-        <div className="additem-div">
-          <h3><ul>Add A Task</ul></h3>
+      
+        <div className="view-todolist">
+          <h2>{taskDetails.name}</h2>
+          <div className='usercontent-table-div'>
+          <div className="additem-div">
+          <h3>Add a Task</h3>
           <div className="additem-btn-div">
             <button className="additem-btn" onClick={() => setModalIsOpen(true)}><AddIcon sx={{ fontSize: 40 }} /></button>
           </div>
         </div>
-        <table>
+        </div>
 
-          <tr>
-            <td><h1>{taskDetails.name}</h1></td>
-
-          </tr>
-        </table>
         <Modal
           isOpen={modalIsOpen}
           onRequestClose={closeModal}
@@ -140,7 +152,7 @@ const UserContent = ({ taskDetails }) => {
           <AddTodoItem id={taskDetails.id} />
         </Modal>
 
-        <div className='usercontent-table-div'>
+        
           <table className="usercontent-table">
             <tr className='usertable-head'>
 

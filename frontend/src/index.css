@@ -6,8 +6,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url('./images/gray-abstract-wireframe-technology-background.jpg');
-  background-size: cover;
+  /* background-image: url('./images/gray-abstract-wireframe-technology-background.jpg'); */
+  background-size: auto;
+  height: 100%;
+  width: 100%;
 }
 
 code {
@@ -227,6 +229,7 @@ code {
   background-color: Transparent;
   background-repeat: no-repeat;
   border: none;
+  color: white;
 
 }
 
@@ -271,9 +274,12 @@ code {
 
 .additem-div {
   display: flex;
-  margin: 20px;
+ 
 }
-
+.additem-div h3{
+  margin: 15px;
+  font-family: ui-serif;
+}
 .user-content-div h2 {
   text-align: left;
   margin: 20px;
@@ -281,9 +287,7 @@ code {
 
 .content-div {
   text-align: center;
-  margin-left: 100px;
-
-  width: auto;
+  width: 100%;
 }
 
 .additem-btn-div {
@@ -296,6 +300,8 @@ code {
 }
 
 .additem-btn {
+  background-color: Transparent;
+  background-repeat: no-repeat;
   border: none;
 }
 
@@ -651,7 +657,7 @@ code {
 }
 
 .usercontent-table {
-  width: 900px;
+  width: 100%;
 
 }
 
@@ -795,3 +801,31 @@ code {
   color: white;
   text-align: center;
 }
+.endate-span{
+  margin: 10px;
+}
+.view-todolist h2{
+  text-align: start;
+  margin: 10px;
+}
+
+
+
+.ReactModal__Overlay {
+  opacity: 0;
+  transition: opacity 500ms ease-in-out;
+}
+
+.ReactModal__Overlay--after-open{
+  opacity: 1;
+}
+
+.ReactModal__Overlay--before-close{
+  opacity: 0;
+}
+.ReactModal__Body--open,
+.ReactModal__Html--open {
+  overflow: hidden;
+}
+
+
