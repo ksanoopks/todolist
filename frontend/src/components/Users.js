@@ -14,6 +14,14 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { red, yellow } from "@mui/material/colors";
 import UserContent from "./UserContent";
 const customStyles = {
+    overlay: {
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.75)'
+      },
     content: {
         top: '50%',
         left: '50%',
@@ -21,11 +29,13 @@ const customStyles = {
         bottom: 'auto',
         marginRight: '-50%',
         transform: 'translate(-50%, -50%)',
-        backgroundColor: "rgb(159 163 163)",
+        backgroundColor: "#fff",
         height: 'auto',
         width: '30%',
         border: '2px solid black',
         fontSize: '70%',
+        WebkitOverflowScrolling: 'touch',
+        borderRadius: '20px',
 
     },
 };
@@ -42,7 +52,7 @@ const User = () => {
             }
         }).then(resp => {
             setUser(
-                resp.data
+                resp.data.user_name
             )
         })
     }, [])
@@ -55,7 +65,8 @@ const User = () => {
                 Authorization: "Bearer " + localStorage.getItem("accessToken")
             }
         }).then(resp => {
-            console.log("fjhjhsljd", resp.data)
+            
+            console.log("fjhjhsljd", user)
             setData(
                 resp.data.todolists
             )
@@ -106,7 +117,7 @@ const User = () => {
                         <div class="dropdown">
                             <button class="dropbtn"><ArrowDropDownIcon sx={{ fontSize: 30 }} /></button>
                             <div class="dropdown-content dropdown-div">
-                                <a ><PersonIcon /> <span>{data.user_name}</span></a>
+                                <a ><PersonIcon /> <span>{user}</span></a>
                                 <button className="logout-btn" onClick={() => localStorage.clear()}>
                                     <a href="/"><LogoutIcon /> <span>Logout</span></a></button>
                             </div>
