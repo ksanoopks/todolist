@@ -4,8 +4,8 @@ import AddIcon from '@mui/icons-material/Add';
 import AddTodoItem from './AddTodoItem';
 import Modal from 'react-modal';
 import axios from 'axios';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { red } from "@mui/material/colors";
+
+
 
 
 
@@ -44,20 +44,11 @@ const UserContent = ({ taskDetails }) => {
 
   useEffect(() => {
     if (taskDetails && taskDetails.id) {
-      axios({
-        method: 'get',
-        url: `http://127.0.0.1:5000/task?id=${taskDetails.id}`,
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("accessToken")
-        }
-      }).then(resp => {
-        setTasks(
-          resp.data
-        )
-      })
+      
       getTask()
     }
   }, [taskDetails])
+
   const finishClick = (id) => {
     axios({
       method: 'patch',
@@ -103,8 +94,7 @@ const UserContent = ({ taskDetails }) => {
       }
     )
   }
-  console.log("listddd", taskDetails)
-  console.log("task", tasks)
+
   if (tasks && taskDetails && tasks.length == 0) {
 
     return (

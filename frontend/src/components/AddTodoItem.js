@@ -5,7 +5,8 @@ import '../index.css';
 import { MDBBtn } from 'mdb-react-ui-kit';
 
 const AddTodoItem = (id,modal) => {
-    console.log("modal", modal)
+  
+    
 
     const [values, setValues] = useState(
         Object.assign({
