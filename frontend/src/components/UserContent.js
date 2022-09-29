@@ -193,9 +193,9 @@ const UserContent = ({ taskDetails }) => {
     )
 
   }
-  else if (taskDetails.length < 0) {
+  else if (taskDetails.length != 0) {
     return (
-      <h1>hi</h1>
+      <h3>TO-DO List every day, keep it visible.</h3>
     )
   }
 }

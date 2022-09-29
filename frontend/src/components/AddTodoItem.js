@@ -54,7 +54,7 @@ const AddTodoItem = (id) => {
                 // window.location.href= '/users'
             }).catch((e) => {
                 if (e.response.status == 409) {
-                    swal({ text: "Task already exist this date", icon: "error" });
+                    swal({ text: "Task already exist this date", icon: "warning" });
                 }
                 if (e.response.status == 422) {
                     swal({ text: "Date must not be in past ", icon: "warning" });
