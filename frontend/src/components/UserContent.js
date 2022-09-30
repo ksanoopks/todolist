@@ -123,7 +123,7 @@ const UserContent = ({ taskDetails }) => {
           isOpen={modalIsOpen}
           onRequestClose={closeModal}
           style={customStyles}>
-          <AddTodoItem id={taskDetails.id} modal = {closeModal} />
+          <AddTodoItem id={taskDetails.id} />
         </Modal>
 
 
