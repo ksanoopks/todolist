@@ -6,6 +6,7 @@ import Modal from 'react-modal';
 import axios from 'axios';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { red } from "@mui/material/colors";
+import User from './Users';
 
 
 
@@ -43,20 +44,12 @@ const UserContent = ({ taskDetails }) => {
 
 
   useEffect(() => {
-    if (taskDetails && taskDetails.id) {
-      axios({
-        method: 'get',
-        url: `http://127.0.0.1:5000/task?id=${taskDetails.id}`,
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("accessToken")
-        }
-      }).then(resp => {
-        setTasks(
-          resp.data
-        )
-      })
+    if (taskDetails && taskDetails.id){
+
       getTask()
     }
+
+
   }, [taskDetails])
   const finishClick = (id) => {
     axios({
@@ -83,7 +76,8 @@ const UserContent = ({ taskDetails }) => {
       headers: { Authorization: "Bearer " + localStorage.getItem("accessToken") }
     }).then(
       resp => {
-        setTasks(resp.data)
+        console.log("new",resp.data.sorted_tasks)
+        setTasks(resp.data.sorted_task)
       }
     )
   }
@@ -103,8 +97,10 @@ const UserContent = ({ taskDetails }) => {
       }
     )
   }
-  console.log("listddd", taskDetails)
+  console.log("taskdetails", taskDetails)
   console.log("task", tasks)
+  console.log("taskdetails.id",taskDetails.id)
+
   if (tasks && taskDetails && tasks.length == 0) {
 
     return (
@@ -123,7 +119,7 @@ const UserContent = ({ taskDetails }) => {
           isOpen={modalIsOpen}
           onRequestClose={closeModal}
           style={customStyles}>
-          <AddTodoItem id={taskDetails.id} modal = {closeModal} />
+          <AddTodoItem id={taskDetails.id} />
         </Modal>
 
 
@@ -210,5 +206,6 @@ const UserContent = ({ taskDetails }) => {
       <h1>hi</h1>
     )
   }
+
 }
 export default UserContent
