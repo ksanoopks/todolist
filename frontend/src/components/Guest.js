@@ -85,26 +85,7 @@ const Guest = () => {
                                     <tr key={key}>
                                         <td>{todolist.name}</td>
                                         <td>{todolist.username}</td>
-                                        {/* <td><ul>{todolist.tasks.map((item, index) => {
-                                            return (<ul>{item}</ul>)
-                                        })}</ul></td>
-                                        <td><a onClick = { () => setTasks(todolist.tasks.map((item,index) =>{
-                                            return(
-                                                <ul key = {index}>{item}</ul>
-                                            )
-                                        }))}>Tasks</a></td>
-                                        <td><button onClick = { () => setTasks(todolist.tasks)}> tasks</button></td> */}
-                                        {/* {console.log("fafjjajah", tasks)} */}
-                                        {/* <td>
-                                        <select name = "tasks">
-                                        {todolist.tasks.map((item, index) => {
-                                            return (
-                                                <option value = {item}>{item}</option>
-                                            )
-                                        })}
-
-                                        </select>
-                                       </td> */}
+                                        
                                         <td><MDBBtn onClick={toggleShow}>Tasks</MDBBtn>
                                             <MDBCollapse show={showShow}>
                                                 {todolist.tasks.map((item, index) => {
