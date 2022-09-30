@@ -175,7 +175,7 @@ def addtodolist(current_user):
     privacy = request.json['privacy']
     todolist = Todolist(name=name, user_id=current_user.id, privacy=privacy)
     todolists = Todolist.query.filter_by(
-        name=name, user_id=current_user.id).first()
+        name=name, user_id=current_user.id, privacy = privacy).first()
     if (todolists):
         return jsonify({"error": "Todo List already exists"}), 409
     else:
