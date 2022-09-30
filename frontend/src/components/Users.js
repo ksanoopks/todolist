@@ -80,20 +80,28 @@ const User = () => {
                 setContent(resp.data.todolists[0])
             }
         })
-
     }
-    
     const [data, setData] = useState([])
+
     useEffect(() => {
         getTodoList()
       }, [])
-
-    const listDeleteWarning = (id) => {
-        swal({text: "Are you sure you want to delete this todolist?",icon:"warning", showCancelButton: true}).then((confirm) => {
-           if(confirm) {listdeleteClick(id)}
-        })
+ 
+    const listDeleteWarning = (id,name) => {
+        swal({
+            title: "Are you sure?",
+            text: `You want to delete ${name} todolist`,
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+          })
+          .then((willDelete) => {
+            if (willDelete) {
+                listdeleteClick(id)
+            } 
+          });
     }
-    
+
     const listdeleteClick = (id)=>{
         axios ({
             method: 'DELETE',
@@ -102,16 +110,9 @@ const User = () => {
                 headers: {
                     Authorization: "Bearer " + localStorage.getItem("accessToken")
                   }
-        }).then(resp => {
-            
-                
-                  if  (resp.data.status = true){getTodoList()}
-                    
-               
-        })
-        
-
-        
+        }).then(resp => {    
+            if (resp.data.status = true){getTodoList()}      
+        })    
     } 
 
     const[modalIsOpen, setModalIsOpen] = useState(false)
@@ -177,7 +178,7 @@ const User = () => {
                         <tr key = {key}>
                             <td> <a className= {item.id == content.id ? "selected-todolist" : "todolist-name" } onClick = { () => setContent(item)} >{item.name} </a></td>
                             <td><label className= {item.privacy == "private" ? "todolist-privacy-private" : "todolist-privacy-public"} >{item.privacy}</label></td>
-                            <button className="delete-btn"onClick={()=>{listDeleteWarning(item.id)}}><DeleteForeverIcon sx={{ color: red[800] }}/></button>
+                            <button className="delete-btn"onClick={()=>{listDeleteWarning((item.id),(item.name))}}><DeleteForeverIcon sx={{ color: red[800] }}/></button>
                         </tr>
                     )
                 })}
