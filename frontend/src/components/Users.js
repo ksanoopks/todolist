@@ -13,6 +13,8 @@ import AddTodoItem from "./AddTodoItem";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { red, yellow } from "@mui/material/colors";
 import UserContent from "./UserContent";
+import swal from "sweetalert"
+
 
 
 
@@ -85,6 +87,13 @@ const User = () => {
     useEffect(() => {
         getTodoList()
       }, [])
+
+    const listDeleteWarning = (id) => {
+        swal({text: "Are you sure you want to delete this todolist?",icon:"warning", showCancelButton: true}).then((confirm) => {
+           if(confirm) {listdeleteClick(id)}
+        })
+    }
+    
     const listdeleteClick = (id)=>{
         axios ({
             method: 'DELETE',
@@ -94,10 +103,15 @@ const User = () => {
                     Authorization: "Bearer " + localStorage.getItem("accessToken")
                   }
         }).then(resp => {
-            if(resp.data.status == true){
-                getTodoList()
-            }
+            
+                
+                  if  (resp.data.status = true){getTodoList()}
+                    
+               
         })
+        
+
+        
     } 
 
     const[modalIsOpen, setModalIsOpen] = useState(false)
@@ -163,7 +177,7 @@ const User = () => {
                         <tr key = {key}>
                             <td> <a className= {item.id == content.id ? "selected-todolist" : "todolist-name" } onClick = { () => setContent(item)} >{item.name} </a></td>
                             <td><label className= {item.privacy == "private" ? "todolist-privacy-private" : "todolist-privacy-public"} >{item.privacy}</label></td>
-                            <button className="delete-btn"onClick={()=>{listdeleteClick(item.id)}}><DeleteForeverIcon sx={{ color: red[800] }}/></button>
+                            <button className="delete-btn"onClick={()=>{listDeleteWarning(item.id)}}><DeleteForeverIcon sx={{ color: red[800] }}/></button>
                         </tr>
                     )
                 })}
@@ -172,7 +186,7 @@ const User = () => {
             </div> 
     </div>
     <div className="content-div">
-        {content ? <UserContent taskDetails={content}/> : null}
+        {content ? <UserContent taskDetails={content}/> : <UserContent taskDetails={"hello"}/>}
     
     </div>
     </div>
