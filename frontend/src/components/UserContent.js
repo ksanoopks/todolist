@@ -4,6 +4,7 @@ import AddIcon from '@mui/icons-material/Add';
 import AddTodoItem from './AddTodoItem';
 import Modal from 'react-modal';
 import axios from 'axios';
+import { blue } from '@mui/material/colors';
 
 
 
@@ -200,7 +201,7 @@ const UserContent = ({ taskDetails }) => {
   }
   else if (taskDetails.length != 0) {
     return (
-      <h3>TO-DO List every day, keep it visible.</h3>
+      <h4 >Remember the to-do list but don't <br/>forget the to-be list.</h4>
     )
   }
 
