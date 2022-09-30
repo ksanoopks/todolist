@@ -4,9 +4,8 @@ import AddIcon from '@mui/icons-material/Add';
 import AddTodoItem from './AddTodoItem';
 import Modal from 'react-modal';
 import axios from 'axios';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { red } from "@mui/material/colors";
-import User from './Users';
+
+
 
 
 
@@ -44,13 +43,14 @@ const UserContent = ({ taskDetails }) => {
 
 
   useEffect(() => {
-    if (taskDetails && taskDetails.id){
-
+    if (taskDetails && taskDetails.id) {
+      
       getTask()
     }
 
 
   }, [taskDetails])
+
   const finishClick = (id) => {
     axios({
       method: 'patch',
@@ -97,9 +97,6 @@ const UserContent = ({ taskDetails }) => {
       }
     )
   }
-  console.log("taskdetails", taskDetails)
-  console.log("task", tasks)
-  console.log("taskdetails.id",taskDetails.id)
 
   if (tasks && taskDetails && tasks.length == 0) {
 
@@ -201,9 +198,9 @@ const UserContent = ({ taskDetails }) => {
     )
 
   }
-  else if (taskDetails.length < 0) {
+  else if (taskDetails.length != 0) {
     return (
-      <h1>hi</h1>
+      <h3>TO-DO List every day, keep it visible.</h3>
     )
   }
 

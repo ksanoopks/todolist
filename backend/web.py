@@ -36,7 +36,8 @@ class Todolist(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
     privacy = db.Column(db.String)
     user = db.relationship("Users", back_populates="todolists")
-    tasks = db.relationship("Task", back_populates="todolist")
+    tasks = db.relationship(
+        "Task", back_populates="todolist", cascade="all,delete")
 
 
 class Task(db.Model):
@@ -172,10 +173,11 @@ def login():
 def addtodolist(current_user):
     name = request.json['name']
     privacy = request.json['privacy']
-    todolist = Todolist(name = name, user_id = current_user.id, privacy = privacy )
-    todolists = Todolist.query.filter_by(name = name, user_id = current_user.id).first()
+    todolist = Todolist(name=name, user_id=current_user.id, privacy=privacy)
+    todolists = Todolist.query.filter_by(
+        name=name, user_id=current_user.id).first()
     if (todolists):
-        return jsonify({"error": "Todo List already exists"}),409
+        return jsonify({"error": "Todo List already exists"}), 409
     else:
         db.session.add(todolist)
         db.session.commit()
@@ -184,7 +186,7 @@ def addtodolist(current_user):
 
 @app.route('/todolist', methods=['GET'])
 @auth_middleware()
-def viewtodolist(current_user):       
+def viewtodolist(current_user):
     user_todolist = current_user.todolists
     todolists = []
     for todolist in user_todolist:
@@ -198,10 +200,6 @@ def viewtodolist(current_user):
 def deletetodolist(current_user):
     id = request.json['id']
     todolist = Todolist.query.get(id)
-    tasks = Task.query.filter_by(todolist_id=id).all()
-    for task in tasks:
-        db.session.delete(task)
-        db.session.commit()
     db.session.delete(todolist)
     db.session.commit()
     return jsonify({"status": True})

@@ -71,7 +71,6 @@ const User = () => {
             }
         }).then(resp => {
             
-            console.log("fjhjhsljd", user)
             setData(
                 resp.data.todolists
             )
@@ -81,6 +80,7 @@ const User = () => {
         })
 
     }
+    
     const [data, setData] = useState([])
     useEffect(() => {
         getTodoList()
@@ -95,7 +95,6 @@ const User = () => {
                   }
         }).then(resp => {
             if(resp.data.status == true){
-                console.log("status",resp.data.status)
                 getTodoList()
             }
         })
@@ -106,6 +105,7 @@ const User = () => {
         setModalIsOpen(false)
     )
     const [ content, setContent] = useState({})
+
     return(
         <div class = "container-fluid userpage">
         <div class="row g-0 navbar-div">
@@ -131,11 +131,18 @@ const User = () => {
                     </div>
             </div>
         </div>
+        
         <div className="userpage-div">
         <div className="sidebar-div">
+        {data.length ==0?<div className="sidebar-heading">
+                <h2>Welcome</h2>
+                <h4>{user}</h4>
+                
+            </div>:
             <div className="sidebar-heading">
-                <h2>Add a Todo List</h2>
-            </div>
+            
+        </div>}
+            
         <div className="modal-body">
             <Modal
             isOpen={modalIsOpen}
@@ -156,7 +163,7 @@ const User = () => {
                         <tr key = {key}>
                             <td> <a className= {item.id == content.id ? "selected-todolist" : "todolist-name" } onClick = { () => setContent(item)} >{item.name} </a></td>
                             <td><label className= {item.privacy == "private" ? "todolist-privacy-private" : "todolist-privacy-public"} >{item.privacy}</label></td>
-                            <button className="delete-btn"onClick={()=>(listdeleteClick(item.id))}><DeleteForeverIcon sx={{ color: red[800] }}/></button>
+                            <button className="delete-btn"onClick={()=>{listdeleteClick(item.id)}}><DeleteForeverIcon sx={{ color: red[800] }}/></button>
                         </tr>
                     )
                 })}
@@ -165,7 +172,6 @@ const User = () => {
             </div> 
     </div>
     <div className="content-div">
-        {console.log("cc", content)}
         {content ? <UserContent taskDetails={content}/> : null}
     
     </div>
