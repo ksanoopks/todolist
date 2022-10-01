@@ -105,12 +105,11 @@ def register():
     if (user_exists):
         return jsonify({"message": "User is already exists"}), 409
     elif (len(name) < 3 or name == ''):
-        return jsonify({"message": "invalid name"})
+        return jsonify({"message": "invalid name"}),400
     elif (email == False):
-        return jsonify({"message": "invalid Email"})
-
+        return jsonify({"message": "invalid Email"}),400
     elif (len(password) < 6 or password == ''):
-        return jsonify({"message": "invalid password"})
+        return jsonify({"message": "invalid password"}),400
     else:
         db.session.add(user)
         db.session.commit()
@@ -173,9 +172,9 @@ def login():
 def addtodolist(current_user):
     name = request.json['name']
     privacy = request.json['privacy']
-    todolist = Todolist(name=name, user_id=current_user.id, privacy=privacy)
+    todolist = Todolist(name=name.upper(), user_id=current_user.id, privacy=privacy)
     todolists = Todolist.query.filter_by(
-        name=name, user_id=current_user.id, privacy = privacy).first()
+        name=name.upper(), user_id=current_user.id, privacy = privacy).first()
     if (todolists):
         return jsonify({"error": "Todo List already exists"}), 409
     else:

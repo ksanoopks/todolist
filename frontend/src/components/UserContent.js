@@ -4,7 +4,6 @@ import AddIcon from '@mui/icons-material/Add';
 import AddTodoItem from './AddTodoItem';
 import Modal from 'react-modal';
 import axios from 'axios';
-import { blue } from '@mui/material/colors';
 
 
 
