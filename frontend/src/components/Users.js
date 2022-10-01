@@ -98,6 +98,7 @@ const User = () => {
           .then((willDelete) => {
             if (willDelete) {
                 listdeleteClick(id)
+                getTodoList()
             } 
           });
     }

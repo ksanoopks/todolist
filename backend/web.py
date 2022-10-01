@@ -227,18 +227,16 @@ def viewtodoitem(current_user):
     tasks = Task.query.filter_by(todolist_id=id)
     task_exist = []
     for task in tasks:
-        if (task.date < date.today()):
-            if (task.status != "Finished"):
-                task.status = "Pending"
+        if (task.date < date.today() and task.status != "Finished"):
+            task.status = "Pending"
             db.session.commit()
-            task_exist.append(dict(name=task.name, date=task.date,
-                              status=task.status, todolist_id=task.todolist_id, id=task.id))
+            task_exist.append(dict(name=task.name, date=task.date,status=task.status, todolist_id=task.todolist_id, id=task.id))
         else:
-            task_exist.append(dict(name=task.name, date=task.date,
-                              status=task.status, todolist_id=task.todolist_id, id=task.id))
+            task_exist.append(dict(name=task.name, date=task.date,status=task.status, todolist_id=task.todolist_id, id=task.id))
     sorted_task = (
         sorted(task_exist, key=operator.itemgetter('status'), reverse=True))
     return jsonify(dict(sorted_task=sorted_task))
+                
 
 
 @app.route('/task', methods=['PATCH'])

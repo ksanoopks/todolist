@@ -44,8 +44,7 @@ const Guest = () => {
                             <div class="dropdown-content dropdown-div">
                                 <a ><PersonIcon /> <span>Guest</span></a>
 
-                                <button className="logout-btn" onClick={() => localStorage.clear()}>
-                                    <a href="/"><LogoutIcon /> <span>Logout</span></a></button>
+                                
                             </div>
                         </div>
                     </div>
