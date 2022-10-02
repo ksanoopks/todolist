@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import '../index.css'
-import LogoutIcon from '@mui/icons-material/Logout';
 import axios from "axios";
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import PersonIcon from '@mui/icons-material/Person';
 import { MDBCollapse, MDBBtn } from 'mdb-react-ui-kit';
+import HomeIcon from '@mui/icons-material/Home';
 
 const Guest = () => {
 
@@ -43,10 +43,11 @@ const Guest = () => {
                             <button class="dropbtn"><ArrowDropDownIcon sx={{ fontSize: 30 }} /></button>
                             <div class="dropdown-content dropdown-div">
                                 <a ><PersonIcon /> <span>Guest</span></a>
-
-                                
-                            </div>
+                                <a  href='/'><HomeIcon sx={{ fontSize: 30 }}/>Home</a>
                         </div>
+                            
+                        </div>
+
                     </div>
                 </div>
             </div>
