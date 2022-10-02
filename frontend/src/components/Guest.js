@@ -11,19 +11,33 @@ import { MDBCollapse, MDBBtn } from 'mdb-react-ui-kit';
 const Guest = () => {
 
     const [data, setData] = useState([])
+    const [toggle, setToggle] = useState({});
+
     useEffect(() => {
         axios({
             method: 'get',
             url: 'http://127.0.0.1:5000/guest'
         }).then(resp => {
             setData(resp.data.public)
-
+            const toggleData = {}
+            setToggle(() => {
+                // console.log('here', data)
+                resp.data.public.forEach((item) => {
+                    toggleData[item.id] = false
+                    // console.log('id', item.id)
+                })
+                // console.log('toggleData', toggleData)
+                return toggleData
+            })
         })
     }, [])
-    const [showShow, setShowShow] = useState(false);
 
-    const toggleShow = () => setShowShow(!showShow);
-
+    function toggleShow(id) {
+        setToggle({
+            ...toggle,
+            [id]: !toggle[id],
+        });
+    }
 
 
     return (
@@ -85,9 +99,9 @@ const Guest = () => {
                                     <tr key={key}>
                                         <td>{todolist.name}</td>
                                         <td>{todolist.username}</td>
-                                        
-                                        <td><MDBBtn onClick={toggleShow}>Tasks</MDBBtn>
-                                            <MDBCollapse show={showShow}>
+
+                                        <td><MDBBtn onClick={() => { toggleShow(todolist.id) }}>{`${todolist.tasks.length} Tasks`}</MDBBtn>
+                                            <MDBCollapse show={toggle[todolist.id]}>
                                                 {todolist.tasks.map((item, index) => {
                                                     return (<ul>{item}</ul>)
                                                 })}
@@ -100,28 +114,6 @@ const Guest = () => {
 
                             </tbody>
                         </table>
-
-                        {/* <table className="guest-table">
-                        <table className="table table-striped">
-                            <tr>
-                                <th>Todo List</th>
-                                <th>User Name</th>
-                                <th>Tasks</th>
-
-                            </tr>
-
-                            {data.map((todolist) =>
-
-                                <tr>
-                                    <td>{todolist.name}</td>
-                                    <td>{todolist.username}</td>
-                                    <td><ul>{todolist.tasks.map((item, index) => {
-                                        return (<ul>{item}</ul>)
-                                    })}</ul></td>
-                                </tr>
-
-                            )}
-                        </table> */}
                     </div>
                 </div>
             </div>
