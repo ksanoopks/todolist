@@ -112,7 +112,8 @@ const User = () => {
                     Authorization: "Bearer " + localStorage.getItem("accessToken")
                   }
         }).then(resp => {    
-            if (resp.data.status = true){getTodoList()}      
+            if (resp.data.status = true)
+            {getTodoList()}
         })    
     } 
 
@@ -188,7 +189,7 @@ const User = () => {
             </div> 
     </div>
     <div className="content-div">
-        {content ? <UserContent taskDetails={content}/> : <UserContent taskDetails={"hello"}/>}
+        {content ? <UserContent taskDetails={content}/> : null}
     
     </div>
     </div>
