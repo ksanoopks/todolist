@@ -1,12 +1,15 @@
-import React , {useState} from "react";
+import React , {useState, useEffect} from "react";
 import '../index.css'
 import axios from 'axios'
 import swal from 'sweetalert';
-import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
-import HomeIcon from '@mui/icons-material/Home';
+import { MDBBtn } from "mdb-react-ui-kit";
+import { Link, useNavigate } from "react-router-dom";
+
 
 
 const Login = () => {
+    const[userName, setUserName] = useState([])
+    const navigate = useNavigate()
     const [values, setValues] = useState(
         Object.assign({
             email:'',
@@ -22,6 +25,7 @@ const Login = () => {
         })
     }
     const handleSubmit = () => {
+           
         let email = ''
         let password = ''
         const emailFormat = /\S+@\S+\.\S+/
@@ -46,17 +50,13 @@ const Login = () => {
                 url: 'http://127.0.0.1:5000/login',
                 data: values
             }).then((resp) => {
-                console.log(resp)
-                if(resp.data.accessToken){
-                    localStorage.setItem("accessToken", resp.data.accessToken)
+                if(resp && resp.status) {
+                    localStorage.setItem("accessToken", resp?.data?.accessToken);
+                    const userName = resp?.data?.data?.username
+                    swal({text:resp.data.message ,icon:"success"}).then(()  => navigate(`/users/${userName}/`));
                 }
-               
-                if(resp.data.message){
-                    swal({text:resp.data.message ,icon:"success"}).then(function(){window.location="http://localhost:3000/users";});
-                    // swal(resp.data.message)
-                    // window.location.href='/users'
-                    // console.log("login done")
-                    
+                else{
+                    navigate('/')
                 }
                                 
             }).catch((e)=> {
@@ -72,18 +72,7 @@ const Login = () => {
     }
     return(
         <div className="main-div">
-             <div class="row g-0 navbar-div">
-            <div class="col-sm-10 col-md-10 navbar-content">
-                
-                <div className="todoicon-div"><PlaylistAddCheckIcon color = "primary" sx={{ fontSize: 40 }}/></div>
-                    <h1>Todo List</h1>
-                </div>
-                <div class="col-2 col-md-2 navbar-home">
-                    <div><HomeIcon color = "primary" sx={{ fontSize: 30 }}/></div>
-                <div className="home-navlink"><a  href='/'>Home</a></div>
-                
-            </div>
-        </div>
+            
                 <div className="login-div">
                     <div className="login-heading">
                         <h2>Log In</h2>
@@ -115,7 +104,11 @@ const Login = () => {
 
                     </div>
                     <div className="loginbutton-div">
-                        <button className="loginbutton" onClick={() => handleSubmit()}>Login</button>
+                    <MDBBtn className="addbutton-todolist" onClick={ () => handleSubmit()}>LogIn</MDBBtn>
+
+                    </div>
+                    <div className="goback-link">
+                        <a href ="/"> go back </a>
                     </div>
                 </div>
         </div>

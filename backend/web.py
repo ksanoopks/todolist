@@ -162,7 +162,9 @@ def login():
         }, app.config["JWT_SECRET_KEY"], algorithm="HS256")
         return jsonify({"message": "LoggedIn Successfully",
                         "status": True,
-                        "accessToken": accessToken}), 200
+                        "accessToken": accessToken,
+                        "data": {"username":user.name,
+                                 "user_id": user.id}}), 200
     return jsonify({"error": "Password is incorrect"}), 401
 
 
@@ -216,7 +218,8 @@ def deletetask(current_user):
 @app.route('/currentuser', methods=['GET'])
 @auth_middleware()
 def currentuser(current_user):
-    return jsonify({"user_name": current_user.name})
+    return jsonify({"user_name": current_user.name,
+                    "user_id":current_user.id})
 
 
 @app.route('/task', methods=['GET'])

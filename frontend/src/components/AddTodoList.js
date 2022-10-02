@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect } from 'react';
 import axios from "axios";
 import '../index.css';
 import swal from 'sweetalert';
@@ -6,6 +6,35 @@ import { MDBBtn } from "mdb-react-ui-kit";
 
 
 const AddTodoList = () => {
+    const[userName, setUserName] = useState([])
+    
+    const[todolistName, setTodolistName] = useState([])
+
+    useEffect ( () => {
+        axios({
+            method: 'get',
+            url: 'http://127.0.0.1:5000/todolist',
+            headers: {
+                Authorization: "Bearer " + localStorage.getItem("accessToken")
+            }
+            }).then(resp => {
+                console.log(resp.data)
+                if(resp.data.todolists){
+                    setUserName(
+                        resp.data.todolists[0].username
+                        
+                    )
+                    console.log('userName: ', userName);
+                    setTodolistName(
+                        
+                        resp.data.todolists[0].name
+                        
+                    )
+                    console.log('setTodolistName: ', todolistName);
+                    
+                } 
+            })
+    },[])
     const [values, setValues] = useState(
         Object.assign({
             name: '',
@@ -50,7 +79,7 @@ const AddTodoList = () => {
                   }
             }).then((resp) => {
                 if(resp.data.message){
-                    swal({text:resp.data.message ,icon:"success", closeModel:false}).then(function(){window.location="http://localhost:3000/users";});
+                    swal({text:resp.data.message ,icon:"success", closeModel:false}).then(function(){window.location=`http://localhost:3000/users/${userName}/todolists/${todolistName}`;});
                 }
                 
             }).catch((e) => {

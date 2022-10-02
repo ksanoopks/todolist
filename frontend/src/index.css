@@ -343,7 +343,13 @@ code {
 .modal-main {
   font-size: 100%;
 }
-
+.goback-link a{
+  text-decoration: none;
+  color: white;
+}
+.goback-link{
+  margin: 10px;
+}
 .additem-modalbtn {
   border: none;
   background-color: Transparent;
@@ -352,6 +358,11 @@ code {
 }
 
 .todolist-name {
+  background-color: Transparent;
+  background-repeat: no-repeat;
+  color: white;
+  border: none;
+
   text-decoration: none !important;
   color: rgb(223, 217, 217);
   margin: 10px;
@@ -359,6 +370,10 @@ code {
 }
 
 .selected-todolist {
+  color: blue;
+  background-color: Transparent;
+  background-repeat: no-repeat;
+  border: none;
   text-decoration: none !important;
   color: white;
   margin: 10px;
@@ -552,7 +567,7 @@ code {
 
 .addtodolist-div {
   display: flex;
-  padding: 15px;
+  padding: 25px;
   margin-top: 20px;
   justify-content: space-around;
 }
@@ -616,6 +631,7 @@ code {
   text-align: center;
   font-weight: 300;
   font-size: 18px;
+  
 }
 
 .guest-heading-div h3 {
@@ -738,7 +754,7 @@ code {
 }
 .home-maindiv{
   height: 100vh;
-  background-image: url("./images/WhatsApp\ Image\ 2022-09-28\ at\ 14.21.03.jpeg");
+  background-image: url("./images/pexels-johannes-plenio-1103970.jpg");
   background-size: cover;
 }
 .home-heading{
@@ -768,7 +784,7 @@ code {
   text-align: end;
 }
 .signup-button{
-  background-color: white !important;
+  background-color: transparent !important;
   background-repeat:no-repeat !important;
   border: 2px solid black !important; 
   height: 60px !important;
@@ -783,6 +799,7 @@ code {
   text-decoration: none !important;
   color: black;
 }
+
 .home-navlink a{
   color: white;
   text-decoration: none !important;
@@ -790,7 +807,7 @@ code {
 }
 .signup-guestbutton{
   height: 60px !important;
-  background-color: white !important;
+  background-color: transparent !important;
   background-repeat:no-repeat !important;
   border: 2px solid black !important; 
   width: 300px;
