@@ -95,7 +95,6 @@ const Register = () => {
                 data: values
             }).then((resp) => {
                 swal({text:resp.data.message ,showCancelButton: true}).then(function(){window.location="http://localhost:3000/login";});
-
             }).catch((e)=> {
                 if(e.response.status===409){
                     swal({text:"User is already exists"})

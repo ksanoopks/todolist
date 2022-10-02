@@ -3,9 +3,11 @@ import axios from "axios";
 import '../index.css';
 import swal from 'sweetalert';
 import { MDBBtn } from "mdb-react-ui-kit";
+import { useNavigate } from 'react-router-dom';
 
 
 const AddTodoList = () => {
+    const navigate = useNavigate()
     const[userName, setUserName] = useState([])
     
     const[todolistName, setTodolistName] = useState([])
@@ -18,7 +20,7 @@ const AddTodoList = () => {
                 Authorization: "Bearer " + localStorage.getItem("accessToken")
             }
             }).then(resp => {
-                console.log(resp.data)
+                console.log("hjhgfdfgh",resp.data)
                 if(resp.data.todolists){
                     setUserName(
                         resp.data.todolists[0].username
@@ -78,8 +80,9 @@ const AddTodoList = () => {
                     Authorization: "Bearer " + localStorage.getItem("accessToken")
                   }
             }).then((resp) => {
+                console.log('resp: ', resp.data);
                 if(resp.data.message){
-                    swal({text:resp.data.message ,icon:"success", closeModel:false}).then(function(){window.location=`http://localhost:3000/users/${userName}/todolists/${todolistName}`;});
+                    swal({text:resp.data.message ,icon:"success", closeModel:false}).then(function(){window.location=`/users/${resp.data.data.username}/todolists/${resp.data.data.name}`});
                 }
                 
             }).catch((e) => {

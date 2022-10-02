@@ -51,7 +51,7 @@ const UserContent = ({ taskDetails }) => {
     }
 
 
-  }, [taskDetails])
+  }, [taskDetails, tasks])
 
   const finishClick = (id) => {
     axios({
@@ -143,7 +143,7 @@ const UserContent = ({ taskDetails }) => {
           isOpen={modalIsOpen}
           onRequestClose={closeModal}
           style={customStyles}>
-          <AddTodoItem id={taskDetails.id} />
+          <AddTodoItem id={taskDetails.id} closeModal = {closeModal}/>
         </Modal>
 
         
