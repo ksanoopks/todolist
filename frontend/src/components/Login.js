@@ -1,4 +1,4 @@
-import React , {useState, useEffect} from "react";
+import React , {useState} from "react";
 import '../index.css'
 import axios from 'axios'
 import swal from 'sweetalert';
@@ -8,7 +8,6 @@ import { Link, useNavigate } from "react-router-dom";
 
 
 const Login = () => {
-    const[userName, setUserName] = useState([])
     const navigate = useNavigate()
     const [values, setValues] = useState(
         Object.assign({

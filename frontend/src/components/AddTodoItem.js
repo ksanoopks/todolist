@@ -1,13 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import swal from "sweetalert"
 import '../index.css';
 import { MDBBtn } from 'mdb-react-ui-kit';
 
 const AddTodoItem = (id) => {
-  
     
-
+   
     const [values, setValues] = useState(
         Object.assign({
             name: '',
@@ -52,9 +51,9 @@ const AddTodoItem = (id) => {
                 }
             }).then((resp) => {
                 if (resp.data.message) {
-                    swal({ text: resp.data.message, icon: "success", closeModal: true })
-                    
+                    swal({ text: resp.data.message, icon: "success", closeModal: true })    
                 }
+                
                 // window.location.href= '/users'
             }).catch((e) => {
                 if (e.response.status == 409) {
@@ -65,6 +64,7 @@ const AddTodoItem = (id) => {
                 }
             })
         }
+        
     }
 
     return (
