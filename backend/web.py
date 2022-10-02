@@ -75,7 +75,6 @@ def auth_middleware():
                         "data": None,
                         "error": "Unauthorized"
                     }, 401
-
             except Exception as e:
                 return {
                     "message": "Something went wrong",
@@ -146,7 +145,7 @@ def guest():
         for task in todolist.tasks:
             tasks.append(task.name)
         public_todolists.append(
-            dict(name=todolist.name, username=todolist.user.name, tasks=tasks))
+            dict(name=todolist.name, username=todolist.user.name, tasks=tasks, id=todolist.id))
     return jsonify(dict(public=public_todolists))
 
 
