@@ -4,6 +4,7 @@ import AddIcon from '@mui/icons-material/Add';
 import AddTodoItem from './AddTodoItem';
 import Modal from 'react-modal';
 import axios from 'axios';
+import { useDispatch, useSelector } from "react-redux";
 
 
 
@@ -35,6 +36,7 @@ const customStyles = {
   },
 };
 const UserContent = ({ taskDetails }) => {
+
   const [tasks, setTasks] = useState()
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const closeModal = () => (
@@ -75,6 +77,7 @@ const UserContent = ({ taskDetails }) => {
     }).then(
       resp => {
         setTasks(resp.data)
+
       }
     )
   }

@@ -4,7 +4,7 @@ import swal from "sweetalert"
 import '../index.css';
 import { MDBBtn } from 'mdb-react-ui-kit';
 
-const AddTodoItem = (id,modal) => {
+const AddTodoItem = (id) => {
   
     
 

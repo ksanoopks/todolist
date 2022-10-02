@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import '../index.css';
 import axios from 'axios'
 import swal from 'sweetalert';
-import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
-import HomeIcon from '@mui/icons-material/Home';
+import { MDBBtn } from "mdb-react-ui-kit";
 
 
 const Register = () => {
@@ -114,18 +113,7 @@ const Register = () => {
      }
     return(
         <div className="main-div">
-             <div class="row g-0 navbar-div">
-            <div class="col-sm-10 col-md-10 navbar-content">
-                
-                <div className="todoicon-div"><PlaylistAddCheckIcon color = "primary" sx={{ fontSize: 40 }}/></div>
-                    <h1>Todo List</h1>
-                </div>
-                <div class="col-2 col-md-2 navbar-home">
-                    <div><HomeIcon color = "primary" sx={{ fontSize: 30 }}/></div>
-                <div className="home-navlink"><a  href='/'>Home</a></div>
-                
-            </div>
-        </div>
+           
                 <div className="register-div">
                     <div className="register-heading">
                         <h2>Register</h2>
@@ -153,7 +141,10 @@ const Register = () => {
                         <div>{errors.confirmPassword? <label style={{color :'red'}}>{errors.confirmPassword}</label>:null}</div>
                         </div>
                     <div className="registerbutton-div">
-                        <button className="registerbutton" onClick={()=> handleSubmit()}>Register</button>
+                    <MDBBtn className="registerbutton" onClick={ () => handleSubmit()}>Register</MDBBtn>
+                    </div>
+                    <div className="goback-link">
+                        <a href ="/"> go back ?</a>
                     </div>
                     
                     

@@ -55,7 +55,7 @@ const Guest = () => {
                 <div className="sidebar-div">
                     <div className="guest-heading-div"><h3>Guest</h3></div>
                     <div className="addtodolist-div">
-                        <h4> Welcome to Todo List</h4>
+                        <h4> Welcome</h4>
                     </div>
                     <div className="guestsidebar">
                         <p> Guest users can only  view <br /> public lists.</p>
