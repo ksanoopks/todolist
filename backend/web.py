@@ -75,7 +75,6 @@ def auth_middleware():
                         "data": None,
                         "error": "Unauthorized"
                     }, 401
-
             except Exception as e:
                 return {
                     "message": "Something went wrong",
@@ -105,12 +104,11 @@ def register():
     if (user_exists):
         return jsonify({"message": "User is already exists"}), 409
     elif (len(name) < 3 or name == ''):
-        return jsonify({"message": "invalid name"})
+        return jsonify({"message": "invalid name"}),400
     elif (email == False):
-        return jsonify({"message": "invalid Email"})
-
+        return jsonify({"message": "invalid Email"}),400
     elif (len(password) < 6 or password == ''):
-        return jsonify({"message": "invalid password"})
+        return jsonify({"message": "invalid password"}),400
     else:
         db.session.add(user)
         db.session.commit()
@@ -146,7 +144,7 @@ def guest():
         for task in todolist.tasks:
             tasks.append(task.name)
         public_todolists.append(
-            dict(name=todolist.name, username=todolist.user.name, tasks=tasks))
+            dict(name=todolist.name, username=todolist.user.name, tasks=tasks, id=todolist.id))
     return jsonify(dict(public=public_todolists))
 
 
@@ -175,9 +173,9 @@ def login():
 def addtodolist(current_user):
     name = request.json['name']
     privacy = request.json['privacy']
-    todolist = Todolist(name=name, user_id=current_user.id, privacy=privacy)
+    todolist = Todolist(name=name.upper(), user_id=current_user.id, privacy=privacy)
     todolists = Todolist.query.filter_by(
-        name=name, user_id=current_user.id).first()
+        name=name.upper(), user_id=current_user.id, privacy = privacy).first()
     if (todolists):
         return jsonify({"error": "Todo List already exists"}), 409
     else:
@@ -231,18 +229,16 @@ def viewtodoitem(current_user):
     tasks = Task.query.filter_by(todolist_id=id)
     task_exist = []
     for task in tasks:
-        if (task.date < date.today()):
-            if (task.status != "Finished"):
-                task.status = "Pending"
+        if (task.date < date.today() and task.status != "Finished"):
+            task.status = "Pending"
             db.session.commit()
-            task_exist.append(dict(name=task.name, date=task.date,
-                              status=task.status, todolist_id=task.todolist_id, id=task.id))
+            task_exist.append(dict(name=task.name, date=task.date,status=task.status, todolist_id=task.todolist_id, id=task.id))
         else:
-            task_exist.append(dict(name=task.name, date=task.date,
-                              status=task.status, todolist_id=task.todolist_id, id=task.id))
+            task_exist.append(dict(name=task.name, date=task.date,status=task.status, todolist_id=task.todolist_id, id=task.id))
     sorted_task = (
         sorted(task_exist, key=operator.itemgetter('status'), reverse=True))
-    return jsonify(sorted_task)
+    return jsonify(dict(sorted_task=sorted_task))
+                
 
 
 @app.route('/task', methods=['PATCH'])

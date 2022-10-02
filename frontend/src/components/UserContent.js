@@ -49,6 +49,8 @@ const UserContent = ({ taskDetails }) => {
       
       getTask()
     }
+
+
   }, [taskDetails])
 
   const finishClick = (id) => {
@@ -76,8 +78,7 @@ const UserContent = ({ taskDetails }) => {
       headers: { Authorization: "Bearer " + localStorage.getItem("accessToken") }
     }).then(
       resp => {
-        setTasks(resp.data)
-
+        setTasks(resp.data.sorted_task)
       }
     )
   }
@@ -198,10 +199,11 @@ const UserContent = ({ taskDetails }) => {
     )
 
   }
-  else if (taskDetails.length != 0) {
+  else if (Object.keys(taskDetails).length === 0) {
     return (
-      <h3>TO-DO List every day, keep it visible.</h3>
+      <h4 >Remember the to-do list but don't <br/>forget the to-be list.</h4>
     )
   }
+
 }
 export default UserContent
