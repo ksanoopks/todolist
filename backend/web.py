@@ -181,7 +181,9 @@ def addtodolist(current_user):
     else:
         db.session.add(todolist)
         db.session.commit()
-        return jsonify({"message": "Todo List Added"}), 200
+        return jsonify({"message": "Todo List Added",
+                         "data": {"username": current_user.name,
+                                   "name" : todolist.name}}), 200
 
 
 @app.route('/todolist', methods=['GET'])
