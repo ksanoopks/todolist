@@ -4,7 +4,7 @@ import swal from "sweetalert"
 import '../index.css';
 import { MDBBtn } from 'mdb-react-ui-kit';
 
-const AddTodoItem = (id,modal) => {
+const AddTodoItem = (id) => {
   
     
 
@@ -86,12 +86,7 @@ const AddTodoItem = (id,modal) => {
             </div>
             <div className='addtodo-div'>
                 <span className='endate-span'>End Date</span>
-                <input type="date"
-                    name="date"
-                    placeholder='Date'
-                    value={values.date}
-                    onChange={(e) => { handleChange(e) }}
-                    className='date-field' />
+                <input type="date" name="date" placeholder='Date' value={values.date} onChange={(e) => { handleChange(e) }} className='date-field' />
             </div>
             <div className='errormessage-div'>
                 {errors.date ? <label style={{ color: 'red' }}>{errors.date}</label> : null}
