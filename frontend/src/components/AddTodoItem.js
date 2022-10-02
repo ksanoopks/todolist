@@ -3,8 +3,13 @@ import axios from "axios";
 import swal from "sweetalert"
 import '../index.css';
 import { MDBBtn } from 'mdb-react-ui-kit';
+import { useNavigate } from 'react-router-dom';
 
 const AddTodoItem = (id) => {
+    const navigate = useNavigate();
+    console.log('id: ', id);
+
+    
     
    
     const [values, setValues] = useState(
@@ -51,7 +56,11 @@ const AddTodoItem = (id) => {
                 }
             }).then((resp) => {
                 if (resp.data.message) {
-                    swal({ text: resp.data.message, icon: "success", closeModal: true })    
+                    swal({ text: resp.data.message, icon: "success", closeModal: true }).then(()  => navigate(`/users/${id.listDetails.username}/todolists/${id.listDetails.name}`));
+                    id.tasks()
+                    id.closeModal()
+                    
+                    
                 }
                 
                 // window.location.href= '/users'
