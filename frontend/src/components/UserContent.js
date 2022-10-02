@@ -36,6 +36,7 @@ const customStyles = {
   },
 };
 const UserContent = ({ taskDetails }) => {
+  console.log('taskDetails: ', taskDetails);
 
   const [tasks, setTasks] = useState()
   const [modalIsOpen, setModalIsOpen] = useState(false)
@@ -51,7 +52,7 @@ const UserContent = ({ taskDetails }) => {
     }
 
 
-  }, [taskDetails, tasks])
+  }, [taskDetails])
 
   const finishClick = (id) => {
     axios({
@@ -117,7 +118,7 @@ const UserContent = ({ taskDetails }) => {
           isOpen={modalIsOpen}
           onRequestClose={closeModal}
           style={customStyles}>
-          <AddTodoItem id={taskDetails.id} />
+          <AddTodoItem id={taskDetails.id} closeModal = {closeModal} listDetails ={taskDetails} tasks = {getTask}/>
         </Modal>
 
 
@@ -143,7 +144,7 @@ const UserContent = ({ taskDetails }) => {
           isOpen={modalIsOpen}
           onRequestClose={closeModal}
           style={customStyles}>
-          <AddTodoItem id={taskDetails.id} closeModal = {closeModal}/>
+          <AddTodoItem id={taskDetails.id} closeModal = {closeModal} listDetails ={taskDetails} tasks = {getTask}/>
         </Modal>
 
         
