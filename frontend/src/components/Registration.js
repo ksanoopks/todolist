@@ -33,7 +33,6 @@ const Register = () => {
             [name]: value,
 
         })
-        // console.log(value)
      }
 
      const handleSubmit=() =>{
@@ -98,12 +97,9 @@ const Register = () => {
             }).then((resp) => {
                 swal({text:resp.data.message ,showCancelButton: true}).then(function(){window.location="http://localhost:3000/login";});
 
-                // alert
-                // (resp.data.message)
-                // window.location.href='/'
             }).catch((e)=> {
                 if(e.response.status===409){
-                    swal({text:"User is already exists"}).then(function(){window.location="http://localhost:3000/register";});
+                    swal({text:"User is already exists"})
 
                 }
                 
