@@ -4,11 +4,6 @@ import AddIcon from '@mui/icons-material/Add';
 import AddTodoItem from './AddTodoItem';
 import Modal from 'react-modal';
 import axios from 'axios';
-import { useDispatch, useSelector } from "react-redux";
-
-
-
-
 
 const customStyles = {
   overlay: {
@@ -36,22 +31,16 @@ const customStyles = {
   },
 };
 const UserContent = ({ taskDetails }) => {
-
   const [tasks, setTasks] = useState()
   const [modalIsOpen, setModalIsOpen] = useState(false)
   const closeModal = () => (
     setModalIsOpen(false)
   )
-
-
   useEffect(() => {
     if (taskDetails && taskDetails.id) {
-      
       getTask()
     }
-
-
-  }, [taskDetails, tasks])
+  }, [taskDetails])
 
   const finishClick = (id) => {
     axios({
@@ -64,12 +53,9 @@ const UserContent = ({ taskDetails }) => {
     }).then(resp => {
       if (resp.data.status == true) {
         getTask()
-
-
       }
     })
   }
-
 
   const getTask = () => {
     axios({
@@ -82,7 +68,6 @@ const UserContent = ({ taskDetails }) => {
       }
     )
   }
-
 
   const deletetask = (id) => {
     axios({
@@ -98,64 +83,54 @@ const UserContent = ({ taskDetails }) => {
       }
     )
   }
-
   if (tasks && taskDetails && tasks.length == 0) {
-
     return (
       <div className='view-todolist'>
         <h2>{taskDetails.name}</h2>
-          <div className='usercontent-table-div'>
+        <div className='usercontent-table-div'>
           <div className="additem-div">
-          <h3>Add a Task</h3>
-          <div className="additem-btn-div">
-            <button className="additem-btn" onClick={() => setModalIsOpen(true)}><AddIcon sx={{ fontSize: 40 }} /></button>
+            <h3>Add a Task</h3>
+            <div className="additem-btn-div">
+              <button className="additem-btn" onClick={() => setModalIsOpen(true)}><AddIcon sx={{ fontSize: 40 }} /></button>
+            </div>
           </div>
         </div>
-        </div>
-
         <Modal
           isOpen={modalIsOpen}
           onRequestClose={closeModal}
           style={customStyles}>
-          <AddTodoItem id={taskDetails.id} />
+          <AddTodoItem id={taskDetails.id} closeModal={closeModal} listDetails={taskDetails} tasks={getTask} />
         </Modal>
-
-
       </div>
     )
   }
   else if (tasks) {
     return (
       <div className='align-items-center justify-content-center'>
-      
+
         <div className="view-todolist">
           <h2>{taskDetails.name}</h2>
           <div className='usercontent-table-div'>
-          <div className="additem-div">
-          <h3>Add a Task</h3>
-          <div className="additem-btn-div">
-            <button className="additem-btn" onClick={() => setModalIsOpen(true)}><AddIcon sx={{ fontSize: 40 }} /></button>
+            <div className="additem-div">
+              <h3>Add a Task</h3>
+              <div className="additem-btn-div">
+                <button className="additem-btn" onClick={() => setModalIsOpen(true)}><AddIcon sx={{ fontSize: 40 }} /></button>
+              </div>
+            </div>
           </div>
-        </div>
-        </div>
-
-        <Modal
-          isOpen={modalIsOpen}
-          onRequestClose={closeModal}
-          style={customStyles}>
-          <AddTodoItem id={taskDetails.id} closeModal = {closeModal}/>
-        </Modal>
-
-        
+          <Modal
+            isOpen={modalIsOpen}
+            onRequestClose={closeModal}
+            style={customStyles}>
+            <AddTodoItem id={taskDetails.id} closeModal={closeModal} listDetails={taskDetails} tasks={getTask} />
+          </Modal>
           <table className="usercontent-table">
             <tr className='usertable-head'>
-
               <th >Task Name</th>
               <th >Date</th>
               <th >Action</th>
             </tr>
             {tasks && tasks.map((item, key) => {
-
               if (item.status == "on progress") {
                 return (
                   <tr style={{ backgroundColor: "rgb(160, 158, 158)" }} key={key}>
@@ -173,7 +148,6 @@ const UserContent = ({ taskDetails }) => {
                     <td>{new Date(item.date).toLocaleString().split(",")[0]} </td>
                     <td><button className="task-delete-finish-btn" onClick={() => (deletetask(item.id))}>Delete</button></td>
                   </tr>
-
                 )
               }
               else {
@@ -186,24 +160,16 @@ const UserContent = ({ taskDetails }) => {
                   </tr>
                 )
               }
-
-
             })}
           </table>
-
-
         </div>
-
-
       </div>
     )
-
   }
   else if (Object.keys(taskDetails).length === 0) {
     return (
-      <h4 >Remember the to-do list but don't <br/>forget the to-be list.</h4>
+      <h4 >Remember the to-do list but don't <br />forget the to-be list.</h4>
     )
   }
-
 }
 export default UserContent

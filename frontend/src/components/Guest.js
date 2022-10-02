@@ -21,12 +21,9 @@ const Guest = () => {
             setData(resp.data.public)
             const toggleData = {}
             setToggle(() => {
-                // console.log('here', data)
                 resp.data.public.forEach((item) => {
                     toggleData[item.id] = false
-                    // console.log('id', item.id)
                 })
-                // console.log('toggleData', toggleData)
                 return toggleData
             })
         })
@@ -38,7 +35,6 @@ const Guest = () => {
             [id]: !toggle[id],
         });
     }
-
 
     return (
         <div class="container-fluid userpage">
@@ -57,11 +53,9 @@ const Guest = () => {
                             <button class="dropbtn"><ArrowDropDownIcon sx={{ fontSize: 30 }} /></button>
                             <div class="dropdown-content dropdown-div">
                                 <a ><PersonIcon /> <span>Guest</span></a>
-                                <a  href='/'><HomeIcon sx={{ fontSize: 30 }}/>Home</a>
+                                <a href='/'><HomeIcon sx={{ fontSize: 30 }} />Home</a>
+                            </div>
                         </div>
-                            
-                        </div>
-
                     </div>
                 </div>
             </div>
@@ -83,7 +77,6 @@ const Guest = () => {
                 <div className="content-div">
                     <center><h1>Public TodoLists</h1></center>
                     <div className="container table-div">
-
                         <table class="table ">
                             <thead>
                                 <tr>
@@ -93,13 +86,10 @@ const Guest = () => {
                                 </tr>
                             </thead>
                             <tbody>
-
                                 {data.map((todolist, key) =>
-
                                     <tr key={key}>
                                         <td>{todolist.name}</td>
                                         <td>{todolist.username}</td>
-
                                         <td><MDBBtn onClick={() => { toggleShow(todolist.id) }}>{`${todolist.tasks.length} Tasks`}</MDBBtn>
                                             <MDBCollapse show={toggle[todolist.id]}>
                                                 {todolist.tasks.map((item, index) => {
@@ -107,11 +97,8 @@ const Guest = () => {
                                                 })}
                                             </MDBCollapse>
                                         </td>
-
                                     </tr>
-
                                 )}
-
                             </tbody>
                         </table>
                     </div>

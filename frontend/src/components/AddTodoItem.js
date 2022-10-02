@@ -3,10 +3,11 @@ import axios from "axios";
 import swal from "sweetalert"
 import '../index.css';
 import { MDBBtn } from 'mdb-react-ui-kit';
+import { useNavigate } from 'react-router-dom';
 
 const AddTodoItem = (id) => {
-    
-   
+    const navigate = useNavigate();
+
     const [values, setValues] = useState(
         Object.assign({
             name: '',
@@ -51,10 +52,13 @@ const AddTodoItem = (id) => {
                 }
             }).then((resp) => {
                 if (resp.data.message) {
-                    swal({ text: resp.data.message, icon: "success", closeModal: true })    
+                    swal({ text: resp.data.message, icon: "success", closeModal: true }).then(() => navigate(`/users/${id.listDetails.username}/todolists/${id.listDetails.name}`));
+                    id.tasks()
+                    id.closeModal()
+
+
                 }
-                
-                // window.location.href= '/users'
+
             }).catch((e) => {
                 if (e.response.status == 409) {
                     swal({ text: "Task already exist this date", icon: "warning" });
@@ -64,7 +68,7 @@ const AddTodoItem = (id) => {
                 }
             })
         }
-        
+
     }
 
     return (
@@ -92,7 +96,7 @@ const AddTodoItem = (id) => {
                 {errors.date ? <label style={{ color: 'red' }}>{errors.date}</label> : null}
             </div>
             <div className="todobtn-div">
-            <MDBBtn className="addbutton-todolist" onClick={ () => handleSubmit()}>Add</MDBBtn>
+                <MDBBtn className="addbutton-todolist" onClick={() => handleSubmit()}>Add</MDBBtn>
 
             </div>
         </div>

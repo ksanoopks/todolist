@@ -1,9 +1,9 @@
-import React , {useState} from "react";
+import React, { useState } from "react";
 import '../index.css'
 import axios from 'axios'
 import swal from 'sweetalert';
 import { MDBBtn } from "mdb-react-ui-kit";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -24,7 +24,7 @@ const Login = () => {
         })
     }
     const handleSubmit = () => {
-           
+
         let email = ''
         let password = ''
         const emailFormat = /\S+@\S+\.\S+/
@@ -49,23 +49,20 @@ const Login = () => {
                 url: 'http://127.0.0.1:5000/login',
                 data: values
             }).then((resp) => {
-                if(resp && resp.status) {
+                if (resp && resp.status) {
                     localStorage.setItem("accessToken", resp?.data?.accessToken);
                     const userName = resp?.data?.data?.username
-                    swal({text:resp.data.message ,icon:"success"}).then(()  => navigate(`/users/${userName}/`));
+                    swal({ text: resp.data.message, icon: "success" }).then(() => navigate(`/users/${userName}/`));
                 }
-                else{
+                else {
                     navigate('/')
                 }
 
             }).catch((e) => {
                 if (e.response.status === 401) {
                     swal({ text: "Invalid Email or Password", icon: "error", closeModal: true })
-
                 }
-
             })
-
         }
     }
     return (
@@ -76,37 +73,29 @@ const Login = () => {
                         <h2>Log In</h2>
                     </div>
                     <div className="email-div">
-                        <input name ="email" 
-                               type ="text" 
-                               placeholder="Email" 
-                               className="email-field"
-                               value={values.email}
-                               onChange={(e) => handleChange(e)}
-                               />
+                        <input name="email"
+                            type="text"
+                            placeholder="Email"
+                            className="email-field"
+                            value={values.email}
+                            onChange={(e) => handleChange(e)}
+                        />
                     </div>
                     <div className="errormessage-div">
-                    {errors.email ? <label style={{color:'red'}}>{errors.email}</label> :null}
+                        {errors.email ? <label style={{ color: 'red' }}>{errors.email}</label> : null}
 
                     </div>
                     <div className="password-div">
-                        <input name= "password" 
-                               type ="password" 
-                               placeholder="Password" 
-                               className="password-field"
-                               value={values.password}
-                               onChange={(e) => handleChange(e)}
-                              />
+                        <input name="password" type="password" placeholder="Password" className="password-field" value={values.password} onChange={(e) => handleChange(e)} />
                     </div>
                     <div className="errormessage-div">
-                    {errors.password ? <label style={{color:'red'}}>{errors.password}</label> :null}
-
+                        {errors.password ? <label style={{ color: 'red' }}>{errors.password}</label> : null}
                     </div>
                     <div className="loginbutton-div">
-                    <MDBBtn className="addbutton-todolist" onClick={ () => handleSubmit()}>LogIn</MDBBtn>
-
+                        <MDBBtn className="addbutton-todolist" onClick={() => handleSubmit()}>LogIn</MDBBtn>
                     </div>
                     <div className="goback-link">
-                        <a href ="/"> go back </a>
+                        <a href="/"> go back </a>
                     </div>
                 </div>
             </div>
@@ -119,14 +108,12 @@ const Login = () => {
                 </div>
                 <div className="errormessage-div">
                     {errors.email ? <label style={{ color: 'red' }}>{errors.email}</label> : null}
-
                 </div>
                 <div className="password-div">
                     <input name="password" type="password" placeholder="Password" className="password-field" value={values.password} onChange={(e) => handleChange(e)} />
                 </div>
                 <div className="errormessage-div">
                     {errors.password ? <label style={{ color: 'red' }}>{errors.password}</label> : null}
-
                 </div>
                 <div className="loginbutton-div">
                     <button className="loginbutton" onClick={() => handleSubmit()}>Login</button>
@@ -135,5 +122,4 @@ const Login = () => {
         </div>
     )
 }
-
 export default Login;   
