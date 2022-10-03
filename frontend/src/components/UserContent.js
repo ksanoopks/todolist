@@ -128,7 +128,7 @@ const UserContent = ({ taskDetails }) => {
             <tr className='usertable-head'>
               <th >Task Name</th>
               <th >Date</th>
-              <th >Action</th>
+              <th >Actions</th>
             </tr>
             {tasks && tasks.map((item, key) => {
               if (item.status == "on progress") {
