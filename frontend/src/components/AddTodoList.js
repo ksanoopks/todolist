@@ -6,7 +6,9 @@ import { MDBBtn } from "mdb-react-ui-kit";
 import { useNavigate } from 'react-router-dom';
 
 
-const AddTodoList = () => {
+const AddTodoList = (listData) => {
+    console.log('listData: ', listData);
+    
     const navigate = useNavigate()
     const [userName, setUserName] = useState([])
     const [todolistName, setTodolistName] = useState([])
@@ -73,7 +75,9 @@ const AddTodoList = () => {
                 }
             }).then((resp) => {
                 if (resp.data.message) {
-                    swal({ text: resp.data.message, icon: "success", closeModel: false }).then(function () { window.location = `/users/${resp.data.data.username}/todolists/${resp.data.data.name}` });
+                    swal({ text: resp.data.message, icon: "success", closeModel: false }).then(() => navigate(`/users/${listData.listDetails[0].username}/todolists/${listData.listDetails[0].name}`));
+                    listData.listData()
+                    listData.closeModal()
                 }
             }).catch((e) => {
                 if (e.response.status == 409) {
