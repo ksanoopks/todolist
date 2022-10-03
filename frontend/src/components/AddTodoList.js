@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 
 
 const AddTodoList = (listData) => {
-    console.log('listData: ', listData);
     
     const navigate = useNavigate()
     const [userName, setUserName] = useState([])

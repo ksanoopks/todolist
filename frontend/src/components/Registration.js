@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import '../index.css';
 import axios from 'axios'
 import swal from 'sweetalert';
-import { MDBBtn } from "mdb-react-ui-kit";
-
 
 const Register = () => {
     const [values, setValues] = useState(
@@ -122,8 +120,7 @@ const Register = () => {
                     <div>{errors.confirmPassword ? <label style={{ color: 'red' }}>{errors.confirmPassword}</label> : null}</div>
                 </div>
                 <div className="registerbutton-div">
-                    <MDBBtn className="registerbutton" onClick={() => handleSubmit()}>Register</MDBBtn>
-                </div>
+                    <button className="registerbutton" onClick={() => handleSubmit()}>Register</button>                </div>
                 <div className="goback-link">
                     <a href="/">Go back!</a>
                 </div>
