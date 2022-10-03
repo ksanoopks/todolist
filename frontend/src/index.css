@@ -457,6 +457,7 @@ code {
 
 .todoicon-div {
   margin: 10px;
+  margin-top: 15px;
 }
 
 .usericon-div {
@@ -629,6 +630,7 @@ code {
   text-align: center;
   font-weight: 300;
   font-size: 18px;
+  margin: 40px;
   
 }
 

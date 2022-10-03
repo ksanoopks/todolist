@@ -4,7 +4,7 @@ import AddIcon from '@mui/icons-material/Add';
 import Modal from 'react-modal';
 import AddTodoList from "./AddTodoList";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
@@ -43,6 +43,7 @@ const customStyles = {
 };
 
 const User = () => {
+    const navigate = useNavigate()
     useEffect(() => {
         axios({
             method: 'get',
@@ -103,7 +104,7 @@ const User = () => {
         }).then(resp => {
             if (resp.data.status = true) {
                 getTodoList()
-                window.location.href = `/users/${user}`
+                window.location.reload()
             }
         })
     }
@@ -151,7 +152,7 @@ const User = () => {
                             ariaHideApp={false}
                             onRequestClose={closeModal}
                             style={customStyles}>
-                            <AddTodoList />
+                            <AddTodoList listData = {getTodoList} listDetails = {data} closeModal = {closeModal} />
                         </Modal>
                     </div>
                     <div className="addtodolist-div">
@@ -167,6 +168,7 @@ const User = () => {
                                         <td><label className={item.privacy == "private" ? "todolist-privacy-private" : "todolist-privacy-public"} >{item.privacy}</label></td>
                                         <button className="delete-btn" onClick={() => {
                                             listDeleteWarning((item.id), (item.name))
+                                            navigate(`/users/${user}`)
                                         }}><DeleteForeverIcon sx={{ color: red[800] }} /></button>
                                     </tr>
                                 )

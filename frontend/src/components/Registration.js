@@ -125,7 +125,7 @@ const Register = () => {
                     <MDBBtn className="registerbutton" onClick={() => handleSubmit()}>Register</MDBBtn>
                 </div>
                 <div className="goback-link">
-                    <a href="/"> go back ?</a>
+                    <a href="/">Go back!</a>
                 </div>
             </div>
         </div>

@@ -94,9 +94,6 @@ const Login = () => {
                     <div className="loginbutton-div">
                         <MDBBtn className="addbutton-todolist" onClick={() => handleSubmit()}>LogIn</MDBBtn>
                     </div>
-                    <div className="goback-link">
-                        <a href="/"> go back </a>
-                    </div>
                 </div>
             </div>
             <div className="login-div">
@@ -117,6 +114,9 @@ const Login = () => {
                 </div>
                 <div className="loginbutton-div">
                     <button className="loginbutton" onClick={() => handleSubmit()}>Login</button>
+                </div>
+                <div className="goback-link">
+                    <a href="/">Go back!</a>
                 </div>
             </div>
         </div>

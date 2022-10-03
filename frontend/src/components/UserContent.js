@@ -77,7 +77,7 @@ const UserContent = ({ taskDetails }) => {
       headers: { Authorization: "Bearer " + localStorage.getItem("accessToken") }
     }).then(
       resp => {
-        if (resp.data.status == true) {
+        if (resp && resp.data && resp.data.status == true) {
           getTask()
         }
       }
